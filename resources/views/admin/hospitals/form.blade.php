@@ -17,10 +17,20 @@ $society_id = (isset($hospitals->society_id))?$hospitals->society_id:'';
 $is_approve = (isset($hospitals->is_approve))?$hospitals->is_approve:'';
 $role_id = (isset($hospitals->role_id))?$hospitals->role_id:'';
 $email = (isset($hospitals->email))?$hospitals->email:'';
+$latitude = (isset($hospitals->latitude))?$hospitals->latitude:'';
+$longitude = (isset($hospitals->longitude))?$hospitals->longitude:'';
+$speciality = (isset($hospitals->hos_specialities))?$hospitals->hos_specialities:'';
+//pr($hospitals);
 
 
+$specialityArr =[];
+if(!empty($speciality)){
+
+$specialityArr = explode(",", $speciality);
+}
 
 
+//pr($speciality);
 $status = (isset($hospitals->status))?$hospitals->status:'';
 
 
@@ -65,7 +75,8 @@ $path = 'influencer/';
                             {{ csrf_field() }}
 
                             <input type="hidden" name="id" value="{{$hospitals_id}}">
-
+                            <input type="hidden" name="latitude" id="latitude" value="">
+                            <input type="hidden" name="longitude" id="longitude" value="">
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="form-label">Name</label>
@@ -77,9 +88,30 @@ $path = 'influencer/';
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Address" name="location" value="{{ old('location', $location) }}">
+                                <input type="text" class="form-control" id="addressTextField" aria-describedby="emailHelp" placeholder="Enter Address" name="location" value="{{ old('location', $location) }}">
                                 @include('snippets.errors_first', ['param' => 'location'])
                             </div>
+
+
+                                <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Specialities</label>
+                                <select class="form-control select2" multiple name="hos_specialities[]">
+                                    <?php if(!empty($specialities)){
+
+
+
+
+                                        foreach($specialities as $key) {?>
+                                            <option value="{{$key->id}}" <?php if(in_array($key->id, $specialityArr))echo "selected";?>>{{$key->name}}</option>
+
+                                        <?php }}?>
+                                           
+                                    
+                                </select>
+                                @include('snippets.errors_first', ['param' => 'specialities'])
+                            </div>
+
+
 
 
 

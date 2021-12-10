@@ -26,5 +26,12 @@ class Hospital extends Model{
      public function getUser(){
         return $this->hasMany('App\HospitalUser', 'hospital_id')->where('is_delete','=', 0);
     }
+      public function getDocuments(){
+        return $this->hasMany('App\HospitalDocuments', 'hospital_id');
+    }
+    public function getDoctor(){
+        return $this->hasMany('App\HospitalDoctor', 'hospital_id')->where('is_delete','=', 0);
+    }
+    
     
 }

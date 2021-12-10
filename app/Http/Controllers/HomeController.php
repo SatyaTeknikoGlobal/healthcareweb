@@ -42,67 +42,49 @@ class HomeController extends Controller
 
  public function index(Request $request){
   $data = [];
-    
-  // $state_id = Session::get('state_id');
-  // $city_id = Session::get('city_id');
-
-
-
-
-  // if(!empty(Auth::guard('appusers')->user())){
-  //   $user_id = Auth::guard('appusers')->user()->id;
-  //   $city_id = Auth::guard('appusers')->user()->city;
-  //   $state_id = Auth::guard('appusers')->user()->state;
-  // }
-
-  // $posts = Post::orderby('created_at','desc');
-  // if(!empty($state_id)){
-  //   $posts->where('state_id',$state_id);
-  // }
-
-  // if(!empty($city_id)){
-  //   $posts->where('city_id',$city_id);
-  // }
-
-  // $posts = $posts->paginate(10);
-
-  // $coupons = Coupon::orderby('id','desc');
-
-  // if(!empty($state_id)){
-  //   $coupons->where('state_id',$state_id);
-  // }
-
-  // if(!empty($city_id)){
-  //   $coupons->where('city_id',$city_id);
-  // }
-  // $coupons = $coupons->limit(8)->get();
-
-
-
-  // $data['coupons'] = $coupons;
-
-
-
-
-
-
-
-
-
-  // $data['posts'] = $posts;
-
-
-  // $data['categories'] = Category::get();
-  // $data['school_ads'] = Post::where('is_school',1)->latest()->take(8)->get();
-  // $data['latest_vendors'] = Vendor::latest()->take(8)->get();
-
-  // $home_categories = Category::where('is_home',1)->latest()->take(5)->get();
-
-
-  // $data['home_categories'] = $home_categories;
-  return view('welcome',$data);
+  
+  return view('front.home.index',$data);
 
 }
+
+public function get_city(Request $request){
+    $state_id = isset($request->state_id) ? $request->state_id :0;
+    $html = '<option value="" selected disabled>Select City</option>';
+    if($state_id !=0){
+        $cities = DB::table('cities')->where('state_id',$state_id)->get();
+
+       
+        if(!empty($cities)){
+            foreach($cities as $city){
+                $html.='<option value='.$city->id.'>'.$city->name.'</option>';
+            }
+        }
+    } 
+    echo $html;
+}
+
+
+public function get_locality(Request $request)
+{       
+  
+    $city_id = isset($request->city_id) ? $request->city_id :0;
+    $html = '<option value="" selected disabled>Select Locality</option>';
+    if( $city_id != 0)
+    { 
+        $localities = DB::table('locality')->where('city_id',$city_id)->get();
+
+     
+        if(!empty($localities))
+        {
+            foreach($localities as $locality)
+            {
+                $html.='<option value='.$locality->id.'>'.$locality->name.'</option>';
+            }
+        }
+    }
+    echo $html;
+}
+
 
 
 public function update_city(Request $request){

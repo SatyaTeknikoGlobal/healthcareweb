@@ -1,18 +1,16 @@
 <?php
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class HospitalUser extends Model{
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-    protected $table = 'hospital_users';
-
-    protected $guarded = ['id'];
-
-
-
-
- 
+class HospitalUser extends Authenticatable{
+  use Notifiable;
+  protected $table = 'hospital_users';
+  protected $guard = 'hospital';
+  protected $guarded = ['id'];
 
 
 

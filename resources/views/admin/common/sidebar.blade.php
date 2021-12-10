@@ -23,7 +23,7 @@ $roleId = Auth::guard('admin')->user()->role_id;
                         <li><a href="javascript:void(0)"><i class="ti-wallet"></i> My Balance</a></li>
                         <li><a href="javascript:void(0)"><i class="ti-email"></i> Inbox</a></li>
                         <li><a href="javascript:void(0)"><i class="ti-settings"></i> Account Setting</a></li>
-                        <li><a href="javascript:void(0)"><i class="fa fa-power-off"></i> Logout</a></li>
+                        <li><a href="{{route('logout')}}"><i class="fa fa-power-off"></i> Logout</a></li>
                     </ul>
                 </li>
 
@@ -92,6 +92,18 @@ $roleId = Auth::guard('admin')->user()->role_id;
             @endif
 
 
+
+             @if(CustomHelper::isAllowedModule('speciality'))
+             <?php  if(CustomHelper::isAllowedSection('speciality' , $roleId , $type='show')){?>
+                <li> <a class="waves-effect waves-dark" href="{{ route($ADMIN_ROUTE_NAME.'.speciality.index') }}" aria-expanded="false"><i class="fa fa-list-alt"></i><span class="hide-menu">Speciality</span></a>
+
+                </li>
+            <?php }?>
+            @endif
+
+
+
+
              @if(CustomHelper::isAllowedModule('chats'))
              <?php  if(CustomHelper::isAllowedSection('chats' , $roleId , $type='show')){?>
                 <li> <a class="waves-effect waves-dark" href="{{ route($ADMIN_ROUTE_NAME.'.chats.index') }}" aria-expanded="false"><i class="fa fa-list-alt"></i><span class="hide-menu">Chats</span></a>
@@ -106,7 +118,7 @@ $roleId = Auth::guard('admin')->user()->role_id;
                 if(CustomHelper::isAllowedSection('admins' , $roleId , $type='show') || CustomHelper::isAllowedSection('hospitals' , $roleId , $type='show') || CustomHelper::isAllowedSection('users' , $roleId , $type='show')){
                 ?>
 
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-map-marker"></i><span class="hide-menu">User Management</span></a>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-user"></i><span class="hide-menu">User Management</span></a>
                     <ul aria-expanded="false" class="collapse">
                         @if(CustomHelper::isAllowedSection('admins' , $roleId , $type='show'))
                             <li><a href="{{ route($ADMIN_ROUTE_NAME.'.admins.index') }}">Admins</a></li>
@@ -127,7 +139,52 @@ $roleId = Auth::guard('admin')->user()->role_id;
 
 
 
-<?php /* 
+                @if(CustomHelper::isAllowedModule('packages'))
+                    <?php  if(CustomHelper::isAllowedSection('packages' , $roleId , $type='show')){?>
+                    <li> <a class="waves-effect waves-dark" href="{{ route($ADMIN_ROUTE_NAME.'.packages.index') }}" aria-expanded="false"><i class="fa fa-rocket" aria-hidden="true"></i><span class="hide-menu">Health Packages</span></a>
+                    </li>
+                    <?php }?>
+                @endif
+
+
+
+                @if(CustomHelper::isAllowedModule('hotels'))
+                    <?php  if(CustomHelper::isAllowedSection('hotels' , $roleId , $type='show')){?>
+                    <li> <a class="waves-effect waves-dark" href="{{ route($ADMIN_ROUTE_NAME.'.hotels.index') }}" aria-expanded="false"><i class="fa fa-hotel" aria-hidden="true"></i><span class="hide-menu">Hotels</span></a>
+                    </li>
+                    <?php }?>
+                @endif
+
+
+                <?php
+                if(CustomHelper::isAllowedModule('chat_with_user') || CustomHelper::isAllowedModule('chat_with_hospital')){
+                if(CustomHelper::isAllowedSection('chat_with_user' , $roleId , $type='show') || CustomHelper::isAllowedSection('chat_with_hospital' , $roleId , $type='show')){
+                ?>
+
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-user"></i><span class="hide-menu">Chats</span></a>
+                    <ul aria-expanded="false" class="collapse">
+                        @if(CustomHelper::isAllowedSection('chat_with_hospital' , $roleId , $type='show'))
+                            <li><a href="{{ route($ADMIN_ROUTE_NAME.'.chat_with_hospital.index') }}">Chat With Hospitals</a></li>
+                        @endif
+                        @if(CustomHelper::isAllowedSection('chat_with_user' , $roleId , $type='show'))
+                            <li><a href="{{ route($ADMIN_ROUTE_NAME.'.chat_with_user.index') }}">Chat With Users</a></li>
+                        @endif
+
+
+                    </ul>
+                </li>
+
+                <?php }}?>
+
+
+                @if(CustomHelper::isAllowedModule('bookings'))
+                    <?php  if(CustomHelper::isAllowedSection('bookings' , $roleId , $type='show')){?>
+                    <li> <a class="waves-effect waves-dark" href="{{ route($ADMIN_ROUTE_NAME.'.bookings.index') }}" aria-expanded="false"><i class="fa fa-ticket"></i><span class="hide-menu">Booking/Enquiry</span></a>
+                    </li>
+                    <?php }?>
+                @endif
+
+            <?php /*
 
 
                         <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Inbox</span></a>

@@ -39,28 +39,39 @@
 
 
 
- <script src="{{asset('public/assets/node_modules/select2/dist/js/select2.full.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('public/assets/node_modules/select2/dist/js/select2.full.min.js')}}" type="text/javascript"></script>
 
-    <script src="{{asset('public/assets/node_modules/tablesaw/dist/tablesaw.jquery.js')}}"></script>
-    <script src="{{asset('public/assets/node_modules/tablesaw/dist/tablesaw-init.js')}}"></script>
+<script src="{{asset('public/assets/node_modules/tablesaw/dist/tablesaw.jquery.js')}}"></script>
+<script src="{{asset('public/assets/node_modules/tablesaw/dist/tablesaw-init.js')}}"></script>
 
-      <script src="{{asset('public/assets/dist/js/pages/chat.js')}}"></script>
+<script src="{{asset('public/assets/dist/js/pages/chat.js')}}"></script>
 
 
 <script src="{{asset('public/assets/node_modules/Magnific-Popup-master/dist/jquery.magnific-popup.min.js')}}"></script>
 <script src="{{asset('public/assets/node_modules/Magnific-Popup-master/dist/jquery.magnific-popup-init.js')}}"></script>
 
-    <script src="{{asset('public/assets/node_modules/switchery/dist/switchery.min.js')}}"></script>
-    <script src="{{asset('public/assets/node_modules/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
-    <script src="{{asset('public/assets/node_modules/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/node_modules/dff/dff.js')}}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{asset('public/assets/node_modules/multiselect/js/jquery.multi-select.js')}}"></script>
+<script src="{{asset('public/assets/node_modules/switchery/dist/switchery.min.js')}}"></script>
+<script src="{{asset('public/assets/node_modules/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('public/assets/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
+<script src="{{asset('public/assets/node_modules/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js')}}" type="text/javascript"></script>
+<script src="{{asset('public/assets/node_modules/dff/dff.js')}}" type="text/javascript"></script>
+<script type="text/javascript" src="{{asset('public/assets/node_modules/multiselect/js/jquery.multi-select.js')}}"></script>
 
+ <script src="{{asset('public/assets/node_modules/moment/moment.js')}}"></script>
+    <script src="{{asset('public/assets/node_modules/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
+    <!-- Clock Plugin JavaScript -->
+    <script src="{{asset('public/assets/node_modules/clockpicker/dist/jquery-clockpicker.min.js')}}"></script>
+    <!-- Color Picker Plugin JavaScript -->
+    <script src="{{asset('public/assets/node_modules/jquery-asColor/dist/jquery-asColor.js')}}"></script>
+    <script src="{{asset('public/assets/node_modules/jquery-asGradient/dist/jquery-asGradient.js')}}"></script>
+    <script src="{{asset('public/assets/node_modules/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js')}}"></script>
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="{{asset('public/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+    <!-- Date range Plugin JavaScript -->
+    <script src="{{asset('public/assets/node_modules/timepicker/bootstrap-timepicker.min.js')}}"></script>
+    <script src="{{asset('public/assets/node_modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
-
-
-
+       <script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
 
 
 
@@ -72,8 +83,85 @@
 <!-- Mirrored from eliteadmin.themedesigner.in/demos/bt4/eliteadmin/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 30 Nov 2021 06:09:41 GMT -->
 </html>
 
+
+  <script>
+               CKEDITOR.replace( 'description' );
+              CKEDITOR.replace( 'privacy' );
+              CKEDITOR.replace( 'about_us' );
+              CKEDITOR.replace( 'follow_us' );
+              CKEDITOR.replace( 'privacy' );
+          </script>
+
+
+
+<script type="text/javascript">
+
+   $( document ).ready( function() {
+
+       /* HTML5 Geolocation */
+       navigator.geolocation.getCurrentPosition(
+                     function( position ){ // success cb
+                      /* Current Coordinate */
+                      var lat = position.coords.latitude;
+                      var lng = position.coords.longitude;
+                      var google_map_pos = new google.maps.LatLng( lat, lng );
+                         //alert(lng);
+                         /* Use Geocoder to get address */
+                         var google_maps_geocoder = new google.maps.Geocoder();
+                         google_maps_geocoder.geocode(
+                             { 'latLng': google_map_pos },
+                             function( results, status ) {
+                               if ( status == google.maps.GeocoderStatus.OK && results[0] ) {
+                                $("#latitude").val(lat);
+                                $("#longitude").val(lng);
+                                var address_new = $('#addressTextField').val();
+                                if(address_new ==''){
+                                 //console.log( results[0].formatted_address );
+                                 $("#addressTextField").val(results[0].formatted_address);
+                                 $("#latitude").val(lat);
+                                 $("#longitude").val(lng);
+                                 
+                             }
+
+                         }
+                     }
+                     );
+                     },
+                     );
+   });
+
+
+
+    function initialize() {
+           var input = document.getElementById('addressTextField');
+           if(input=='')
+           {
+            alert('Please Enter Location');
+          }
+          var autocomplete = new google.maps.places.Autocomplete(input);
+                 // Set initial restrict to the greater list of countries.
+                 autocomplete.setComponentRestrictions({
+                  country: ["in"],
+                });
+                 autocomplete.addListener('place_changed', function() {
+                   var place = autocomplete.getPlace();
+                   /* Location details */
+                   var address_new = place.formatted_address;
+                   
+         
+         
+                   // alert(place.geometry.location.lat());
+         
+                   document.getElementById('addressTextField').value = place.formatted_address;
+                   document.getElementById('latitude').value = place.geometry.location.lat();
+                   document.getElementById('longitude').value = place.geometry.location.lng();
+                 });
+               }
+    google.maps.event.addDomListener(window, 'load', initialize);
+         
+</script>
 <script>
-        $(function () {
+    $(function () {
             // Switchery
             var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
             $('.js-switch').each(function () {
@@ -180,34 +268,34 @@
 
 
 
-<script>
-	$(function () {
-		$('#myTable').DataTable();
-		var table = $('#example').DataTable({
-			"columnDefs": [{
-				"visible": false,
-				"targets": 2
-			}],
-			"order": [
-			[2, 'asc']
-			],
-			"displayLength": 25,
-			"drawCallback": function (settings) {
-				var api = this.api();
-				var rows = api.rows({
-					page: 'current'
-				}).nodes();
-				var last = null;
-				api.column(2, {
-					page: 'current'
-				}).data().each(function (group, i) {
-					if (last !== group) {
-						$(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
-						last = group;
-					}
-				});
-			}
-		});
+    <script>
+       $(function () {
+          $('#myTable').DataTable();
+          var table = $('#example').DataTable({
+             "columnDefs": [{
+                "visible": false,
+                "targets": 2
+            }],
+            "order": [
+            [2, 'asc']
+            ],
+            "displayLength": 25,
+            "drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({
+                   page: 'current'
+               }).nodes();
+                var last = null;
+                api.column(2, {
+                   page: 'current'
+               }).data().each(function (group, i) {
+                   if (last !== group) {
+                      $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                      last = group;
+                  }
+              });
+           }
+       });
             // Order by the grouping
             $('#example tbody').on('click', 'tr.group', function () {
             	var currentOrder = table.order()[0];
@@ -246,13 +334,13 @@
     </script>
 
     <script type="text/javascript">
-  $(document).ready(function() {
-    var table = $('#examplestate').DataTable( {
-        responsive: true
+      $(document).ready(function() {
+        var table = $('#examplestate').DataTable( {
+            responsive: true
+        } );
+
+        new $.fn.dataTable.FixedHeader( table );
     } );
- 
-    new $.fn.dataTable.FixedHeader( table );
-} );
 </script>
 <script type="text/javascript">
     $('#state_id').on('change', function()
@@ -292,3 +380,182 @@
         });
     });
 </script>
+<script>
+    // MAterial Date picker    
+    $('#mdate').bootstrapMaterialDatePicker({ weekStart: 0, time: false ,format: 'YYYY/MM/DD', minDate: new Date()});
+    $('#timepicker').bootstrapMaterialDatePicker({ format: 'HH:mm', time: true, date: false });
+    $('#date-format').bootstrapMaterialDatePicker({ format: 'dddd DD MMMM YYYY - HH:mm' });
+
+    $('#min-date').bootstrapMaterialDatePicker({ format: 'DD/MM/YYYY HH:mm', minDate: new Date() });
+    // Clock pickers
+    $('#single-input').clockpicker({
+        placement: 'bottom',
+        align: 'left',
+        autoclose: true,
+        'default': 'now'
+    });
+    $('.clockpicker').clockpicker({
+        donetext: 'Done',
+    }).find('input').change(function() {
+        console.log(this.value);
+    });
+    $('#check-minutes').click(function(e) {
+        // Have to stop propagation here
+        e.stopPropagation();
+        input.clockpicker('show').clockpicker('toggleView', 'minutes');
+    });
+    if (/mobile/i.test(navigator.userAgent)) {
+        $('input').prop('readOnly', true);
+    }
+    // Colorpicker
+    $(".colorpicker").asColorPicker();
+    $(".complex-colorpicker").asColorPicker({
+        mode: 'complex'
+    });
+    $(".gradient-colorpicker").asColorPicker({
+        mode: 'gradient'
+    });
+    // Date Picker
+    jQuery('.mydatepicker, #datepicker').datepicker();
+    jQuery('#datepicker-autoclose').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    });
+    jQuery('#date-range').datepicker({
+        toggleActive: true
+    });
+    jQuery('#datepicker-inline').datepicker({
+        todayHighlight: true
+    });
+    // -------------------------------
+    // Start Date Range Picker
+    // -------------------------------
+
+    // Basic Date Range Picker
+    $('.daterange').daterangepicker();
+
+    // Date & Time
+    $('.datetime').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        locale: {
+            format: 'MM/DD/YYYY h:mm A'
+        }
+    });
+
+    //Calendars are not linked
+    $('.timeseconds').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        timePicker24Hour: true,
+        timePickerSeconds: true,
+        locale: {
+            format: 'MM-DD-YYYY h:mm:ss'
+        }
+    });
+
+    // Single Date Range Picker
+    $('.singledate').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true
+    });
+
+    // Auto Apply Date Range
+    $('.autoapply').daterangepicker({
+        autoApply: true,
+    });
+
+    // Calendars are not linked
+    $('.linkedCalendars').daterangepicker({
+        linkedCalendars: false,
+    });
+
+    // Date Limit
+    $('.dateLimit').daterangepicker({
+        dateLimit: {
+            days: 7
+        },
+    });
+
+    // Show Dropdowns
+    $('.showdropdowns').daterangepicker({
+        showDropdowns: true,
+    });
+
+    // Show Week Numbers
+    $('.showweeknumbers').daterangepicker({
+        showWeekNumbers: true,
+    });
+
+     $('.dateranges').daterangepicker({
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    });
+
+    // Always Show Calendar on Ranges
+    $('.shawCalRanges').daterangepicker({
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        alwaysShowCalendars: true,
+    });
+
+    // Top of the form-control open alignment
+    $('.drops').daterangepicker({
+        drops: "up" // up/down
+    });
+
+    // Custom button options
+    $('.buttonClass').daterangepicker({
+        drops: "up",
+        buttonClasses: "btn",
+        applyClass: "btn-info",
+        cancelClass: "btn-danger"
+    });
+
+    jQuery('#date-range').datepicker({
+        toggleActive: true
+    });
+    jQuery('#datepicker-inline').datepicker({
+        todayHighlight: true
+    });
+
+    // Daterange picker
+    $('.input-daterange-datepicker').daterangepicker({
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-danger',
+        cancelClass: 'btn-inverse'
+    });
+    $('.input-daterange-timepicker').daterangepicker({
+        timePicker: true,
+        format: 'MM/DD/YYYY h:mm A',
+        timePickerIncrement: 30,
+        timePicker12Hour: true,
+        timePickerSeconds: false,
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-danger',
+        cancelClass: 'btn-inverse'
+    });
+    $('.input-limit-datepicker').daterangepicker({
+        format: 'MM/DD/YYYY',
+        minDate: '06/01/2015',
+        maxDate: '06/30/2015',
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-danger',
+        cancelClass: 'btn-inverse',
+        dateLimit: {
+            days: 6
+        }
+    });
+    </script>

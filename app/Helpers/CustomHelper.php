@@ -65,6 +65,17 @@ class CustomHelper{
     }
 
 
+     public static function getHospitalRouteName(){
+        $HOSADMIN_ROUTE_NAME = config('custom.HOSADMIN_ROUTE_NAME');
+
+        if(empty($HOSADMIN_ROUTE_NAME)){
+            $HOSADMIN_ROUTE_NAME = 'hospital';
+        }
+
+        return $HOSADMIN_ROUTE_NAME;
+     }
+
+
     public static function isAllowedSocietyModule($moduleName){
         $isAllowed = false;
 
@@ -458,7 +469,13 @@ public static function image($name, $thumbnail = false) {
         $new_slug = $slug . $num;
 
         $query = DB::table($tbl_name);
-        $query->where('slug', $new_slug);
+
+        if($tbl_name == 'categories'){
+             $query->where('slug', $new_slug);
+         }else{
+             $query->where('unique_id', $new_slug);
+         }
+       
         $row = $query->first();
 
         if (empty ( $row )) {

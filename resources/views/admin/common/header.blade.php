@@ -43,16 +43,34 @@
 
 
 
-
-
-
-
+    <link href="{{asset('public/assets/node_modules/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css')}}" rel="stylesheet">
+    <!-- Page plugins css -->
+    <link href="{{asset('public/assets/node_modules/clockpicker/dist/jquery-clockpicker.min.css')}}" rel="stylesheet">
+    <!-- Color picker plugins css -->
+    <link href="{{asset('public/assets/node_modules/jquery-asColorPicker-master/dist/css/asColorPicker.css')}}" rel="stylesheet">
+    <!-- Date picker plugins css -->
+    <link href="{{asset('public/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- Daterange picker plugins css -->
+    <link href="{{asset('public/assets/node_modules/timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet">
+    <link href="{{asset('public/assets/node_modules/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 
 
 
     <link href="{{asset('public/assets/node_modules/Magnific-Popup-master/dist/magnific-popup.css')}}" rel="stylesheet">
 </head>
-
+<style>
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background: #fb9678;
+        color: #fff;
+        border-color: #fb9678;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+        float: right;
+        color: #fff;
+        margin-right: 0;
+        margin-left: 4px;
+    }
+</style>
 
 
     <?php
@@ -158,7 +176,7 @@ $roleId = Auth::guard('admin')->user()->role_id;
                                 <!-- text-->
                                 <div class="dropdown-divider"></div>
                                 <!-- text-->
-                                <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                                <a href="{{route('logout')}}" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
                                 <!-- text-->
                             </div>
                         </li>

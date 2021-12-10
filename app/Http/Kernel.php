@@ -61,6 +61,7 @@ class Kernel extends HttpKernel
         //'role' => \App\Http\Middleware\Role::class,
 
         'authadmin' => \App\Http\Middleware\AuthAdmin::class,
+        'authhospital' => \App\Http\Middleware\AuthHospital::class,
 
 
         'authmerchant' => \App\Http\Middleware\AuthMerchant::class,

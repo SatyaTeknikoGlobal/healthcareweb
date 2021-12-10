@@ -114,6 +114,12 @@ Class UserController extends Controller
             $html.='<a title="Delete" class="btn btn-primary shadow btn-xs sharp mr-1" href="' . route($routeName.'.users.delete',$data->id.'?back_url='.$BackUrl) . '"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;&nbsp;';
         }
 
+        if(CustomHelper::isAllowedSection('users' , Auth::guard('admin')->user()->role_id , $type='edit') && CustomHelper::isAllowedSection('users' , Auth::guard('admin')->user()->role_id , $type='delete') && CustomHelper::isAllowedSection('users' , Auth::guard('admin')->user()->role_id , $type='show')){
+
+            $html.='<a title="Delete" class="btn btn-primary shadow btn-xs sharp mr-1" href="' . route($routeName.'.users.details',$data->id.'?back_url='.$BackUrl) . '"><i class="fa fa-info-circle"></i></a>&nbsp;&nbsp;&nbsp;';
+
+        }
+
         return $html;
     })
 
