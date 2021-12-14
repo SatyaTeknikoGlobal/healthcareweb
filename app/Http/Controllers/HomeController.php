@@ -42,6 +42,15 @@ class HomeController extends Controller
 
  public function index(Request $request){
   $data = [];
+
+
+   // $ip = '8.8.8.8';
+    //$ip = $request->ip();
+   // $api_key = 'at_iiiIQAMuyz3EsrKHPK5FgwTb8jrNJ';
+
+    //$url = "https://geo.ipify.org/api/v1?apiKey=$api_key&ipAddress=$ip";
+
+    //prd(file_get_contents($url));
   
   return view('front.home.index',$data);
 

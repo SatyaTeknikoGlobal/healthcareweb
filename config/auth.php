@@ -61,7 +61,10 @@ return [
             'provider' => 'sadmins',
         ],
 
-        
+         'hospital' => [
+            'driver' => 'session',
+            'provider' => 'hospitals',
+        ],
 
     ],
 
@@ -112,6 +115,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\SocietyAdmin::class,
             'table' => 'admins',
+
+        ],
+         'hospitals' => [
+            'driver' => 'eloquent',
+            'model' => App\HospitalUser::class,
+            'table' => 'hospitals',
 
         ],
         

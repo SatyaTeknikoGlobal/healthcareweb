@@ -82,20 +82,24 @@ Route::group(['namespace' => 'Hospital', 'prefix' => $HOSADMIN_ROUTE_NAME, 'as' 
     Route::get('/', 'HomeController@index')->name('home');
     Route::match(['get','post'],'get_sub_cat', 'HomeController@get_sub_cat')->name('get_sub_cat');
 
-    // roles
-    Route::group(['prefix' => 'roles', 'as' => 'roles' , 'middleware' => ['allowedmodule:roles'] ], function() {
+    // leads
+    Route::group(['prefix' => 'leads', 'as' => 'leads' , 'middleware' => ['allowedhosmodule:leads'] ], function() {
 
-        Route::get('/', 'RoleController@index')->name('.index');
+        Route::get('/', 'LeadController@index')->name('.index');
 
-        Route::match(['get', 'post'], 'add', 'RoleController@add')->name('.add');
+         Route::match(['get', 'post'], 'add', 'LeadController@add')->name('.add');
 
-        Route::match(['get', 'post'], 'get_roles', 'RoleController@get_roles')->name('.get_roles');
+         Route::match(['get','post'], 'get_bookings', 'LeadController@get_bookings')->name('.get_bookings');
 
-        Route::match(['get', 'post'], 'change_role_status', 'RoleController@change_role_status')->name('.change_role_status');
-        Route::match(['get', 'post'], 'edit/{id}', 'RoleController@add')->name('.edit');
+        // Route::match(['get', 'post'], 'get_roles', 'LeadController@get_roles')->name('.get_roles');
 
-        Route::post('ajax_delete_image', 'RoleController@ajax_delete_image')->name('.ajax_delete_image');
-        Route::match(['get','post'],'delete/{id}', 'RoleController@delete')->name('.delete');
+        // Route::match(['get', 'post'], 'change_role_status', 'LeadController@change_role_status')->name('.change_role_status');
+         Route::match(['get', 'post'], 'details/{id}', 'LeadController@details')->name('.details');
+
+      Route::match(['get','post'], 'documents', 'LeadController@upload_documents')->name('.documents');
+
+        // Route::post('ajax_delete_image', 'LeadController@ajax_delete_image')->name('.ajax_delete_image');
+        // Route::match(['get','post'],'delete/{id}', 'LeadController@delete')->name('.delete');
     });
 
 
@@ -395,6 +399,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => $ADMIN_ROUTE_NAME, 'as' => $AD
         Route::post('ajax_delete_image', 'BookingController@ajax_delete_image')->name('.ajax_delete_image');
         Route::match(['get','post'],'delete/{id}', 'BookingController@delete')->name('.delete');
         Route::match(['get','post'],'details/{id}', 'BookingController@details')->name('.details');
+
+         Route::match(['get','post'], 'assign_hospital', 'BookingController@assign_hospital')->name('.assign_hospital');
         Route::match(['get','post'],'change_users_role', 'BookingController@change_users_role')->name('.change_users_role');
 
     });
@@ -453,5 +459,5 @@ Route::group(['namespace' => 'Admin', 'prefix' => $ADMIN_ROUTE_NAME, 'as' => $AD
 
 
 //////////////////////////////////////////////////////////////////////////////////////ADMIN//////////////////////////////////////////
-Route::get('/', 'HomeController@index')->name('home');
+ Route::get('/', 'HomeController@index')->name('home');
 

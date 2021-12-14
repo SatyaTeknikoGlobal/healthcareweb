@@ -120,6 +120,8 @@ class CustomHelper{
         return $isAllowed;
     }
 
+
+
     public static function isAllowedSection($sectionName , $roleId , $type=''){
         $isAllowed = false;
         if($type == 'add'){
@@ -160,6 +162,49 @@ class CustomHelper{
 }
 
 
+public static function isHosAllowedModule($moduleName){
+    $isAllowed = false;
+
+    $allowedModulesArr = config('modules.hospital');
+
+    $moduleNameArrAnd = [];
+    $moduleNameArrOr = [];
+
+    $isAnd = strpos($moduleName, "&");
+    $isOr = strpos($moduleName, "|");
+
+    if($isAnd >= 0 && $isAnd !== false){
+        $moduleNameArrAnd = explode('&', $moduleName);
+    }
+        //elseif($isOr >= 0 && $isOr !== false){
+    else{
+        $moduleNameArrOr = explode('|', $moduleName);
+    }
+
+        //pr($moduleNameArr);
+        //prd($moduleNameArr);        
+
+    if(!empty($moduleNameArrAnd) && count($moduleNameArrAnd) > 0){
+        $isAndAllowed = true;
+        foreach($moduleNameArrAnd as $module){
+            if(!in_array($module, $allowedModulesArr)){
+                $isAndAllowed = false;
+            }
+        }
+
+        $isAllowed = $isAndAllowed;
+    }
+    elseif(!empty($moduleNameArrOr) && count($moduleNameArrOr) > 0){
+        foreach($moduleNameArrOr as $module){
+            if(in_array($module, $allowedModulesArr)){
+                return true;
+            }
+        }
+    }
+
+
+    return $isAllowed;
+}
 
 
 

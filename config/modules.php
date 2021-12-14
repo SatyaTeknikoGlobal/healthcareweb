@@ -11,6 +11,14 @@ return [
         'admins',
         'hospitals',
         'users',
+        'packages',
+        'hotels',
+        'chat_with_user',
+        'chat_with_hospital',
+        'bookings',
+        'speciality',
+       
+       // 'categories',
     ],
 
 
@@ -27,7 +35,7 @@ return [
        'chats'  => 'Chats',
         'blockes'=> 'Blockes',
         'flats'=> 'Flats',
-        'roles'=> 'Roles',
+         'roles'=> 'Roles',
         'permission'=> 'Permission',
         'society' => 'Society',
         'admins' => 'Admins',
@@ -37,7 +45,14 @@ return [
         'notifications' => 'Notifications',
         'service_user' => 'Service Users',
         'complaints' => 'Complaints',
-    ],
+    
 
+         ],
+
+
+         'hospital' =>[
+            'leads',
+
+         ],
 
 ];

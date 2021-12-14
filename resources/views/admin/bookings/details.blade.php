@@ -1,7 +1,14 @@
 @include('admin.common.header')
 
+<?php
+$BackUrl = CustomHelper::BackUrl();
+$routeName = CustomHelper::getAdminRouteName();
+
+
+?>
+
 <style type="text/css">
-	.heading {
+/*	.heading {
 		font-weight: 500 !important
 	}
 
@@ -9,6 +16,14 @@
 		font-size: 12px;
 		color: #9c27b0
 	}
+
+	.assign_modal{
+
+		background-color: grey;
+		color: white;
+	}
+*/
+
 </style>
 
 <div class="page-wrapper">
@@ -56,7 +71,7 @@
 						<div class="tab-pane active" id="details" role="tabpanel">
 							<div class="card-body">
 
-						<!--------------- DETAILS ------------------------->
+								<!--------------- DETAILS ------------------------->
 
 
 								<div class="row">
@@ -100,10 +115,10 @@
 																	<a href='https://maps.google.com/?q={{$hospital->latitude}},{{$hospital->longitude}}' target="_blank">
 
 
-																	<img src="https://img.icons8.com/color/100/000000/google-maps.png" class="rounded" width="30" />
-																</a>
-																	<?php }?>
-															
+																		<img src="https://img.icons8.com/color/100/000000/google-maps.png" class="rounded" width="30" />
+																	</a>
+																<?php }?>
+
 															</span> 
 														</div>
 													</td>
@@ -155,158 +170,272 @@
 
 						</div>
 
-				<!--------------- DETAILS ------------------------->
-
-
+						<!--------------- DETAILS ------------------------->
 
 					</div>
 
 
 				</div>
 
-				<div class="tab-pane " id="profile" role="tabpanel">
+				<!------------------- ASSIGN HOSPITAL ------------------->
+
+				<style type="text/css">
+					.select2-search__field{
+						width: 20.75em !important;
+					}
+				</style>
+
+				<div class="tab-pane" id="assign_hospital" role="tabpanel">
+
 					<div class="card-body">
-						<center class="m-t-30"> <img  src="https://healthcareweb.appmantra.live/public/storage/hospital/071221055710-hospital.jpg" class="img-circle" width="150">
-							<h4 class="card-title m-t-10">{{$user->name ?? ''}}</h4>
-							<b>Address</b>
-							<h5>{{$user->address ??''}}</h5>
-							<hr>
-							<b>Phone : {{$user->phone ?? ''}}</b></br>
 
-							<b>Email : {{$user->email ?? ''}}</b>
-						</center>
-
-
-
-					</div>
-
-
-				</div>
-
-
-				<div class="tab-pane" id="appointment" role="tabpanel">
-					<div class="card-body">
 						<div class="row">
-							<div class="col-md-12 col-xs-12 b-r">
-								<div class="table-responsive">
-									<table id="myTable" class="table display table-striped border no-wrap">
-										<thead>
-											<tr>
-												<th scope="col">#Booking ID</th>
-												<th scope="col">Hospital Name</th>
-												<th scope="col">Appointment Date</th>
-												<th scope="col">Date Created</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php if(!empty($appointments)){
-												foreach ($appointments as $key) {
-													$hospital = \App\Hospital::where('id',$key->hospital_id)->first();
+
+							<div class="col-md-12 col-xs-12 b-r pull-right">
+
+
+
+								<form action="{{route('admin.bookings.assign_hospital')}}" method="post" id="assign_hospital">
+
+									{{ csrf_field() }}
+
+									<input type="hidden" name="booking_id" value="{{$booking->id}}">
+									
+
+									<div class="form-group">
+										<label for="exampleInputEmail1" class="form-label">Choose Hospital</label>
+										<select class="form-control select2" multiple name="hospital_id[]">
+											<?php 
+											$hospitals =  DB::table('hospitals')->select('id','name')->where('status', '1')->get();
+											if(!empty($hospitals)){
+												foreach($hospitals as $hospital){?>
+													<option value="{{$hospital->id}}">{{$hospital->name}}</option>
+												<?php }}?>
+											</select>
+
+										</div>
+										
+
+										<div class="form-group">
+											<label for="exampleInputPassword1" class="form-label">Status</label>
+											<br>
+											Active: <input type="radio" name="status" value="1"checked>
+											&nbsp;
+											Inactive: <input type="radio" name="status" value="0" >
+											@include('snippets.errors_first', ['param' => 'status'])
+										</div>
+										<button class="btn btn-primary mb-5" type="submit">Submit</button>
+
+									</form>
+								</div>
+								<hr>
+								<div class="col-md-12 col-xs-12 b-r">
+									<!--  <h4 class="card-title">Roles</h4> -->
+									<div class="table-responsive">
+										<table id="myTable1" class="table display table-striped border no-wrap">
+											<thead>
+												<tr>
+													
+													<th scope="col">Hospital Name</th>
+													<th scope="col">Description</th>
+													<th scope="col">Assign Status</th>           
+													<th scope="col">Action</th>           
+
+												</tr>
+											</thead>
+											<tbody>
+												<?php 
+
+												$lists = App\AssignBookings::where('booking_id',$booking->id)->get();
+                                               // print_r($list);
+
+												foreach($lists as $list)
+												{ 
+
+													echo $list->description;
+													$hospital_name = \App\Hospital::where('id',$list->hospital_id)->first();                                                	 
 													?>
 													<tr>
-														<td>{{$key->unique_id}}</td>
+														
+														<td>{{$hospital_name->name ?? ''}}</td>
+														<td><a href="" data-bs-toggle="modal" data-bs-target="#myModal" class="model_img img-responsive" >Click Here</a></td>
 
-														<td>{{$hospital->name ?? ''}}</td>
 
-														<td>{{$key->appointment_date}}</td>
+														 <div id="myModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						                                    <div class="modal-dialog">
+						                                        <div class="modal-content">
+						                                            <div class="modal-header">
+						                                                <h4 class="modal-title" id="myModalLabel">Hospital Details</h4>
+						                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+						                                            </div>
+						                                            <div class="modal-body">
+						                                                <h6>Description</h6>
+						                                                <p>{{$list->description}}</p>
+						                                                
+						                                            </div>
+						                                            <div class="modal-footer">
+						                                                <button type="button" class="btn btn-info waves-effect text-white" data-bs-dismiss="modal">Close</button>
+						                                            </div>
+						                                        </div>
+						                                        <!-- /.modal-content -->
+						                                    </div>
+						                                    <!-- /.modal-dialog -->
+						                                </div>
 
-														<td>{{$key->created_at}}</td>
+
+														<td>                                                			
+															<?php
+
+															$assign_status = $list->status;
+
+															if($assign_status == '1')
+															{
+																?>
+																<span>Assigned</span>
+															<?php }else{  ?>
+
+																<span>Not Assigned</span>
+
+															<?php } ?>
+														</td>
+														
+														<td>
+															<a></a>
+														</td>
+
+
 													</tr>
 
-												<?php }}?>
-
+									<?php } ?>
 											</tbody>
-
 										</table>
+
+										
 									</div>
-
 								</div>
-
 							</div>
 						</div>
-
 					</div>
 
-					<div class="tab-pane" id="users" role="tabpanel">
+
+
+
+					<!------------------- ASSIGN HOSPITAL ------------------->				
+
+
+					<div class="tab-pane " id="profile" role="tabpanel">
+						<div class="card-body">
+							<center class="m-t-30"> <img  src="https://healthcareweb.appmantra.live/public/storage/hospital/071221055710-hospital.jpg" class="img-circle" width="150">
+								<h4 class="card-title m-t-10">{{$user->name ?? ''}}</h4>
+								<b>Address</b>
+								<h5>{{$user->address ??''}}</h5>
+								<hr>
+								<b>Phone : {{$user->phone ?? ''}}</b></br>
+
+								<b>Email : {{$user->email ?? ''}}</b>
+							</center>
+						</div>
+					</div>
+
+
+					<div class="tab-pane" id="appointment" role="tabpanel">
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12 col-xs-12 b-r">
 									<div class="table-responsive">
+										<table id="myTable" class="table display table-striped border no-wrap">
+											<thead>
+												<tr>
+													<th scope="col">#Booking ID</th>
+													<th scope="col">Hospital Name</th>
+													<th scope="col">Appointment Date</th>
+													<th scope="col">Date Created</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php if(!empty($appointments)){
+													foreach ($appointments as $key) {
+														$hospital = \App\Hospital::where('id',$key->hospital_id)->first();
+														?>
+														<tr>
+															<td>{{$key->unique_id}}</td>
+
+															<td>{{$hospital->name ?? ''}}</td>
+
+															<td>{{$key->appointment_date}}</td>
+
+															<td>{{$key->created_at}}</td>
+														</tr>
+
+													<?php }}?>
+
+												</tbody>
+
+											</table>
+										</div>
 
 									</div>
 
 								</div>
-
 							</div>
+
 						</div>
-					</div>
 
+						<div class="tab-pane" id="users" role="tabpanel">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-12 col-xs-12 b-r">
+										<div class="table-responsive">
 
-					<div class="tab-pane" id="prescription" role="tabpanel">
-						<div class="card-body">
-							<div class="row">
-								<div class="col-md-12 col-xs-12 b-r">
-									<div class="table-responsive">
+										</div>
 
 									</div>
 
 								</div>
-
 							</div>
 						</div>
-					</div>
 
 
-					<div class="tab-pane" id="transaction" role="tabpanel">
-						<div class="card-body">
-							<div class="row">
-								<div class="col-md-12 col-xs-12 b-r">
-									<div class="table-responsive">
+						<div class="tab-pane" id="prescription" role="tabpanel">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-12 col-xs-12 b-r">
+										<div class="table-responsive">
+
+										</div>
 
 									</div>
 
 								</div>
-
 							</div>
 						</div>
+
+
+						<div class="tab-pane" id="transaction" role="tabpanel">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-12 col-xs-12 b-r">
+										<div class="table-responsive">
+
+										</div>
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+
+
 					</div>
-
-
-
 				</div>
 			</div>
+			<!-- Column -->
 		</div>
-		<!-- Column -->
+
+
+
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
 </div>
 
 
@@ -318,3 +447,16 @@
 
 
 @include('admin.common.footer')
+
+<script type="text/javascript">
+	
+   $(function () {
+
+    $('#myTable1').DataTable();
+
+
+
+
+});      
+
+</script>

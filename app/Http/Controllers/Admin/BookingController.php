@@ -17,6 +17,7 @@ use App\City;
 use App\HospitalUser;
 use App\Speciality;
 use App\Hospital;
+use App\AssignBookings;
 use Yajra\DataTables\DataTables;
 use Storage;
 use DB;
@@ -414,23 +415,27 @@ public function details (Request $request){
 
     $booking = Bookings::where('id',$id)->first();
 
+     $assigned_hospital = AssignBookings::select('hospital_id','status')->where('status', '0')->get();
 
+   //  print_r($assigned_hospital);
+    // die;
+
+     $hospitals_list =  DB::table('hospitals')->select('id','name')->where('status', '1')->get();
 
     $appointments = Bookings::where('user_id',$booking->user_id)->get();
 
-
     $user = User::where('id',$booking->user_id)->first();
 
-
     $hospital = Hospital::where('id',$booking->hospital_id)->first();
-    $speciality = Speciality::where('id',$booking->diseases)->first();
+    $speciality = Speciality::where('id',$booking->diseases)->first();    
 
-
-
+    // $data['assign_hospital'] = 
     $data['appointments'] = $appointments;
     $data['speciality'] = $speciality;
     $data['hospital'] = $hospital;
+    $data['hospitals_list'] = $hospitals_list;
     $data['user'] = $user;
+    $data['assigned_hospital'] = $assigned_hospital;
 
     $data['booking'] = $booking;
 
@@ -504,6 +509,44 @@ private function saveImageMultiple($request,$society_id){
     }
 }
 
+
+public function assign_hospital(Request $request)
+{
+
+    
+
+   
+
+   $method = $request->method();
+     if($method == "POST" || $method == "post")
+     {
+
+       //prd($request->toArray());
+       $rules = [];
+       $rules['booking_id'] = 'required';
+       $rules['hospital_id'] = 'required';
+       $rules['status'] = 'required';
+
+       
+       $this->validate($request ,$rules);
+       $hospital_id = isset($request->hospital_id) ? $request->hospital_id :'';
+       if(!empty($hospital_id)){
+        foreach ($hospital_id as $key => $value) {
+       $dbArray = [];
+       $dbArray['booking_id'] = $request->booking_id;
+       $dbArray['hospital_id'] = $value;
+         AssignBookings::create($dbArray);
+       }
+
+       }      
+      
+       return back()->with('alerts-success', 'Hospital Assigned Successfulyy');   
+
+    }
+
+    
+
+}
 
 
 }

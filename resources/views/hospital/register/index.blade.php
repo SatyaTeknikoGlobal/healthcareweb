@@ -101,7 +101,7 @@
                 <div class="card-body">
                             
 
-                    <form action="{{url('hospital/register')}}" method="post">
+                    <form action="{{url('hospital/register')}}" method="post" enctype="multipart/form-data">
                 {!! csrf_field() !!}
                 <div class="login-form">
 

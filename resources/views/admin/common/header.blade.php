@@ -38,7 +38,7 @@
     <link href="{{asset('public/assets/node_modules/switchery/dist/switchery.min.css')}}" rel="stylesheet" />
     <link href="{{asset('public/assets/node_modules/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" />
     <link href="{{asset('public/assets/node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}" rel="stylesheet" />
-    <link href="{{asset('public/assets/node_modules/bootstrap-touchspin/dist/`.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('public/assets/node_modules/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet" />
     <link href="{{asset('public/assets/node_modules/multiselect/css/multi-select.css')}}" rel="stylesheet" type="text/css" />
 
 

@@ -8,6 +8,8 @@ return [
     'ADMIN_ROUTE_NAME' => 'admin',
 
     'SADMIN_ROUTE_NAME' => 'sadmin',
+    
+    'HOSADMIN_ROUTE_NAME' => 'hospital',
 
     'admin_email' => env('ADMIN_EMAIL'),
     'from_email' => 'info@blindwelfaresociety.in',
