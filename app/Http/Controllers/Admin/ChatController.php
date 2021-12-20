@@ -49,6 +49,8 @@ class ChatController extends Controller{
 
             }
         }
+
+        // print_r($hospitalIds);
         if(!empty($hospitalIds)){
            $data['hospital_id'] = $hospitalIds[0];
         }
@@ -201,7 +203,7 @@ public function get_hospital_chat(Request $request){
 
             $created_at = date('h:i A',strtotime($chat->created_at));
             //prd($hospital);
-            if($chat->sender_type == 'hospital' || $chat->reciever_type == 'admmin'){
+            if($chat->sender_type == 'hospital' || $chat->reciever_type == 'admin'){
                 /////////Left Side
                 //echo "string";
                 $html.=' <li><div class="chat-img"><img src="https://healthcareweb.appmantra.live/public/assets/images/users/1.jpg" alt="user"></div><div class="chat-content"><h5>'.$hospital->name.'</h5>

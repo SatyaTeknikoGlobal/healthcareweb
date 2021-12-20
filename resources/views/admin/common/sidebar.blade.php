@@ -65,6 +65,9 @@ $roleId = Auth::guard('admin')->user()->role_id;
 
                     <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-map-marker"></i><span class="hide-menu">Locations</span></a>
                         <ul aria-expanded="false" class="collapse">
+                            @if(CustomHelper::isAllowedSection('countries' , $roleId , $type='show'))
+                         <li><a href="{{ route($ADMIN_ROUTE_NAME.'.countries.index') }}">Countries</a></li>
+                         @endif
                          @if(CustomHelper::isAllowedSection('states' , $roleId , $type='show'))
                          <li><a href="{{ route($ADMIN_ROUTE_NAME.'.states.index') }}">States</a></li>
                          @endif

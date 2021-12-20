@@ -8,12 +8,18 @@ if(empty($back_url)){
   $back_url = 'admin/cities';
 }
 
+$id = isset($city->id) ? $city->id : '';
 $name = (isset($city->name))?$city->name:'';
-    //$country_id = (isset($city->cityState->country_id))?$city->cityState->country_id:99;
+$country_id = (isset($city->cityState->country_id))?$city->cityState->country_id:99;
+
+ $country_id=(isset($city->country_id))?$city->country_id:'';
 $state_id=(isset($city->state_id))?$city->state_id:'';
+
 $status = (isset($city->status))?$city->status:1;
 $image = (isset($city->img))?$city->img:'';
 
+
+// print_r($countries);
 
 ?>
 
@@ -49,7 +55,26 @@ $image = (isset($city->img))?$city->img:'';
           <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data" role="form" class="mt-4">
             {{ csrf_field() }}
 
-            <input type="hidden" name="id" value="{{$state_id}}">
+            <input type="hidden" name="id" value="{{$id}}">
+
+
+             <div class="form-group">
+              <label for="exampleInputEmail1" class="form-label">Country Name</label>
+              <select class="select2 form-control form-select" name="country_id" id="country_id">
+               <option value="" selected disabled>Select Country Name</option>
+               <?php 
+
+                 
+               if(!empty($countries)){
+                foreach($countries as $c) 
+                  {?>
+                    <option  <?php if($country_id==$c->id) { echo 'selected';    } ?> value="{{$c->id}}">{{$c->name}}</option>
+                  <?php  } }  ?>
+                </select>
+                @include('snippets.errors_first', ['param' => 'name'])
+              </div>
+
+
 
             <div class="form-group">
               <label for="exampleInputEmail1" class="form-label">State Name</label>
@@ -60,7 +85,7 @@ $image = (isset($city->img))?$city->img:'';
                if(!empty($state)){
                 foreach($state as $s) 
                   {?>
-                    <option <?php if($state_id==$s->id) { echo 'selected';    } ?> value="{{$s->id}}">{{$s->name}}</option>
+                    <option <?php if($state_id==$s->id) { echo 'selected';    } ?>  value="{{$s->id}}">{{$s->name}}</option>
                   <?php  } }  ?>
                 </select>
                 @include('snippets.errors_first', ['param' => 'name'])
@@ -100,3 +125,69 @@ $image = (isset($city->img))?$city->img:'';
 
 
 @include('admin.common.footer')
+
+<script>
+
+  $('#country_id').change( function()
+ {
+
+    var _token = '{{ csrf_token() }}';
+    var country_id = $('#country_id').val();
+    $.ajax({
+      url: "{{ route('get_state') }}",
+      type: "POST",
+      data: {country_id:country_id},
+      dataType:"HTML",
+      headers:{'X-CSRF-TOKEN': _token},
+      cache: false,
+      success: function(resp){
+
+        // alert(resp);
+         $('#state').html(resp);
+     }
+ });
+});
+
+  
+$('#state_id').change( function()
+ {
+
+    var _token = '{{ csrf_token() }}';
+    var state_id = $('#state_id').val();
+    $.ajax({
+      url: "{{ route('get_city') }}",
+      type: "POST",
+      data: {state_id:state_id},
+      dataType:"HTML",
+      headers:{'X-CSRF-TOKEN': _token},
+      cache: false,
+      success: function(resp){
+         $('#city_id').html(resp);
+     }
+ });
+});
+
+
+//  $('#city_id').on('change', function()
+//  {
+
+//     var _token = '{{ csrf_token() }}';
+//     var city_id = $('#city_id').val();
+
+
+//     $.ajax({
+//       url: "{{ route('get_locality') }}",
+//       type: "POST",
+//       data: {city_id:city_id},
+//       dataType:"HTML",
+//       headers:{'X-CSRF-TOKEN': _token},
+//       cache: false,
+//       success: function(resp){
+//          $('#locality_id').html(resp);
+//      }
+//  });
+// });
+
+</script>
+
+

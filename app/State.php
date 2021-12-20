@@ -12,9 +12,9 @@ class State extends Model{
 
     protected $fillable = 
     [
-        'iso ',
+        'country_id',
         'name',
-        'nicename '
+        
     ];
 
 

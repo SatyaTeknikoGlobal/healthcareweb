@@ -29,13 +29,17 @@ class CityController extends Controller{
     public function index(Request $request){
         $data = [];
         $d_query = City::where('status',1)->orderBy('name', 'asc');
-        $cities = $d_query->get();
+
+        
+        $cities = $d_query->paginate(100);
         $data['cities'] = $cities;
+
         return view('admin.cities.index', $data);
     }
 
 
-    public function save(Request $request, $id= ''){
+    public function save(Request $request, $id= '')
+    {
        $data= [];
        $page_heading= 'Add City';
        $state= array(); 
@@ -53,14 +57,18 @@ class CityController extends Controller{
     $ext = '';
     $method= $request->method(); 
     if($method=='POST')
-    { 
+    {
+
+    // prd($request->toArray()); 
      $rules = [];
      $rules['name'] = 'required';
-
+     $rules['country_id'] = 'required';
      $rules['state'] = 'required';
      $this->validate($request, $rules);
 
      $req_data['name']=$request->name;
+     $req_data['country_id'] = $request->country_id;
+
      $req_data['state_id']=$request->state;
      $req_data['status']=(!empty($request->status))?$request->status:0;
 
@@ -68,22 +76,14 @@ class CityController extends Controller{
      {
 
          $req_data['updated_at']= date('Y-m-d H:i:s');
-         if($request->hasFile('image')) {
-            $files = $request->file('image');
-            $images_result = $this->saveImages($files, $ext);
-            $req_data['img'] = url('/public/storage/cities/'.$images_result);
-        }
+         
         $isSaved = City::where('id',$id)->update($req_data);
     }
     else 
     {
         $req_data['created_at']= date('Y-m-d H:i:s');
         $req_data['updated_at']= date('Y-m-d H:i:s');
-        if($request->hasFile('image')) {
-            $files = $request->file('image');
-            $images_result = $this->saveImages($files, $ext);
-            $req_data['img'] = url('/public/storage/cities/'.$images_result);
-        }
+        
         $isSaved = City::create($req_data);
         $country_id = $isSaved->id;
     }
@@ -98,10 +98,20 @@ class CityController extends Controller{
 
 }
 
-$data['page_heading']= $page_heading;
+$countries = Country::select('id','name')->where('status',1)->get();
 
-$state= State::get();
-$data['state']=   $state;
+$data['page_heading']= $page_heading;
+$data['countries'] = $countries;
+
+
+$data['state']=   [];
+
+if(!empty($id))
+{
+    $data['state']= State::where('country_id',$city->country_id)->get();
+}
+
+
 return view('admin.cities.form', $data);
 }
 

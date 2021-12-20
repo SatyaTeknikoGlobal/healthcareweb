@@ -44,8 +44,7 @@ $roleId = Auth::guard('admin')->user()->role_id;
                             <table id="dataTable" class="table display table-striped border no-wrap">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#Booking ID</th>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">#Booking ID</th>                                    
                                     <th scope="col">Hospital Name</th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Date</th>
@@ -83,7 +82,7 @@ $roleId = Auth::guard('admin')->user()->role_id;
         ajax: '{{ route($routeName.'.bookings.get_bookings') }}',
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'name', name: 'name' ,searchable: false, orderable: false},
+            
             { data: 'hospital_name', name: 'hospital_name'},
             { data: 'phone', name: 'phone'},
             { data: 'booking_date', name: 'booking_date'},

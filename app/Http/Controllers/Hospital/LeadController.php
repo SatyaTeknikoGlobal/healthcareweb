@@ -53,6 +53,8 @@ Class LeadController extends Controller
    $datas = AssignBookings::where('hospital_id', $user)->orderBy('id','desc');
    $datas = $datas->get();
 
+   // print_r($datas);
+
 
    return Datatables::of($datas)
 
@@ -180,6 +182,7 @@ public function upload_documents(Request $request)
           $image = $uploaded_data['file_name'];
           $dbArray['documents'] = $image;
           $dbArray['leads_id'] = $id;
+          $dbArray['type'] = $uploaded_data['extension'];
           $success = DB::table('leads_documents')->insert($dbArray);
         }
       }

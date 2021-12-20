@@ -11,6 +11,7 @@ use Auth;
 use Validator;
 use App\User;
 use App\Admin;
+use App\Prescription;
 use App\Bookings;
 use App\State;
 use App\City;
@@ -40,115 +41,115 @@ Class BookingController extends Controller
 
 
 	public function index(Request $request){
-       if(!(CustomHelper::isAllowedSection('bookings' , Auth::guard('admin')->user()->role_id , $type='show'))){
-           return redirect()->to(route($this->ADMIN_ROUTE_NAME.'.admins.index'));
+     if(!(CustomHelper::isAllowedSection('bookings' , Auth::guard('admin')->user()->role_id , $type='show'))){
+         return redirect()->to(route($this->ADMIN_ROUTE_NAME.'.admins.index'));
 
-       }
-
-
-       $data =[];
-       return view('admin.bookings.index',$data);
-   }
-
-   public function get_bookings(Request $request){
-
-      $role_id = Auth::guard('admin')->user()->role_id;
-
-      $routeName = CustomHelper::getAdminRouteName();
+     }
 
 
+     $data =[];
+     return view('admin.bookings.index',$data);
+ }
 
-      $datas = Bookings::orderBy('id','desc');
+ public function get_bookings(Request $request){
 
-      $datas = $datas->get();
+  $role_id = Auth::guard('admin')->user()->role_id;
+
+  $routeName = CustomHelper::getAdminRouteName();
 
 
 
-      return Datatables::of($datas)
+  $datas = Bookings::orderBy('id','desc');
+
+  $datas = $datas->get();
 
 
-      ->editColumn('id', function(Bookings $data) {
 
-         return  $data->unique_id;
-     })
-      ->editColumn('name', function(Bookings $data) {
-
-          $user = HospitalUser::where('id',$data->user_id)->first();
-         return  $user->name ?? '';
-     })
-      ->editColumn('hospital_name', function(Bookings $data) {
-          $hospital = Hospital::where('id',$data->hospital_id)->first();
-         return  $hospital->name ?? '';
-     })
-
-      ->editColumn('phone', function(Bookings $data) {
-          $user = HospitalUser::where('id',$data->user_id)->first();
-         return  $user->phone ?? '';
-     })
-
-      ->editColumn('booking_date', function(Bookings $data) {
-         return  $data->appointment_date;
-     })
-
-          ->editColumn('payment_status', function(Bookings $data) {
-              return  $data->payment_status;
-          })
-
-          ->editColumn('status', function(Bookings $data) {
-              return  $data->status;
-          })
-
-      ->editColumn('created_at', function(Bookings $data) {
-         return  date('d M Y',strtotime($data->created_at));
-     })
-
-      ->addColumn('action', function(Bookings $data) {
-         $routeName = CustomHelper::getAdminRouteName();
-
-         $BackUrl = $routeName.'/bookings';
-         $html = '';
+  return Datatables::of($datas)
 
 
-         if(CustomHelper::isAllowedSection('bookings' , Auth::guard('admin')->user()->role_id , $type='edit')){
+  ->editColumn('id', function(Bookings $data) {
+
+   return  $data->unique_id;
+})
+  ->editColumn('name', function(Bookings $data) {
+
+      $user = HospitalUser::where('id',$data->user_id)->first();
+      return  $user->name ?? '';
+  })
+  ->editColumn('hospital_name', function(Bookings $data) {
+      $hospital = Hospital::where('id',$data->hospital_id)->first();
+      return  $hospital->name ?? '';
+  })
+
+  ->editColumn('phone', function(Bookings $data) {
+      $user = HospitalUser::where('id',$data->user_id)->first();
+      return  $user->phone ?? '';
+  })
+
+  ->editColumn('booking_date', function(Bookings $data) {
+   return  $data->appointment_date;
+})
+
+  ->editColumn('payment_status', function(Bookings $data) {
+      return  $data->payment_status;
+  })
+
+  ->editColumn('status', function(Bookings $data) {
+      return  $data->status;
+  })
+
+  ->editColumn('created_at', function(Bookings $data) {
+   return  date('d M Y',strtotime($data->created_at));
+})
+
+  ->addColumn('action', function(Bookings $data) {
+   $routeName = CustomHelper::getAdminRouteName();
+
+   $BackUrl = $routeName.'/bookings';
+   $html = '';
+
+
+   if(CustomHelper::isAllowedSection('bookings' , Auth::guard('admin')->user()->role_id , $type='edit')){
             //$html.='<a title="Edit" class="btn btn-primary shadow btn-xs sharp mr-1" href="' . route($routeName.'.bookings.edit',$data->id.'?back_url='.$BackUrl) . '"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;';
-        }   
+   }   
 
         //if(CustomHelper::isAllowedSection('bookings' , Auth::guard('admin')->user()->role_id , $type='delete')){
-            $html.='<a title="Edit" class="btn btn-primary shadow btn-xs sharp mr-1" href="' . route($routeName.'.bookings.details',$data->id.'?back_url='.$BackUrl) . '"><i class="fa fa-info-circle"></i></a>&nbsp;&nbsp;&nbsp;';
+   $html.='<a title="Edit" class="btn btn-primary shadow btn-xs sharp mr-1" href="' . route($routeName.'.bookings.details',$data->id.'?back_url='.$BackUrl) . '"><i class="fa fa-info-circle"></i></a>&nbsp;&nbsp;&nbsp;';
        // }  
 
 
 
-        return $html;
-    })
+   return $html;
+})
 
-      ->rawColumns(['name', 'status','is_approve', 'action','role_id'])
-      ->toJson();
-  }
-
-
+  ->rawColumns(['name', 'status','is_approve', 'action','role_id'])
+  ->toJson();
+}
 
 
-  public function add(Request $request){
+
+
+public function add(Request $request){
     $data = [];
     $id = (isset($request->id))?$request->id:0;
     if(!(CustomHelper::isAllowedSection('bookings' , Auth::guard('admin')->user()->role_id , $type='add'))){
-       return redirect()->to(route($this->ADMIN_ROUTE_NAME.'.admins.index'));
+     return redirect()->to(route($this->ADMIN_ROUTE_NAME.'.admins.index'));
 
-   }
-
-
+ }
 
 
 
-   $bookings = '';
-   if(is_numeric($id) && $id > 0){
+
+
+ $bookings = '';
+ if(is_numeric($id) && $id > 0){
 
     if(!(CustomHelper::isAllowedSection('bookings' , Auth::guard('admin')->user()->role_id , $type='edit'))){
         return redirect()->to(route($this->ADMIN_ROUTE_NAME.'.admins.index'));
     }
 
-       $bookings = Bookings::find($id);
+    $bookings = Bookings::find($id);
     if(empty($bookings)){
         return redirect($this->ADMIN_ROUTE_NAME.'/bookings');
     }
@@ -165,31 +166,31 @@ if($request->method() == 'POST' || $request->method() == 'post'){
 
     $rules = [];
 
-     $rules['user_id'] = 'required';
+    $rules['user_id'] = 'required';
      //$rules['hospital_id'] = 'required';
      //$rules['appointment_date'] = 'required';
-     $rules['diseases'] = 'required';
+    $rules['diseases'] = 'required';
 
 
-   $this->validate($request, $rules);
+    $this->validate($request, $rules);
 
-   $createdCat = $this->save($request, $id);
+    $createdCat = $this->save($request, $id);
 
-   if ($createdCat) {
-    $alert_msg = 'Appointment has been added successfully.';
-    if(is_numeric($id) && $id > 0){
-        $alert_msg = 'Appointment has been updated successfully.';
+    if ($createdCat) {
+        $alert_msg = 'Appointment has been added successfully.';
+        if(is_numeric($id) && $id > 0){
+            $alert_msg = 'Appointment has been updated successfully.';
+        }
+        return redirect(url($back_url))->with('alert-success', $alert_msg);
+    } else {
+        return back()->with('alert-danger', 'something went wrong, please try again or contact the administrator.');
     }
-    return redirect(url($back_url))->with('alert-success', $alert_msg);
-} else {
-    return back()->with('alert-danger', 'something went wrong, please try again or contact the administrator.');
-}
 }
 
 
 $page_heading = 'Add Appointment';
 
-      if(is_numeric($id) && $id > 0){
+if(is_numeric($id) && $id > 0){
     $page_heading = 'Update Appointment'.$bookings->unique_id;
 }  
 
@@ -339,17 +340,17 @@ public function change_admins_status(Request $request){
   $admins = Admin::where('id',$admin_id)->first();
   if(!empty($admins)){
 
-   Admin::where('id',$admin_id)->update(['status'=>$status]);
-   $response['success'] = true;
-   $response['message'] = 'Status updated';
+     Admin::where('id',$admin_id)->update(['status'=>$status]);
+     $response['success'] = true;
+     $response['message'] = 'Status updated';
 
 
-   return response()->json($response);
-}else{
-   $response['success'] = false;
-   $response['message'] = 'Not  Found';
-   return response()->json($response);  
-}
+     return response()->json($response);
+ }else{
+     $response['success'] = false;
+     $response['message'] = 'Not  Found';
+     return response()->json($response);  
+ }
 
 }
 
@@ -362,17 +363,17 @@ public function change_admins_role(Request $request){
   $admins = Admin::where('id',$admin_id)->first();
   if(!empty($admins)){
 
-   Admin::where('id',$admin_id)->update(['role_id'=>$role_id]);
-   $response['success'] = true;
-   $response['message'] = 'Role updated';
+     Admin::where('id',$admin_id)->update(['role_id'=>$role_id]);
+     $response['success'] = true;
+     $response['message'] = 'Role updated';
 
 
-   return response()->json($response);
-}else{
-   $response['success'] = false;
-   $response['message'] = 'Not  Found';
-   return response()->json($response);  
-}
+     return response()->json($response);
+ }else{
+     $response['success'] = false;
+     $response['message'] = 'Not  Found';
+     return response()->json($response);  
+ }
 
 }
 
@@ -381,54 +382,56 @@ public function change_admins_role(Request $request){
 
 
 public function change_admins_approve(Request $request){
- $admin_id = isset($request->admin_id) ? $request->admin_id :'';
- $approve = isset($request->approve) ? $request->approve :'';
+   $admin_id = isset($request->admin_id) ? $request->admin_id :'';
+   $approve = isset($request->approve) ? $request->approve :'';
 
- $admins = Admin::where('id',$admin_id)->first();
- if(!empty($admins)){
+   $admins = Admin::where('id',$admin_id)->first();
+   if(!empty($admins)){
 
-   Admin::where('id',$admin_id)->update(['is_approve'=>$approve]);
-   $message ='';
-   if($approve == 1){
-    $message = 'Approved';
+     Admin::where('id',$admin_id)->update(['is_approve'=>$approve]);
+     $message ='';
+     if($approve == 1){
+        $message = 'Approved';
+    }else{
+        $message = 'Not Approved';
+
+    }
+
+    $response['success'] = true;
+    $response['message'] = $message;
+
+
+    return response()->json($response);
 }else{
-    $message = 'Not Approved';
-
-}
-
-$response['success'] = true;
-$response['message'] = $message;
-
-
-return response()->json($response);
-}else{
-   $response['success'] = false;
-   $response['message'] = 'Not  Found';
-   return response()->json($response);  
+ $response['success'] = false;
+ $response['message'] = 'Not  Found';
+ return response()->json($response);  
 }
 
 }
 
-public function details (Request $request){
+public function details(Request $request){
     $data = [];
     $id = isset($request->id) ? $request->id :'';
 
     $booking = Bookings::where('id',$id)->first();
+    $hosIds = [];
+    $assigned_hospital = AssignBookings::select('hospital_id','id')->where('booking_id',$id)->get();
+    if(!empty($assigned_hospital)){
+        foreach($assigned_hospital as $hos){
+            $hosIds[] = $hos->hospital_id;
+        }
+    }
 
-     $assigned_hospital = AssignBookings::select('hospital_id','status')->where('status', '0')->get();
-
-   //  print_r($assigned_hospital);
-    // die;
-
-     $hospitals_list =  DB::table('hospitals')->select('id','name')->where('status', '1')->get();
-
+    $hospitals_list = Hospital::orderBy('id','desc')->whereRaw('FIND_IN_SET('.$booking->diseases.',hos_specialities)');
+        if(!empty($hosIds)){
+            $hospitals_list->whereNotIn('id',$hosIds);
+        }
+    $hospitals_list = $hospitals_list->get();
     $appointments = Bookings::where('user_id',$booking->user_id)->get();
-
     $user = User::where('id',$booking->user_id)->first();
-
     $hospital = Hospital::where('id',$booking->hospital_id)->first();
     $speciality = Speciality::where('id',$booking->diseases)->first();    
-
     // $data['assign_hospital'] = 
     $data['appointments'] = $appointments;
     $data['speciality'] = $speciality;
@@ -436,53 +439,44 @@ public function details (Request $request){
     $data['hospitals_list'] = $hospitals_list;
     $data['user'] = $user;
     $data['assigned_hospital'] = $assigned_hospital;
-
     $data['booking'] = $booking;
-
     $data['page_heading'] = 'Booking Details of - '. $booking->unique_id;
-
-
     return view('admin.bookings.details', $data);
 }
 
-public function documents(Request $request){
+public function prescription(Request $request)
+{
 
- $society_id = isset($request->id) ? $request->id :0;
- $method = $request->method();
+   $id = isset($request->booking_id) ? $request->booking_id :0;
+   $method = $request->method();
+   $data = [];
+   if($method == 'post' || $method == 'POST'){
+    $id = isset($request->booking_id) ? $request->booking_id : 0;
 
- $data = [];
-
-
- if($method == 'post' || $method == 'POST'){
-
+    // prd($id);
     $rules = [];
-    $rules['file'] = 'required';
+    $rules['prescription'] = 'required';
+    // $rules['hospital_id'] = 'required';
 
     $this->validate($request,$rules);
 
-    if($request->hasFile('file')) {
+    if($request->hasFile('prescription')) {
 
-        $image_result = $this->saveImageMultiple($request,$society_id);
+        $image_result = $this->saveImageMultiple($request,$id);
         if($image_result){
-            return back()->with('alert-success', 'Image uploaded successfully.');
-
+            return back()->with('alert-success', 'Prescription uploaded successfully.');
         }
     }
 
 
 }
-
-$documents = SocietyDocument::where('society_id',$society_id)->get();
-
-$data['documents'] = $documents;
-
-return view('admin.society.documents',$data);
-
 }
-private function saveImageMultiple($request,$society_id){
+private function saveImageMultiple($request,$id){
 
-    $files = $request->file('file');
-    $path = 'societydocument/';
+    $files = $request->file('prescription');  
+
+     // prd($booking_id);
+    $path = 'prescription/';
     $storage = Storage::disk('public');
             //prd($storage);
     $IMG_WIDTH = 768;
@@ -497,10 +491,11 @@ private function saveImageMultiple($request,$society_id){
             $uploaded_data = CustomHelper::UploadFile($file, $path, $ext='');
             if($uploaded_data['success']){
                 $image = $uploaded_data['file_name'];
-                $dbArray['file'] = $image;
-                $dbArray['society_id'] = $society_id;
 
-                $success = SocietyDocument::create($dbArray);
+                $dbArray['prescription'] = $image;
+                $dbArray['booking_id'] = $id;
+
+                $success = Prescription::insert($dbArray);
             }
         }
         return true;
@@ -511,40 +506,41 @@ private function saveImageMultiple($request,$society_id){
 
 
 public function assign_hospital(Request $request)
-{
+{  
 
-    
-
-   
-
-   $method = $request->method();
-     if($method == "POST" || $method == "post")
-     {
+ $method = $request->method();
+ if($method == "POST" || $method == "post")
+ {
 
        //prd($request->toArray());
-       $rules = [];
-       $rules['booking_id'] = 'required';
-       $rules['hospital_id'] = 'required';
-       $rules['status'] = 'required';
+     $rules = [];
+     $rules['booking_id'] = 'required';
+     $rules['hospital_id'] = 'required';
+     $rules['status'] = 'required';
 
-       
-       $this->validate($request ,$rules);
-       $hospital_id = isset($request->hospital_id) ? $request->hospital_id :'';
-       if(!empty($hospital_id)){
+
+     $this->validate($request ,$rules);
+     $hospital_id = isset($request->hospital_id) ? $request->hospital_id :'';
+     if(!empty($hospital_id)){
         foreach ($hospital_id as $key => $value) {
-       $dbArray = [];
-       $dbArray['booking_id'] = $request->booking_id;
-       $dbArray['hospital_id'] = $value;
+         $dbArray = [];
+         $dbArray['booking_id'] = $request->booking_id;
+         $dbArray['hospital_id'] = $value;
          AssignBookings::create($dbArray);
-       }
+     }
 
-       }      
-      
-       return back()->with('alerts-success', 'Hospital Assigned Successfulyy');   
+ }      
 
-    }
+ return back()->with('alerts-success', 'Hospital Assigned Successfulyy');   
 
-    
+}
+
+
+
+}
+
+public function transactions(Request $request)
+{
 
 }
 

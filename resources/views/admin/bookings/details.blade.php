@@ -45,7 +45,9 @@ $routeName = CustomHelper::getAdminRouteName();
 				</div>
 			</div>
 		</div>
+		@include('snippets.errors')
 
+                @include('snippets.flash')
 		
 		<div class="row">
 			<!-- Column -->
@@ -206,9 +208,9 @@ $routeName = CustomHelper::getAdminRouteName();
 										<label for="exampleInputEmail1" class="form-label">Choose Hospital</label>
 										<select class="form-control select2" multiple name="hospital_id[]">
 											<?php 
-											$hospitals =  DB::table('hospitals')->select('id','name')->where('status', '1')->get();
-											if(!empty($hospitals)){
-												foreach($hospitals as $hospital){?>
+											
+											if(!empty($hospitals_list)){
+												foreach($hospitals_list as $hospital){?>
 													<option value="{{$hospital->id}}">{{$hospital->name}}</option>
 												<?php }}?>
 											</select>
@@ -247,30 +249,37 @@ $routeName = CustomHelper::getAdminRouteName();
 												<?php 
 
 												$lists = App\AssignBookings::where('booking_id',$booking->id)->get();
-                                               // print_r($list);
 
+												
+
+                                               //($lists->id);
 												foreach($lists as $list)
 												{ 
+													//echo $list->id;
+													//echo $list->description;
+													$hospital_name = \App\Hospital::where('id',$list->hospital_id)->first();
 
-													echo $list->description;
-													$hospital_name = \App\Hospital::where('id',$list->hospital_id)->first();                                                	 
+													$leads = DB::table('leads_documents')->select('id','leads_id','documents','type')->where('leads_id', $list->id)->get();
+
+													
+
 													?>
 													<tr>
 														
 														<td>{{$hospital_name->name ?? ''}}</td>
-														<td><a href="" data-bs-toggle="modal" data-bs-target="#myModal" class="model_img img-responsive" >Click Here</a></td>
+														<td><a href="" data-bs-toggle="modal" data-bs-target="#myModal{{$list->id}}" class="model_img img-responsive" >Click Here</a></td>
 
 
-														 <div id="myModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+														 <div id="myModal{{$list->id}}" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						                                    <div class="modal-dialog">
 						                                        <div class="modal-content">
 						                                            <div class="modal-header">
-						                                                <h4 class="modal-title" id="myModalLabel">Hospital Details</h4>
+						                                                <h4 class="modal-title" id="myModalLabel">{{$hospital_name->name ?? ''}}</h4>
 						                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
 						                                            </div>
 						                                            <div class="modal-body">
-						                                                <h6>Description</h6>
-						                                                <p>{{$list->description}}</p>
+						                                                <h6>Description :</h6>
+						                                                <p>{!!$list->description!!}</p>
 						                                                
 						                                            </div>
 						                                            <div class="modal-footer">
@@ -300,7 +309,39 @@ $routeName = CustomHelper::getAdminRouteName();
 														</td>
 														
 														<td>
-															<a></a>
+															<?php 
+
+															
+															$html = '';
+
+															foreach($leads as $lead)
+															{
+
+																 $image = isset($lead->documents) ? $lead->documents : '';
+													            $storage = Storage::disk('public');
+													            $path = 'prescription/';
+
+																
+																if($lead->type == 'png' || $lead->type == 'jpg' || $lead->type == 'jpeg' )
+																{?>
+
+																	<a href="{{ url('public/storage/'.$path.$image) }}" target="_blank"><i class='fas fa-image'></i></a>
+															
+																<?php }else if($lead->type == 'xlsx' || $lead->type == 'XLSX'){ ?>
+
+																	<a href="{{ url('public/storage/'.$path.$image) }}" target="_blank"><i class='fas fa-file-excel' aria-hidden='true'></i></a>
+
+																<?php }else if($lead->type == 'doc' || $lead->type == 'DOC'){?>
+
+																		<a href="{{ url('public/storage/'.$path.$image) }}" target="_blank"><i class='fas fa-file'></i></a>
+
+																 <?php }elseif($lead->type == 'pdf' || $lead->type == 'PDF'){ ?>
+
+																 		<a href="{{ url('public/storage/'.$path.$image) }}" target="_blank"><i class='fas fa-file-pdf'></i></a>
+
+																	<!-- <a href='/storage/app/public/$path/$image' target='_blank'><i class='fas fa-file-pdf'></i></a> -->
+ 
+													<?php } }?>
 														</td>
 
 
@@ -396,31 +437,77 @@ $routeName = CustomHelper::getAdminRouteName();
 						</div>
 
 
+				<!----------------------- PRESCRIPTION ------------------------------------->
+
+
 						<div class="tab-pane" id="prescription" role="tabpanel">
-							<div class="card-body">
-								<div class="row">
-									<div class="col-md-12 col-xs-12 b-r">
-										<div class="table-responsive">
+							<div class="card">
+								<div class="card-header">Upload File</div>
 
-										</div>
+									<div class="card-body">
+											
+											<form action="{{ route('admin.bookings.prescription') }}" method="post" accept-charset="UTF-8" role="form" enctype="multipart/form-data">
 
+											{{ csrf_field() }}
+
+												<input type="hidden" value="{{$booking->id}}" name="booking_id">
+
+
+											<div class="form-group">
+												<label for="exampleInputEmail1" class="form-label"></label>
+												<input type="file" name="prescription[]" multiple  id="prescription" class="form-control">
+
+												</div>
+												
+
+												
+												<button class="btn btn-primary mb-5" type="submit">Submit</button>
+
+											</form>
 									</div>
-
-								</div>
 							</div>
-						</div>
+							<hr>
+							<div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Prescription List</h4>
+                        <div class="table-responsive m-t-40">
+                            <table id="dataTable" class="table display table-striped border no-wrap">
+                                <thead>
+                                <tr>
+                                    <th scope="col">S.NO.</th>                                   
+                                    
+                                    <th scope="col">Hospital Name</th>
+                                    <th scope="col">Prescription</th>                                    
+                                    <th scope="col">Action</th>
+                                   
+                                </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+						
+
+				<!----------------------- PRESCRIPTION ------------------------------------->		
 
 
 						<div class="tab-pane" id="transaction" role="tabpanel">
-							<div class="card-body">
-								<div class="row">
-									<div class="col-md-12 col-xs-12 b-r">
-										<div class="table-responsive">
+
+							<div class="card">
+
+								<div class="card-header">Transaction Details</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-12 col-xs-12 b-r">
+											<div class="table-responsive">
+
+											</div>
 
 										</div>
 
 									</div>
-
 								</div>
 							</div>
 						</div>

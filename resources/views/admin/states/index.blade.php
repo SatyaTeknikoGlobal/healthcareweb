@@ -41,6 +41,7 @@ $old_name = (request()->has('name'))?request()->name:'';
                   <thead>
                     <tr>
                      <th scope="col">#ID</th>
+                     <th scope="col">Country</th>
                      <th scope="col">Name</th>
                      <th scope="col">Status</th>
                      <th scope="col">Date Created</th>
@@ -51,13 +52,19 @@ $old_name = (request()->has('name'))?request()->name:'';
                  <tbody>
 
                   <?php if(!empty($states) && $states->count() > 0){
-                    $i = 1;
+                    $i = 1;   
+
+
                     foreach ($states as $state){
 
+                      $country = $state->country->name;
+
+                      
 
                       ?>
                       <tr>
                         <td>{{$i++}}</td>
+                        <td>{{$country}}</td>
                         <td>{{$state->name}}</td>
                         <td><?php  echo ($state->status==1)?'Active':'Inactive';  ?></td>
                         <td>{{date('d M Y',strtotime($state->created_at))}}</td>

@@ -12,7 +12,7 @@ use Auth;
 use Validator;
 use App\User;
 use App\Admin;
-
+use App\State;
 
 use App\Category;
 use App\Locality;
@@ -205,18 +205,6 @@ public function setting(Request $request){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 public function change_password(Request $request){
     //prd($request->toArray());
     $data = [];
@@ -314,6 +302,24 @@ public function upload(Request $request){
 }
 
 
+
+public function get_state(Request $request){
+    $country_id = isset($request->country_id) ? $request->country_id :0;
+
+    // prd($country_id);
+    $html = '<option value="" selected disabled>Select State</option>';
+    if($country_id !=0){
+         $states = State::where('country_id',$country_id)->get();
+
+         // print_r($states);
+        if(!empty($states)){
+            foreach($states as $state){
+                $html.='<option value='.$state->id.'>'.$state->name.'</option>';
+            }
+        }
+    } 
+    echo $html;
+}
 
 
 

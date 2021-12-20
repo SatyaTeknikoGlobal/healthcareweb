@@ -11,19 +11,25 @@ use App\Http\Controllers\Controller;
 
 use App\Vendor;
 use App\Users;
+use App\User;
+use App\Country;
+use App\Admin;
 use App\CouponCategory;
+use App\Chatwithuser;
+use App\Speciality;
 use Auth;
 use DB;
+use App\Bookings;
 use Validator;
 use Storage;
 use App\Cart;
 use App\State;
+use App\City;
 use App\Coupon;
 use App\Category;
 use App\Post;
-
 use App\Order;
-
+use App\UserOtp;
 use Session;
 use Hash;
 
@@ -51,215 +57,71 @@ class HomeController extends Controller
     //$url = "https://geo.ipify.org/api/v1?apiKey=$api_key&ipAddress=$ip";
 
     //prd(file_get_contents($url));
+
+
+  $data['title'] = 'Home';
   
   return view('front.home.index',$data);
 
 }
 
-public function get_city(Request $request){
-    $state_id = isset($request->state_id) ? $request->state_id :0;
-    $html = '<option value="" selected disabled>Select City</option>';
-    if($state_id !=0){
-        $cities = DB::table('cities')->where('state_id',$state_id)->get();
+public function get_state(Request $request){
+  $country_id = isset($request->country_id) ? $request->country_id :0;
 
-       
-        if(!empty($cities)){
-            foreach($cities as $city){
-                $html.='<option value='.$city->id.'>'.$city->name.'</option>';
-            }
-        }
-    } 
-    echo $html;
+  // prd($country_id);
+  $html = '<option value="" selected disabled>Select State</option>';
+  if($country_id !=0){
+    $states = State::where('country_id',$country_id)->get();
+
+    if(!empty($states)){
+      foreach($states as $state){
+        $html.='<option value='.$state->id.'>'.$state->name.'</option>';
+      }
+    }
+  } 
+  echo $html;
+}
+
+public function get_city(Request $request){
+  $state_id = isset($request->state_id) ? $request->state_id :0;
+  $html = '<option value="" selected disabled>Select City</option>';
+  if($state_id !=0){
+    $cities = DB::table('cities')->where('state_id',$state_id)->get();
+
+
+    if(!empty($cities)){
+      foreach($cities as $city){
+        $html.='<option value='.$city->id.'>'.$city->name.'</option>';
+      }
+    }
+  } 
+  echo $html;
 }
 
 
 public function get_locality(Request $request)
 {       
-  
-    $city_id = isset($request->city_id) ? $request->city_id :0;
-    $html = '<option value="" selected disabled>Select Locality</option>';
-    if( $city_id != 0)
-    { 
-        $localities = DB::table('locality')->where('city_id',$city_id)->get();
 
-     
-        if(!empty($localities))
-        {
-            foreach($localities as $locality)
-            {
-                $html.='<option value='.$locality->id.'>'.$locality->name.'</option>';
-            }
-        }
-    }
-    echo $html;
-}
+  $city_id = isset($request->city_id) ? $request->city_id :0;
+  $html = '<option value="" selected disabled>Select Locality</option>';
+  if( $city_id != 0)
+  { 
+    $localities = DB::table('locality')->where('city_id',$city_id)->get();
 
 
-
-public function update_city(Request $request){
-   $state_id = Session::get('state_id');
-  $city_id = Session::get('city_id');
-    if(!empty(Auth::guard('appusers')->user())){
-    $user_id = Auth::guard('appusers')->user()->id;
-    $city_id = Auth::guard('appusers')->user()->city;
-    $state_id = Auth::guard('appusers')->user()->state;
-
-
-      $new_city = $request->city_id;
-      $new_state = $request->state_id;
-      Users::where('id',$user_id)->update(array('state'=>$new_state,'city'=>$new_city));
-
-      return json_encode(array('status'=>true));
-
-  }
-  else{
-     $new_city = $request->city_id;
-      $new_state = $request->state_id;
-
-    Session::put('city_id', $new_city);
-
-    Session::put('state_id', $new_state);
-
-
-
-      return json_encode(array('status'=>true));
-
-  }
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-public function subscription(){
-  $data = [];
-
-  $my_subscription = [];
-   $state_id = Session::get('state_id');
-  $city_id = Session::get('city_id');
-  if(!empty(Auth::guard('appusers')->user())){
-    $user_id = Auth::guard('appusers')->user()->id;
-    $city_id = Auth::guard('appusers')->user()->city;
-    $state_id = Auth::guard('appusers')->user()->state;
-
-
-    $my_subscription = DB::table('user_subscription')->where('user_id',$user_id)->get();
-    if(!empty($my_subscription)){
-
-      foreach($my_subscription as $my){
-        $sub_ids[] = $my->subscription_id;
+    if(!empty($localities))
+    {
+      foreach($localities as $locality)
+      {
+        $html.='<option value='.$locality->id.'>'.$locality->name.'</option>';
       }
     }
-
   }
-  if(!empty($sub_ids)){
-    $subscription = DB::table('user_type_subscription')->whereNotIn('id',$sub_ids)->where('status',1)->get();
-  }else{
-    $subscription = DB::table('user_type_subscription')->where('status',1)->get();
-
-  }
-  $data['subscriptions'] = $subscription;
-  $data['my_subscription'] = $my_subscription;
-
-  return view('front.home.subscription',$data);
-
+  echo $html;
 }
 
 
 
-
-public function profile(){
-  $data = [];
-
-
-  if(!empty(Auth::guard('appusers')->user())){
-    $user_id = Auth::guard('appusers')->user()->id;
-    $city_id = Auth::guard('appusers')->user()->city;
-    $state_id = Auth::guard('appusers')->user()->state;
-
-  }
-
-  return view('front.home.profile',$data);
-
-}
-
-
-
-
-public function get_sub_categories(Request $request){
-  $category_id = isset($request->category_id) ? $request->category_id :'';
-  $data = [];
-  if(!empty($category_id)){
-
-    $sub_category = DB::table('subcategories')->where('cat_id',$category_id)->get();
-    $data['categories'] = Category::where('id',$category_id)->first();
-    $data['subcategories'] = $sub_category;
-
-    return view('front.home.sub_category',$data);
-
-  }else{
-    return redirect('/');
-  }
-}
-
-public function get_all_categories(Request $request){
-
-
-
-  $data['categories'] = Category::get();
-
-  return view('front.home.category',$data);
-
-
-}
-
-
-public function wallet_reedem(Request $request){
-  $method = $request->method();
-  
-  if(!empty(Auth::guard('appusers')->user())){
-    $user_id = Auth::guard('appusers')->user()->id;
-    $dbArray = [];
-    $dbArray['user_id'] = $user_id;
-    $dbArray['amount'] = $request->amount;
-    $dbArray['status'] = 1;
-      $trans = DB::table('request_wallet_amount')->where('user_id',$user_id)->where('status',1)->first();
-    if(empty($trans)){
-      $success = DB::table('request_wallet_amount')->insert($dbArray);
-    if($success){
-
-      // $new_wallet = Auth::guard('appusers')->user()->wallet - $request->amount;
-      // Users::where('id',$user_id)->update(array('wallet'=>$new_wallet));
-
-
-      return back()->with('alert-success', 'Your Request Placed Successfully');
-
-    }else{
-      return back()->with('alert-danger', 'something Went Wrong');
-
-    }
-  }else{
-      return back()->with('alert-danger', 'Your Request Already in processing');
-
-  }
-
-
-
-
-    
-
-  }
-
-}
 
 public function profile_update(Request $request){
   $method = $request->method();
@@ -291,291 +153,215 @@ public function profile_update(Request $request){
 }
 
 
-public function vendor_list(Request $request){
-  $sub_cat_id = isset($request->sub_cat_id) ? $request->sub_cat_id :'';
-  $data = [];
-  $ven_ids = [];
-  $vendors = [];
-  if(!empty($sub_cat_id)){
-
-    $vendor_subscription = DB::table('vendors_subscription')->where('sub_cat_id',$sub_cat_id)->get();
-    if(!empty($vendor_subscription)){
-      foreach($vendor_subscription as $ven){
-        $ven_ids[] = $ven->vendor_id;
-      }
-    }
-
-    if(!empty($ven_ids)){
-      $vendors = Vendor::whereIn('id',$ven_ids)->get();
-
-    }
-    $data['vendors'] = $vendors;
-
-    return view('front.home.vendors_list',$data);
-
-  }else{
-    return redirect('/');
-  }
-}
-
-public function add_wallet(Request $request){
-
-  $user_id = Auth::guard('appusers')->user()->id;
-  $method = $request->method();
-  if($method == 'post' || $method == 'POST'){
-    $dbArray = [];
-    $user = Users::where('id',$user_id)->first();
-    $wallet = $user->wallet;
-    $new_wallet = $user->wallet + $request->amount;
-    Users::where('id',$user_id)->update(array('wallet'=>$new_wallet));
-
-    $dbArray['user_id'] = $user_id;
-    $dbArray['amount'] = $request->amount;
-    $dbArray['amount_type'] = 'ADD';
-    $dbArray['amount_type_from'] = 'add_wallet';
-    $dbArray['description'] ='online Add wallet';
-
-    $success = DB::table('wallet_transaction')->insert($dbArray);
-    if($success){
-      return back()->with('alert-success', 'Add To Wallet Successfully');
-
-    }else{
-      return back()->with('alert-danger', 'something Went Wrong');
-
-    }
-
-  }
-
-}
-
-
-
-
-public function buy_subscription(Request $request){
-  $user_id = Auth::guard('appusers')->user()->id;
-  $method = $request->method();
-  if($method == 'post' || $method == 'POST'){
-    $dbArray = [];
-    $subscription_id = $request->subscription_id;
-    $txn_no = $request->txn_no;
-    $today = date('Y-m-d');
-
-    $subscription = DB::table('user_type_subscription')->where('id',$subscription_id)->first();
-
-    $dbArray['subscription_id'] = $subscription_id;
-    $dbArray['txn_no'] = $txn_no;
-    $dbArray['user_id'] = $user_id;
-    $dbArray['start_date'] = date('Y-m-d');
-    $dbArray['end_date'] = date('Y-m-d', strtotime($today. ' + '.$subscription->duration.' days'));
-
-    $dbArray['duration'] =  $subscription->duration;
-    $dbArray['status'] = 1;
-    $dbArray['pament_mode'] = 'online';
-    $insert = DB::table('user_subscription')->insert($dbArray);
-    if($insert){
-      return back()->with('alert-success', 'Subscribed Successfully');
-
-    }else{
-      return back()->with('alert-danger', 'something Went Wrong');
-
-    }
-
-  }
-}
-
-
-
-
-
-
-
-
-
-
-public function vendor_details(Request $request){
-
-  $data = [];
-  $vendor_id = isset($request->vendor_id) ? $request->vendor_id :'';
-  if(!empty($vendor_id)){
-
-    $vendor = Vendor::where('id',$vendor_id)->first();
-
-    $vendor_posts = Post::where('merchant_id',$vendor_id)->get();
-    $vendor_coupons = Coupon::where('merchant_id',$vendor_id)->get();
-
-    $data['vendor'] = $vendor;
-    $data['vendor_posts'] = $vendor_posts;
-    $data['vendor_coupons'] = $vendor_coupons;
-  }
-
-
-
-
-  return view('front.home.vendor_details',$data);
-}
-
-
-
-
-
-
-
-
-
-
-
-public function search(Request $request){
-  $data = [];
-
-  $keyword = isset($request->keyword) ? $request->keyword :'';
-   $state_id = Session::get('state_id');
-  $city_id = Session::get('city_id');
-
-  if(!empty(Auth::guard('appusers')->user())){
-    $user_id = Auth::guard('appusers')->user()->id;
-    $city_id = Auth::guard('appusers')->user()->city;
-    $state_id = Auth::guard('appusers')->user()->state;
-  }
-
-  $posts = Post::orderby('created_at','desc');
-  if(!empty($state_id)){
-    $posts->where('state_id',$state_id);
-  }
-
-  if(!empty($city_id)){
-    $posts->where('city_id',$city_id);
-  }
-  if(!empty($keyword)){
-    $posts->where('name', 'like', '%' . $keyword . '%');
-  }
-
-  $posts = $posts->paginate(12);
-
-  $coupons = Coupon::orderby('id','desc');
-
-  if(!empty($state_id)){
-    $coupons->where('state_id',$state_id);
-  }
-
-  if(!empty($city_id)){
-    $coupons->where('city_id',$city_id);
-  }
-  if(!empty($keyword)){
-    $coupons->where('name', 'like', '%' . $keyword . '%');
-    $coupons->orWhere('description', 'like', '%' . $keyword . '%');
-  }
-  $coupons = $coupons->paginate(12);
-
-
-
-  $data['coupons'] = $coupons;
-
-
-
-
-
-
-
-
-
-  $data['posts'] = $posts;
-
-
-  return view('front.home.search_ads',$data);
-
-
-
-
-}
-
-
-
-
-
-public function ad_details(Request $request){
-  $data = [];
-  $data['post'] =[];
-  $post_id = isset($request->id) ? $request->id :'';
-  if(!empty($post_id)){
-    $post = Post::where('id',$post_id)->first();
-    if(!empty($post)){
-      if(!empty($post->merchant_id)){
-        $data['merchant'] = Vendor::where('id',$post->merchant_id)->first();
-      }else{
-        $data['merchant']=[];
-      }
-
-
-
-      $data['post']= $post;
-    }
-  }
-
-
-
-
-  return view('front.home.ad_details',$data);
-}
-
 
 public function login(Request $request){
-
+  if (auth()->guard('appusers')->user()) return redirect()->route('home.profile');
   $data = [];
   $method = $request->method();
   if($method =='post' || $method == 'POST'){
     $rules = [];
-    $rules['username'] = 'required';
+    $rules['email'] = 'required';
     $rules['password'] = 'required';
     $this->validate($request,$rules);
-
-    $password = md5($request->password);
-    $exist = Users::where('mobile',$request->username)->orWhere('email',$request->username)->where('password',$password)->first();
-    if(!empty($exist)){
-      Auth::guard('appusers')->loginUsingId($exist->id);
-      return redirect()->route('home')->with('alert-success', 'Login successfully');
-    }else{
-      return back()->with('alert-danger', 'Email or password wrong');
-    }
-  }
-  if(!empty(Auth::guard('appusers')->user())){
-    return redirect()->route('home');
-  }
-  else{
-    return view('front.login',$data);
+    if (auth()->guard('appusers')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
+     return redirect()->route('home.profile')->with('alert-success', 'Login successfully');
+   }
+   else{
+    return back()->with('alert-danger', 'Email or password wrong');
   }
 }
 
+$data['title'] = 'Login';
+
+return view('front.login',$data);
+
+}
+
+
+public function new_booking(Request $request){
+   $data = [];
+  $data['title'] = 'New Booking';
+
+  $method = $request->method();
+
+  if($method == "post" ||  $method == "POST")
+  {
+    // prd($request->toArray());
+     $rules =[];
+
+     $rules['name'] = 'required';
+     $rules['email'] = 'required';
+     $rules['phone'] = 'required';
+     $rules['alternate_phone'] = '';
+      $rules['description'] = '';
+       $rules['diseases'] = 'required';
+     $rules['country_id'] = 'required'; 
+     $rules['state_id'] = 'required';
+     $rules['city_id'] = 'required';
+     $rules['address'] = 'required';
+     $rules['register_for'] = 'required';
+     $rules['medical_record'] = '';
+
+
+     $this->validate($request,$rules);
+
+    // prd($dd);
+     $createdCat = $this->savebookings($request);
+
+    if ($createdCat) {
+        $alert_msg = 'Booking created successfully.';
+       
+        return back()->with('alert-success', $alert_msg);
+    } else {
+        return back()->with('alert-danger', 'something went wrong, please try again or contact the administrator.');
+    }
+
+
+  }
+  $countries = Country::where('status','1')->get();
+
+  $diseases = Speciality::where('status','1')->get();
+
+  $user = Auth::guard('appusers')->user();
+  $data['user'] = $user;
+  $data['diseases'] = $diseases;
+   $data['countries'] =  $countries; 
+
+  return view('front.new_booking',$data);
+}
+
+public function savebookings(Request $request)
+{
+  $data = $request->except(['back_url','_token','medical_record']);
+
+  $data['user_id'] = $request->user_id;
+
+  $documents = $request->medical_record;
+
+   $slug = CustomHelper::GetSlug('bookings', 'id', '', $request->name.$request->phone);
+  $unique_id = strtoupper($slug);
+
+
+  $old_img = '';
+  $user_bookings = new Bookings;
+  $user_bookings->user_id = $request->user_id;
+  $user_bookings->unique_id = $unique_id;
+  $user_bookings->name = $request->name;
+  $user_bookings->email = $request->email;
+  $user_bookings->phone = $request->phone;
+  $user_bookings->alternate_phone = $request->alternate_phone;
+  $user_bookings->description = $request->description;
+  $user_bookings->diseases = $request->diseases;
+  $user_bookings->country_id = $request->country_id;
+  $user_bookings->state_id = $request->state_id;
+  $user_bookings->city_id = $request->city_id;
+  $user_bookings->address = $request->address;
+  $user_bookings->register_for = $request->register_for;  
+  
+  $saved = $user_bookings->save();
+
+   $files = $request->file('medical_record');
+
+   // prd($files);
+
+
+    $path = 'userBooking/';
+    $storage = Storage::disk('public');
+    $dbArray = [];
+
+   if ($files && count($files) > 0) {
+      foreach($files as $file){
+        $uploaded_data = CustomHelper::UploadFile($file, $path, $ext='');
+        if($uploaded_data['success']){
+          $image = $uploaded_data['file_name'];
+          $dbArray['medical_documents'] = $image;
+          $dbArray['user_id'] = $request->user_id;
+          $dbArray['type'] = $uploaded_data['extension'];
+          $success = DB::table('UsersDocuments')->insert($dbArray);
+        }
+      }
+    }
+    return back()->with('alert-success', 'Document Uploaded Successfully');  
+
+  
+  
+
+}
+
+// private function saveBookingDocument($request , $doc , $old_img)
+// { 
+//    $file = $request->file('medical_record');
+//     if ($file) {
+//         $path = 'userBooking/';
+//         $thumb_path = 'userBooking/thumb/';
+//         $storage = Storage::disk('public');
+//             //prd($storage);
+//         $IMG_WIDTH = 768;
+//         $IMG_HEIGHT = 768;
+//         $THUMB_WIDTH = 336;
+//         $THUMB_HEIGHT = 336;
+
+//         $uploaded_data = CustomHelper::UploadImage($file, $path, $ext='', $IMG_WIDTH, $IMG_HEIGHT, $is_thumb=true, $thumb_path, $THUMB_WIDTH, $THUMB_HEIGHT);
+
+//            // prd($uploaded_data);
+//         if($uploaded_data['success']){
+
+//             if(!empty($oldImg)){
+//                 if($storage->exists($path.$oldImg)){
+//                     $storage->delete($path.$oldImg);
+//                 }
+//                 if($storage->exists($thumb_path.$oldImg)){
+//                     $storage->delete($thumb_path.$oldImg);
+//                 }
+//             }
+//             $image = $uploaded_data['file_name'];
+//             $user_bookings->medical_record = $image;
+//             $user_bookings->save();         
+//         }
+
+//         if(!empty($uploaded_data)){   
+//             return $uploaded_data;
+//         }  
+
+//     }
+
+// }
+
+
+
+
+public function profile(Request $request){
+  $data = [];
+  $data['title'] = 'Profile';
+
+  return view('front.profile.index',$data);
+
+}
 
 public function register(Request $request){
-
   $data = [];
-
-  $data['states'] = State::get();
+  $data['title'] = 'Register';
   $dbArray= [];
-
-
   $method = $request->method();
   if($method =='post' || $method == 'POST'){
     $rules = [];
     $rules['name'] = 'required';
     $rules['email'] = 'required';
-    $rules['address'] = 'required';
     $rules['phone'] = 'required';
-    $rules['state'] = 'required';
-    $rules['city'] = 'required';
     $rules['password'] = 'required';
 
     $this->validate($request,$rules);
-    $setting = DB::table('setting')->where('id',1)->first();
-    $password = md5($request->password);
+
+    $setting = DB::table('settings')->where('id',1)->first();
+
     $referalcode = isset($request->referalcode) ? $request->referalcode :'';
     $dbArray['refer_id'] = 0;
     if(!empty($referalcode)){
-      $exist = Users::where('refer_code',$referalcode)->first();
+      $exist = User::where('refer_code',$referalcode)->first();
       if(!empty($exist)){
         if(!empty($setting)){
-          $wallet = $setting->refer + $exist->wallet;
-          Users::where('refer_code',$referalcode)->update(array('wallet'=>$wallet));
+          $wallet = $setting->refer_earn_amount + $exist->wallet;
+          User::where('refer_code',$referalcode)->update(array('wallet'=>$wallet));
         }
 
 
@@ -590,66 +376,115 @@ public function register(Request $request){
 
     $dbArray['name'] = $request->name;
     $dbArray['email'] = $request->email;
-    $dbArray['mobile'] = $request->phone;
-    $dbArray['latitude'] = $request->latitude;
-    $dbArray['longitude'] = $request->longitude;
-    $dbArray['address'] = $request->address;
-    $dbArray['city'] = $request->city;
-    $dbArray['state'] = $request->state;
-    $dbArray['password'] = $password;
-
-
-
+    $dbArray['phone'] = $request->phone;
+    $dbArray['password'] = bcrypt($request->phone);
     $referal_code = $this->generateRandomString(8);
-    $exist_refer = Users::where('refer_code',$referalcode)->first();
+    $exist_refer = User::where('refer_code',$referalcode)->first();
     if(empty($exist_refer)){
       $dbArray['refer_code'] = $referal_code;
     }else{
      $dbArray['refer_code'] = $this->generateRandomString(8);
    }
 
-
-
-
-   $user_id = Users::create($dbArray)->id;
-    // $exist = Users::where('mobile',$request->phone)->where('password',$password)->first();
+   $user_id = User::create($dbArray)->id;
    if(!empty($user_id)){
     Auth::guard('appusers')->loginUsingId($user_id);
-    return redirect()->route('home')->with('alert-success', 'Login successfully');
+    return redirect()->route('home.profile')->with('alert-success', 'Login successfully');
   }else{
     return back()->with('alert-danger', 'Email or password wrong');
   }
 }
 if(!empty(Auth::guard('appusers')->user())){
-  return redirect()->route('home');
+  return redirect()->route('home.profile');
 }
 else{
   return view('front.register',$data);
 }
 }
 
-public function wallethistory(Request $request){
-
-  $data =[];
-  $user_id = Auth::guard('appusers')->user()->id;
-  $wallet_history = DB::table('wallet_transaction')->where('user_id',$user_id)->paginate(10);
-  if(!empty($wallet_history)){
-    $data['wallets'] = $wallet_history;
-  }
 
 
-  $user = Users::where('id',$user_id)->first();
-  $data['user'] = $user;
+public function send_sms($mobile,$message){
 
-  return view('front.home.wallet_history',$data);
+  $sender = "CITRUS";
+  $message = urlencode($message);
+  $msg = "sender=".$sender."&route=4&country=91&message=".$message."&mobiles=".$mobile."&authkey=284738AIuEZXRVCDfj5d26feae";
 
-  
+  $ch = curl_init('http://api.msg91.com/api/sendhttp.php?');
+  curl_setopt($ch, CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $msg);
+                        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $res = curl_exec($ch);
+  $result = curl_close($ch);
+  return $res;
+
 }
 
 
 
 
 
+
+
+
+public function validate_form(Request $request)
+{
+
+  $validator = Validator::make($request->all(), [
+    'name' => 'required',
+    'phone' => 'required|unique:users,phone',
+    'email' => 'required|email|unique:users,email',
+    'password' => 'required',
+    'confirm_password' => 'required_with:password|same:password'
+  ]);
+
+  if ($validator->passes()) {
+
+    //prd($request->toArray());
+    //$otp = rand(1111,9999);
+    $otp = 1234;
+
+    $mobile = $request->phone;
+    $message = $otp." is your authentication Code to register.";
+    $time = date("Y-m-d H:i:s",strtotime('15 minutes'));
+    UserOtp::updateOrcreate([
+     'mobile'=>$mobile],[
+      'otp'=>$otp,
+      'timestamp'=>$time,
+    ]);
+    //$this->send_sms($mobile,$message);
+
+    return response()->json(['success'=>'Added new records.']);
+  }
+
+  return response()->json(['error'=>$validator->errors()->all()]);
+}
+
+
+
+
+public function validate_otp(Request $request){
+  $validator = Validator::make($request->all(), [
+    'otp' => 'required',
+    'phone' => 'required',
+  ]);
+
+  if ($validator->passes()) {
+   $mobile = $request->phone;
+   $otp = $request->otp;
+   $verify_otp  = UserOtp::where(['mobile'=>$mobile,'otp'=>$otp])->first();
+   if(!empty($verify_otp)){
+    return response()->json(['success'=>true]);
+
+  }else{
+    return response()->json(['error'=>["Invalid OTP"]]);
+
+  }
+}
+
+return response()->json(['error'=>$validator->errors()->all()]);
+}
 
 
 public function logout(Request $request){
@@ -672,34 +507,280 @@ public  function generateRandomString($length = 20) {
   return $randomString;
 }
 
+/////// CHATS
+
+public function chat_with_admin(Request $request){
+  $data = [];
+  $data['title'] = 'Chat WIth Admin';
+
+   $userschat = Chatwithuser::select('sender_id','reciever_id')->get();
+
+         $userIds = [];
+
+         if(!empty($userschat))
+         {
+            foreach($userschat as $users)
+            {
+      
+                if(!in_array($users->sender_id,$userIds))
+                {
+                    if($users->sender_id != 0)
+                    {
+                        $userIds[] = $users->sender_id;
+                    }
+                }
+
+                if(!in_array($users->reciever_id, $userIds))
+                {
+                    if($users->reciever_id != 0)
+                    {
+                        $userIds[] = $users->reciever_id;
+                    }
+                }
+                
+            }
+         }
+
+         if(!empty($userIds))
+         {
+            $data['user_id'] = $userIds[0];
+         }
+
+
+
+  return view('front.chat_with_admin',$data);
+
+}
+
+public function get_user_name(Request $request){
+        $user_id = isset($request->user_id) ? $request->user_id :'';
+
+        // echo $user_id;
+        // die;
+        $user = User::where('id',$user_id)->first();
+
+        //echo $user;
+
+         echo $user->name.'('.$user->id.')';
+}
+
+public function send_message(Request $request){
+    $user_id = isset($request->user_id) ? $request->user_id :'';
+    $message = isset($request->message) ? $request->message :'';
+
+    $dbArray = [];
+    $dbArray['sender_id'] = 0;
+    $dbArray['reciever_id'] = $user_id;
+    $dbArray['sender_type'] = ' user';
+    $dbArray['reciever_type'] = 'admin';
+    $dbArray['message'] = $message;
+    Chatwithuser::insert($dbArray);
+    echo 1;
+
+}
+
+
+public function get_user_list(Request $request){
+        $html = '';
+        $search = isset($request->search) ? $request->search :'';
+        $user_id = isset($request->user_id) ? $request->user_id :'';
+        $chats = Chatwithuser::select('sender_id','reciever_id')->get();
+        $userIds = [];
+        if(!empty($chats)){
+            foreach($chats as $chat){
+
+                if(!in_array($chat->sender_id,$userIds)){
+                    if($chat->sender_id != 0){
+                    $userIds[] = $chat->sender_id;
+
+                    }
+                }
+                if(!in_array($chat->reciever_id,$userIds)){
+                    if($chat->reciever_id != 0){
+                    $userIds[] = $chat->reciever_id;
+                        
+                    }
+                }
+
+            }
+        }
+
+        // prd($userIds);
+        if(!empty($userIds)){
+            $users = User::select('id','name')->whereIn('id',$userIds);
+             if(!empty($search)){
+                        $users->where('name', 'like', '%' . $search . '%');
+                    }
+            $users = $users->get();
+            if(!empty($users)){
+                $i=1;
+                foreach($users as $user){
+                    $active ='';
+                    if($user->id == $user_id){
+                        $active = 'active';
+                    }
+                    $html.='<li><a href="javascript:void(0)" onclick="get_user_chat('.$user->id.')" class='.$active.'><img src="https://healthcareweb.appmantra.live/public/assets/images/users/1.jpg" alt="user-img" class="img-circle"> <span>'.$user->name.'</span></a></li>';
+                    $i++;
+                }
+            }
+        }else{
+            $html.='No User Found';
+        }
+
+    echo $html;
+
+}
+
+public function get_user_chat(Request $request){
+    $page = isset($request->page) ? $request->page :1;
+
+    $user_id = isset($request->user_id) ? $request->user_id :'';
+    $html = '';
+    $perpage = 10;
+    $count = $perpage * $page;
+    $chats = Chatwithuser::where('sender_id','=',$user_id)->orWhere('reciever_id','=',$user_id)->skip(0)->take($count)->get();
+    //prd($chats);
+    if(!empty($chats)){
+        foreach($chats as $chat){
+            if($chat->sender_id !=0){
+                $user = User::where('id',$chat->sender_id);
+                $user = $user->first();
+            }
+            if($chat->reciever_id !=0){
+                $user = User::where('id',$chat->reciever_id);
+                $user = $user->first();
+            }
+
+            $created_at = date('h:i A',strtotime($chat->created_at));
+            //prd($hospital);
+            if($chat->sender_type == 'user' || $chat->reciever_type == 'admin'){
+                /////////Left Side
+                //echo "string";
+                $html.=' <li><div class="chat-img"><img src="https://healthcareweb.appmantra.live/public/assets/images/users/1.jpg" alt="user"></div><div class="chat-content"><h5>'.$user->name.'</h5>
+                <div class="box bg-light-info">'.$chat->message.'</div>
+                <div class="chat-time">'.$created_at.'</div>
+                </div>
+                </li>';
+
+            }
+
+            if($chat->sender_type == 'user' || $chat->reciever_type == 'admin'){
+                /////////Right Side
+                $html.='<li class="reverse">
+                <div class="chat-content">
+                <h5>Admin</h5>
+                <div class="box bg-light-inverse">'.$chat->message.'</div>
+                <div class="chat-time">'.$created_at.'</div>
+                </div>
+                <div class="chat-img"><img src="https://healthcareweb.appmantra.live/public/assets/images/users/1.jpg" alt="user"></div>
+                </li>';
+            }
+
+
+        }
+
+    }
+
+    echo $html;
+}
+
+///// BOOKING HISTORY
+
+public function booking_history(Request $request){
+
+
+  $data = [];
+  $data['title'] = 'Booking History';
+
+  
+  return view('front.booking_history',$data);
+}
+
+
+public function get_bookings(Request $request)
+{
+
+  $id = $request->user_id;
+  $page = $request->page;
+//DB::enableQueryLog(); // Enable query log
+
+   $bookings = Bookings::select('unique_id','description','phone','diseases')->where('user_id',$id)->paginate(4);
+
+   //dd(DB::getQueryLog()); // Show results of log
+
+   $html = '';
+
+   if(!empty($bookings)){
+    foreach ($bookings as $key) {
+      
+      $disease_name = Speciality::select('id','name')->where('id',$key->diseases)->first();
+
+        $html.='<li class="cards_item">
+              <div class="card">
+                <div class="card_content">
+                  <h2 class="card_title">'.$key->unique_id.'</h2>
+                  <p class="card_text">Description :'.$key->description.'</p>
+                  <p class="card_text">Phone :  '.$key->phone.'</p>
+                  <p class="card_text">Disease :'.$disease_name->name.'</p>
+                  <button class="btn card_btn">View</button>
+                </div>
+              </div>
+            </li>';
+    }
+   }
+
+   echo $html;
+  
+}
+
+///// PAYMENT HISTORY
+
+public function payment_history(Request $request){
+  $data = [];
+  $data['title'] = 'Payment History';
+
+
+
+  return view('front.payment_history',$data);
+}
+
+
+public function shortlisted_hospital(Request $request){
+   $data = [];
+  $data['title'] = 'My ShortListed Hospital';
+
+
+
+  return view('front.shortlisted_hospital',$data);
+}
 
 public function change_password(Request $request){
   $data = [];
-  $slug = isset($request->slug) ? $request->slug : '';
   $method = $request->method();
+
+  $data['title'] = 'Change Password';
   $user_id =  isset(Auth::guard('appusers')->user()->id) ? Auth::guard('appusers')->user()->id :'';
 
-  if(!empty($slug)){
-    $vendor = Vendor::where('slug',$slug)->first();
-    $data['vendor'] = $vendor;
+
+
+
     if($method == 'post' || $method == 'POST'){
-      $rules['old_password'] = 'required|min:6|max:20';
-      $rules['password'] = 'required|min:6|max:20';
-      $rules['confirm_password'] = 'required|min:6|max:20|same:password';
+      $rules['old_password'] = 'required|max:20';
+      $rules['password'] = 'required|max:20';
+      $rules['confirm_password'] = 'required|max:20|same:password';
       $this->validate($request,$rules);
 
       $old_password = isset($request->old_password) ? $request->old_password :'';
       $password = isset($request->password) ? $request->password :'';
       $confirm_password = isset($request->confirm_password) ? $request->confirm_password :'';
 
-      $user = Users::where(['id'=>$user_id])->first();
+      $user = User::where(['id'=>$user_id])->first();
       $existing_password = (isset($user->password))?$user->password:'';
       $hash_chack = Hash::check($old_password, $existing_password);
       if($hash_chack){
         $update_data['password']=bcrypt(trim($password));
-        $is_updated = DB::table('web_users')->where('id', $user_id)->update($update_data);
+        $is_updated = User::where('id', $user_id)->update($update_data);
         if($is_updated){
-
           return back()->with('alert-success', 'Password Changed successfully.');
         }
         else{
@@ -710,10 +791,8 @@ public function change_password(Request $request){
     }
 
   }
-  return view('front.home.change_password',$data);
-}else{
-  abort(404);
-}
+  return view('front.change_password',$data);
+
 
 }
 
@@ -741,13 +820,13 @@ public function privacy(Request $request){
 }
 
 public function news_letter(Request $request){
-    $method = $request->method();
-    if($method == 'post' || $method == 'POST'){
-      $email = $request->email;
-      DB::table('news_letter')->insert(array('email'=>$email));
-          return back()->with('alert-success', 'Subscribed Successfully.');
+  $method = $request->method();
+  if($method == 'post' || $method == 'POST'){
+    $email = $request->email;
+    DB::table('news_letter')->insert(array('email'=>$email));
+    return back()->with('alert-success', 'Subscribed Successfully.');
 
-    }
+  }
 }
 
 

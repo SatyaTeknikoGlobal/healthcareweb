@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\CustomHelper;
 use Artisan;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HealthPackageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +57,7 @@ Route::match(['get','post'], 'get_locality', 'HomeController@get_locality')->nam
 
 
 
-// Admin
+// Hospital
 Route::group(['namespace' => 'Hospital', 'prefix' => $HOSADMIN_ROUTE_NAME, 'as' => $HOSADMIN_ROUTE_NAME.'.', 'middleware' => ['authhospital']], function() {
 
     // Route::get('/logout', 'LoginController@logout');
@@ -103,6 +105,30 @@ Route::group(['namespace' => 'Hospital', 'prefix' => $HOSADMIN_ROUTE_NAME, 'as' 
     });
 
 
+//////health_packages
+
+    Route::group(['prefix' => 'health_packages', 'as' => 'health_packages' , 'middleware' => ['allowedhosmodule:health_packages'] ], function() {
+
+        Route::get('/', 'HealthPackageController@index')->name('.index');
+
+         Route::match(['get', 'post'], 'add', 'HealthPackageController@add')->name('.add');
+
+         Route::match(['get', 'post'], 'edit/{id}', 'HealthPackageController@add')->name('.edit');
+
+          Route::match(['get', 'post'], 'delete/{id}', 'HealthPackageController@delete')->name('.delete');
+
+           Route::match(['get', 'post'], 'change_package_status', 'HealthPackageController@change_package_status')->name('.change_package_status');
+
+         Route::match(['get','post'], 'get_bookings', 'HealthPackageController@get_bookings')->name('.get_bookings');
+       
+         Route::match(['get', 'post'], 'details/{id}', 'HealthPackageController@details')->name('.details');
+
+      Route::match(['get','post'], 'documents', 'HealthPackageController@upload_documents')->name('.documents');
+
+       
+    });
+
+
 
 
 
@@ -139,6 +165,8 @@ Route::group(['namespace' => 'Hospital', 'prefix' => $HOSADMIN_ROUTE_NAME, 'as' 
 
 
 //////////////////////////////////////////////////////////////////////////////////////ADMIN//////////////////////////////////////////
+Route::match(['get', 'post'], 'get_state', 'Admin\HomeController@get_state')->name('get_state');
+
 Route::match(['get', 'post'], 'get_city', 'Admin\HomeController@get_city')->name('get_city');
 
 Route::match(['get', 'post'], 'get_locality', 'Admin\HomeController@get_locality')->name('get_locality');
@@ -262,7 +290,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => $ADMIN_ROUTE_NAME, 'as' => $AD
     });
 
 
+ Route::group(['prefix' => 'countries', 'as' => 'countries' , 'middleware' => ['allowedmodule:countries'] ], function() {
 
+        Route::get('/', 'CountryController@index')->name('.index');
+
+        Route::match(['get', 'post'], '/save/{id?}', 'CountryController@save')->name('.save');
+    }); 
 
 
 
@@ -400,6 +433,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => $ADMIN_ROUTE_NAME, 'as' => $AD
         Route::match(['get','post'],'delete/{id}', 'BookingController@delete')->name('.delete');
         Route::match(['get','post'],'details/{id}', 'BookingController@details')->name('.details');
 
+        Route::match(['get','post'], 'prescription', 'BookingController@prescription')->name('.prescription');
+
+        Route::match(['get','post'], 'transactions', 'BookingController@transactions')->name('.transactions');
+
          Route::match(['get','post'], 'assign_hospital', 'BookingController@assign_hospital')->name('.assign_hospital');
         Route::match(['get','post'],'change_users_role', 'BookingController@change_users_role')->name('.change_users_role');
 
@@ -443,7 +480,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => $ADMIN_ROUTE_NAME, 'as' => $AD
 
     ////Chats
     Route::group(['prefix' => 'chat-with-user', 'as' => 'chat_with_user' , 'middleware' => ['allowedmodule:chat_with_user'] ], function() {
-        Route::get('/', 'ChatController@chat_with_user')->name('.index');
+        Route::get('/', 'ChatwithUserController@index')->name('.index');
+        Route::match(['get','post'],'get_user_list', 'ChatwithUserController@get_user_list')->name('.get_user_list');
+        Route::match(['get','post'],'get_user_chat', 'ChatwithUserController@get_user_chat')->name('.get_user_chat');
+        Route::match(['get','post'],'get_user_name', 'ChatwithUserController@get_user_name')->name('.get_user_name');
+        Route::match(['get','post'],'send_message', 'ChatwithUserController@send_message')->name('.send_message');
+
     });
 
 
@@ -460,4 +502,90 @@ Route::group(['namespace' => 'Admin', 'prefix' => $ADMIN_ROUTE_NAME, 'as' => $AD
 
 //////////////////////////////////////////////////////////////////////////////////////ADMIN//////////////////////////////////////////
  Route::get('/', 'HomeController@index')->name('home');
+
+ Route::match(['get','post'],'/login', 'HomeController@login')->name('home.login');
+
+ Route::match(['get','post'],'/send_otp', 'HomeController@send_otp')->name('home.send_otp');
+
+Route::match(['get','post'],'/verify_otp', 'HomeController@verify_otp')->name('home.verify_otp');
+
+Route::match(['get','post'],'/about', 'HomeController@about')->name('home.about');
+
+Route::match(['get','post'],'/contact', 'HomeController@contact')->name('home.contact');
+
+Route::match(['get','post'],'/terms', 'HomeController@terms')->name('home.terms');
+
+Route::match(['get','post'],'/privacy', 'HomeController@privacy')->name('home.privacy');
+
+Route::match(['get','post'],'/register', 'HomeController@register')->name('home.register');
+
+Route::match(['get','post'],'/forgot_password', 'HomeController@forgot_password')->name('home.forgot_password');
+
+Route::match(['get','post'],'/thanku', 'HomeController@thanku')->name('home.thanku');
+
+Route::match(['get','post'],'/faqs', 'HomeController@faqs')->name('home.faqs');
+
+Route::match(['get','post'],'/thankyou', 'HomeController@thankyou')->name('home.thankyou');
+
+Route::post('validate_form', 'HomeController@validate_form')->name('home.validate_form');
+
+Route::post('validate_otp', 'HomeController@validate_otp')->name('home.validate_otp');
+
+
+ Route::group(['middleware' => ['auth'] ], function() {
+
+    Route::match(['get','post'],'/profile', 'HomeController@profile')->name('home.profile');
+    Route::match(['get','post'],'/dashboard', 'HomeController@dashboard')->name('home.dashboard');
+    Route::match(['get','post'],'/new-booking', 'HomeController@new_booking')->name('home.new_booking');
+    Route::match(['get','post'],'/change-password', 'HomeController@change_password')->name('home.change_password');
+
+    Route::match(['get','post'],'/chat-with-admin', 'HomeController@chat_with_admin')->name('home.chat_with_admin');
+    Route::match(['get','post'],'/get_user_name', 'HomeController@get_user_name')->name('home.get_user_name');
+    Route::match(['get','post'],'/send_message', 'HomeController@send_message')->name('home.send_message');
+    Route::match(['get','post'],'/get_user_list', 'HomeController@get_user_list')->name('home.get_user_list');
+    Route::match(['get','post'],'/get_user_chat', 'HomeController@get_user_chat')->name('home.get_user_chat');
+
+    Route::match(['get','post'],'/booking-history', 'HomeController@booking_history')->name('home.booking_history');
+    Route::match(['get','post'],'/payment-history', 'HomeController@payment_history')->name('home.payment_history');
+    Route::match(['get','post'],'/shortlisted-hospital', 'HomeController@shortlisted_hospital')->name('home.shortlisted_hospital');
+    
+    Route::match(['get','post'],'/get_bookings', 'HomeController@get_bookings')->name('home.get_bookings');
+
+    Route::match(['get', 'post'], 'get_state', 'HomeController@get_state')->name('get_state');
+
+    Route::match(['get', 'post'], 'get_city', 'HomeController@get_city')->name('get_city');
+
+    Route::match(['get','post'],'/logout', 'HomeController@logout')->name('home.logout');
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Route::fallback(function () {
+
+    return redirect(route('home'));
+    // return view("front.404");
+
+});
 

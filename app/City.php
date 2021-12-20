@@ -13,9 +13,13 @@ class City extends Model{
 
     protected $fillable = [
         'name',
+        'country_id',
         'state_id'
     ];
 
+    public function cityCountry() {
+        return $this->belongsTo('App\Country','country_id');
+    }
 
     public function cityState(){
         return $this->belongsTo('App\State', 'state_id');

@@ -39,9 +39,10 @@ $old_name = (request()->has('name'))?request()->name:'';
                 <table id="examplestate" class="table display table-striped border no-wrap">
                   <thead>
                     <tr>
-                     <th class="">Sl No</th>
+                     <th class="">S.No</th>
 
                      <th class="">Name</th>
+                     <th class="">Country Name </th>
                      <th class="">StateName </th>
                      <th class="">Status</th>
                      <th class="">Action</th>
@@ -53,6 +54,9 @@ $old_name = (request()->has('name'))?request()->name:'';
                    <?php if(!empty($cities) && $cities->count() > 0){
                     $i = 1;
                     foreach ($cities as $city){
+
+                      $countryname = $city->cityCountry->name;
+
                      $cityState = (isset($city->cityState))?$city->cityState:'';
                      $stateName = (isset($cityState->name))?$cityState->name:'';
 
@@ -60,6 +64,7 @@ $old_name = (request()->has('name'))?request()->name:'';
                      ?>
                      <tr>
                       <td>{{$i++}}</td>
+                      <td>{{$countryname}}</td>
                       <td>{{$city->name}}</td>
                       <td>{{$stateName}}</td>
                       <td><?php  echo ($city->status==1)?'Active':'Inactive';  ?></td>

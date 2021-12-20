@@ -13,7 +13,7 @@ class Authenticate{
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null){
+    public function handle($request, Closure $next, $guard = 'appusers'){
          //prd($request->path());
         //prd($guard);
         if(Auth::viaRemember()){
@@ -31,5 +31,18 @@ class Authenticate{
         }
 		
         return $next($request);
+
+        // if (!Auth::guard($guard)->check()) {
+        //     return redirect()->route('home.login');
+        // }
+        
+        // Auth::shouldUse('appusers');
+
+        // return $next($request);
+
+
+
+
+
     }
 }

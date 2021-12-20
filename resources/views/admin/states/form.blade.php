@@ -51,6 +51,23 @@ $path = 'states/';
                                  <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data" role="form" class="mt-4">
                                 {{ csrf_field() }}
 
+                                <div class="form-group">
+                                     <label for="exampleInputEmail1" class="form-label">Country Name</label>
+                                     <select name="country_id" id="country_id" class="form-control select2">
+                                         
+                                         <?php                                           
+
+                                            foreach($countries as $country)
+                                            {
+
+                                         ?>
+
+                                         <option value="{{$country->id}}">{{$country->name}}</option>
+
+                                     <?php } ?>
+                                     </select>
+                                </div>
+
                                <input type="hidden" name="id" value="{{$state_id}}">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1" class="form-label">State Name</label>

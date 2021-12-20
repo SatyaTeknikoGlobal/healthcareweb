@@ -40,8 +40,8 @@ $roleId = Auth::guard('hospital')->user()->role_id;
                 @endif
 
 
-                @if(CustomHelper::isHosAllowedModule('packages'))
-                    <li> <a class="waves-effect waves-dark" href="{{ route($HOSADMIN_ROUTE_NAME.'.packages.index') }}" aria-expanded="false"><i class="fa fa-rocket" aria-hidden="true"></i><span class="hide-menu">Health Packages</span></a>
+                @if(CustomHelper::isHosAllowedModule('health_packages'))
+                    <li> <a class="waves-effect waves-dark" href="{{ route($HOSADMIN_ROUTE_NAME.'.health_packages.index') }}" aria-expanded="false"><i class="fa fa-rocket" aria-hidden="true"></i><span class="hide-menu">Health Packages</span></a>
                     </li>
                   
                 @endif

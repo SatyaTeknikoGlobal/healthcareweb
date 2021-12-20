@@ -237,7 +237,7 @@ public function save(Request $request, $id=0){
 
     if($id == 0){
         $data['added_by'] = Auth::guard('admin')->user()->id;
-        $slug = CustomHelper::GetSlug('hospitals', 'id', '', $request->name.$request->location);
+        $slug = CustomHelper::GetSlug('bookings', 'id', '', $request->name.$request->location);
         $data['unique_id'] = strtoupper($slug);
     }
 

@@ -1,14 +1,12 @@
-
-
 html {
-    font-family: axiforma-regular,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
+    font-family: axiforma-regular, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif !important;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%
 }
 
 body {
     margin: 0;
-    font-family: axiforma-regular,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
+    font-family: axiforma-regular, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif !important;
 }
 
 article,
@@ -1517,7 +1515,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family:  axiforma-regular,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
+    font-family: axiforma-regular, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif !important;
     font-weight: 500;
     line-height: 1.1;
     color: inherit
@@ -3426,7 +3424,8 @@ input[type=search] {
     cursor: pointer;
     font-size: 18px;
 }
-.nav-pills .nav-link{
+
+.nav-pills .nav-link {
     font-size: 16px;
     font-weight: 500;
 
@@ -3434,7 +3433,7 @@ input[type=search] {
     cursor: pointer;
     float: left;
     width: auto;
-    height:56px;
+    height: 56px;
     border-radius: 4px;
     background-color: #fff;
     border: 1px solid #bdbdbd;
@@ -3447,7 +3446,8 @@ input[type=search] {
     direction: ltr;
     color: #000;
 }
-.tab-pane .radio label{
+
+.tab-pane .radio label {
     font-size: 16px;
     font-weight: 500;
 
@@ -3455,7 +3455,7 @@ input[type=search] {
     cursor: pointer;
     float: left;
     width: auto;
-    height:56px;
+    height: 56px;
     border-radius: 4px;
     background-color: #fff;
     border: 1px solid #bdbdbd;
@@ -3473,7 +3473,7 @@ input[type=search] {
 
 
 
-  
+
 /* .tab-pane .radio label input[type=checkbox], .tab-pane .radio label input[type=radio]{
     display: none;
 } */
@@ -5093,7 +5093,7 @@ textarea.input-group-sm>.input-group-btn>.btn {
     line-height: 1.42857143;
     border: 1px solid transparent;
     border-radius: 4px 4px 0 0;
-    
+
 }
 
 .nav-tabs>li>a:hover {
@@ -5279,14 +5279,14 @@ textarea.input-group-sm>.input-group-btn>.btn {
 @media (min-width:768px) {
     .navbar-header {
         float: left;
-       width: fit-content;
-       margin-right: auto;
-       display: flex;
+        width: fit-content;
+        margin-right: auto;
+        display: flex;
 
 
-       
-     
- 
+
+
+
     }
 }
 
@@ -5317,10 +5317,11 @@ textarea.input-group-sm>.input-group-btn>.btn {
         height: auto !important;
         padding-bottom: 0;
         overflow: visible !important;
- 
-        
+
+
     }
-    .navbar-nav{
+
+    .navbar-nav {
         margin-top: -41px !important;
     }
 
