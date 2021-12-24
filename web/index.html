@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hospital</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/owlcarousel/owl.carousel.min.css" />
+    <link rel="stylesheet" href="css/owlcarousel/owl.theme.default.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ 
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+
+<link href="https://fonts.googleapis.com/css2?family=Lato,wght@0,500;1,300&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <header id="header" data-spy="affix" data-offset-top="60" data-offset-bottom="60" class="affix-top">
+            <div class="top-header">
+                <div class="container-fluid">
+                    <div class="row head-top justify-content-between">
+                        <ul class="d-flex justify-content-between align-items-center">
+                            <li><i class="fa fa-phone"></i>Contact Number : 090 98763456</li>
+                            <li><i class="fa fa-map-marker"></i>Location : 22, South Wales, New York</li>
+                        </ul>
+                        <ul class="d-flex justify-content-between align-items-center">
+                            <li>Mon - Fri : 09:00 AM to 05:00 PM</li>
+                            <li>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="exampleFormControlSelect1"
+                                        placeholder="Choose Language">
+                                  
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2  col-sm-4 col-xs-4 col-sm-4">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed mr-5" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false" id="hamburger-menu">
+                                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+                                    class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                            <a class="navbar-brand" href="index.html"><img class="logo-dark hidden-xs" src="images/logo.png"
+                                    alt=""> <img class="logo-dark hidden-lg hidden-md hidden-sm"
+                                    src="images/mobile_logo.png" alt=""></a>
+                        </div>
+                        <!--  <ul class="right-contact">
+            <li><i class="fa fa-phone" aria-hidden="true"></i> +91 8107186985</li>
+            <li><a href="#" class="btn btn-primary btn-skin">Get Free Quote</a></li>
+          </ul> -->
+                    </div>
+                    <div class="col-md-10  col-sm-8 col-xs-8 col-sm-8">
+                        <nav class="navbar">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+
+
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="main-menu collapse56 navbar-collapse56" id="bs-example-navbar-collapse-18">
+                                <div id="side-nav">
+                                    <ul class="nav navbar-nav">
+                                        <div class="single-sidebar">
+                                        <div id="close" class="hide">×</div>
+
+                                             <div class="widget-profile pro-widget-content px-5  hidden-lg hidden-md hidden-sm" style="background-image: aliceblue;">
+                                                <div class="profile-info-widget"><a class="booking-doc-img" href=""
+                                                        alt="User">
+                                                        <img src="images/user2.jpg" alt="">
+                                                    </a>
+                                                    <div class="profile-det-info text-left">
+                                                        <h3>Richard Wilson</h3>
+                                                        <div class="patient-details text-left">
+                                                            <h5><i class="fa fa-birthday-cake"></i> 24 Jul 1983, 38
+                                                                years</h5>
+                                                            <h5 class="mb-0"><i class="fa fa-map-marker"></i> Newyork,
+                                                                USA</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        <li><a href="">Department</a></li>
+
+
+
+                                        <li><a href="">Specialty Clinic
+                                            </a></li>
+
+                                        <li><a href="">About Us</a></li>
+
+                                        <li>
+                                            <a href="appointment.html" class="theme-color"><i class="fa fa-file-text" aria-hidden="true"></i>
+
+                                                Book an Appointments
+                                            </a>
+
+                                        </li>
+
+                                        
+
+
+                                       
+                                            <ul class="categories clearfix  hidden-lg hidden-md hidden-sm">
+                                                <li><a href="profile.html"><i class="fa fa-columns mr-3"></i>
+                                                        Dashboard</a></li>
+                                                <li><a href=""> <i class="fa fa-calendar mr-3"></i> Prescription </a>
+                                                </li>
+                                                <li><a href=""><i class="fa fa-user mr-3"></i> My Doctors</a></li>
+                                                <li><a href="new_booking.html"><i class="fa fa-columns mr-3"></i> New
+                                                        Booking</a></li>
+                                                <li><a href=""><i class="fa fa-columns mr-3"></i> Booking History</a>
+                                                </li>
+                                                <li><a href=""><i class="fas fa-notes-medical mr-3"></i>Medical
+                                                        Records</a></li>
+                                                <li><a href=""><i class="fas fa-notes-medical mr-3"></i>My Shortlisted
+                                                        Hospitals</a>
+                                                </li>
+                                                <li><a href=""><i class="fas fa-notes-medical mr-3"></i>Chat With
+                                                        Admin</a></li>
+                                                <li><a href=""><i class="fa fa-file-invoice mr-3"></i>Payment
+                                                        History</a></li>
+                                            </ul>
+                                        </div>
+
+
+
+
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <!-- /.navbar-collapse -->
+
+                            <ul class="right-contact">
+
+                                <li class=" btn btn-primary btn-skin" style="margin-top:-8px;"><a href="login.html"
+                                        class="login-btn">Login/Singup</a>
+                                </li>
+
+
+                                <!--   <li role="presentation" class="">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                                            aria-haspopup="true" aria-expanded="true"> <img src="images/doctor.jpg"
+                                                alt="" class="profile"> Profile </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href=""><i class="fa fa-columns mr-3"></i><span>Dashboard</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="new_booking.html"><i class="fa fa-columns mr-3"></i><span>My Booking</span></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i
+                                                        class="fa fa-calendar mr-3"></i><span>Appointments</span></a>
+                                            </li>
+                                            <li><a href=""><i class="fa fa-user mr-3"></i><span>My
+                                                        Doctors</span></a></li>
+
+                                            <li><a href=""><span>
+                                                        <i class="fa fa-sign-out mr-3"></i>Logout
+                                                    </span></a>
+                                                </li>
+
+
+                                        </ul>
+                                    </li> -->
+
+
+
+
+
+
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.container -->
+        </header>
+
+
+
+
+
+        <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide">
+                    <div class="swiper-image"
+                        style="background: url('./images/bg1.png') no-repeat right bottom; background-size:cover;">
+                    </div>
+                    <div class="overlay"></div>
+                    <div class="content-wrapper">
+                        <div class="content">
+                            <h1>World class medical facilities!</h1>
+                            <p>At your doorstep in Noida Extension. Our team with high mobility bring your the best
+                                response in the
+                                time of crisis. Because Family, comes first.</p>
+                            <a href="" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="swiper-image"
+                        style="background: url('./images/bg1.png') no-repeat center center; background-size:cover;">
+                    </div>
+                    <div class="overlay"></div>
+                    <div class="content-wrapper content-right">
+                        <div class="content">
+                            <h1>Multiple in house services</h1>
+                            <p>
+                                Provinding surmountable in house and treating with multiple outsourced services</p>
+                            <a href="" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="swiper-image"
+                        style="background: url('./images/bg1.png') no-repeat right center; background-size:cover;">
+                    </div>
+                    <div class="overlay"></div>
+                    <div class="content-wrapper">
+                        <div class="content">
+                            <h1> Diagnostic Laboratories</h1>
+                            <p>
+
+                                Computerized laboratory supporting early & accurate medical and surgical diagnosis
+                            </p>
+                            <a href="" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- If we need navigation buttons -->
+            <div class="swiper-nav-wrapper">
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+
+
+        <div class="banner-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="care-text">
+                                <h2>350 Doctors</h2>
+
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                            <div><img src="images/service/s1.png" alt="Pet Care"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="care-text">
+                                <h2> Medicine</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                            <div><img src="images/service/s2.png" alt="Pet Care"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="care-text">
+                                <h2>24 hrs Helpline</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                            <div><img src="images/service/s3.png" alt="Pet Care"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <section id="howitw5ork our-service">
+            <div class="container text-center">
+                <h1 class="panel-heading"> Our Specialties</h1>
+                <div class="row ">
+                    <div class="col-md-4 col-xs-offset-0 step-one">
+                        <div class="service-widgets" tabindex="-1" style="width: 100%; display: inline-block;">
+                            <div class="white-widget">
+                                <div class="card p-0">
+                                    <div><img src="images/academics.jpg" alt="academics" class="img-fluid"></div>
+                                    <div class="desc">
+                                        <h3>Academics</h3>
+                                        <p class="text-justify">
+
+                                            It flourished under his guidance to a full-fledged Department of Academics.
+                                            He is now the Advisor
+                                            of
+                                            the department. The department has been entrusted with the following tasks.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="orange-widget"><a href="#" class="btn btn-primary">Read More</a></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 step-two">
+
+                        <div class="service-widgets" tabindex="-1" style="width: 100%; display: inline-block;">
+                            <div class="white-widget">
+                                <div class="card p-0">
+                                    <div><img src="images/ACUPUNCTURE.jpg" alt="ACUPUNCTURE" class="img-fluid"></div>
+                                    <div class="desc">
+                                        <h3>Acupuncture</h3>
+                                        <p class="text-justify">The Department of Acupuncture is the oldest. It was
+                                            started about 20 years
+                                            ago and it has been
+                                            actively involved in treating patients both privately as well as at the Free
+                                            O.P.D. level.</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="orange-widget"><a href="#" class="btn btn-primary">Read More</a></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="service-widgets" tabindex="-1" style="width: 100%; display: inline-block;">
+                            <div class="white-widget">
+                                <div class="card p-0">
+                                    <div><img src="images/alternative.jpg" alt="ALTERNATIVE MEDICINE" class="img-fluid">
+                                    </div>
+                                    <div class="desc">
+                                        <h3>Alternative Medicine</h3>
+                                        <p class="text-justify">
+                                            In the continuous endeavour to provide excellent & complete services for
+                                            Total Health &
+                                            Wellness-Plus (Sampurna Swastha) by way of various Holistic Healing
+                                            Alternatives & therapies, for
+                                            the rich & poor alike!
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="orange-widget"><a href="#" class="btn btn-primary">Read More</a></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- 
+        <a href="#" class="btn btn-primary">View All</a> -->
+            </div>
+        </section>
+
+
+        <section id="howitw5ork" class="our-service">
+            <div class="container text-center">
+                <h1 class="panel-heading">Our Services</h1>
+                <div class="row our-service">
+                    <div class="col-md-4 col-xs-offset-0 step-one">
+                        <div class="service-widgets" tabindex="-1" style="width: 100%; display: inline-block;">
+                            <div class="white-widget">
+                                <div class="card p-0">
+                                    <div><img src="images/our-service2.jpg" alt="our-service" class="img-fluid"></div>
+                                    <h3>Health Check Up Programs</h3>
+                                    <p>
+                                        Catch the Disease before it Catches you
+                                    </p>
+                                    <p>
+
+                                        One Stop for all your Investigations
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="orange-widget"><a href="#" class="btn btn-primary">Read More</a></div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 col-xs-offset-0 step-one">
+                        <div class="service-widgets" tabindex="-1" style="width: 100%; display: inline-block;">
+                            <div class="white-widget">
+                                <div class="card p-0">
+                                    <div><img src="images/our-service3.jpg" alt="our-service" class="img-fluid"></div>
+                                    <h3>Publications</h3>
+                                    <p>
+                                        The hospital has been publishing the quarterly newsletter since July 1996...
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="orange-widget"><a href="#" class="btn btn-primary">Read More</a></div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-xs-offset-0 step-one">
+                        <div class="service-widgets" tabindex="-1" style="width: 100%; display: inline-block;">
+                            <div class="white-widget">
+                                <div class="card p-0">
+                                    <div><img src="images/our-service5.jpg" alt="our-service" class="img-fluid"></div>
+                                    <h3>Financial Services</h3>
+                                    <p>
+                                        Loan Provision
+                                    </p>
+                                    <p>
+
+
+                                        TPA Facility
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="orange-widget"><a href="#" class="btn btn-primary">Read More</a></div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </section>
+
+
+
+        <section id="howitw5ork">
+            <div class="container text-center">
+                <h1 class="panel-heading">Specialty Clinic</h1>
+                <div class="row">
+                    <div class="col-md-4 col-xs-offset-0 step-one">
+                        <div class="service-widgets" tabindex="-1" style="width: 100%; display: inline-block;">
+                            <div class="white-widget">
+                                <div class="card p-0">
+                                    <div><img src="images/Adolescent-Clinic-inner.jpg" alt="Adolescent"
+                                            class="img-fluid"></div>
+                                    <div class="desc">
+                                        <h3>Adolescent Clinic</h3>
+                                        <p class="text-justify">The health of the youth of a country is crucial for its
+                                            development and
+                                            their impressionable
+                                            minds can be molded integrated very easily. </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="orange-widget"><a href="#" class="btn btn-primary">Read More</a></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 step-two">
+
+                        <div class="service-widgets" tabindex="-1" style="width: 100%; display: inline-block;">
+                            <div class="white-widget">
+                                <div class="card p-0">
+                                    <div><img src="images/yoga.jpg" alt="yoga" class="img-fluid"></div>
+                                    <div class="desc">
+                                        <h3>Yoga Life Style</h3>
+                                        <p class="text-justify">Yoga is not merely a few postures (Asanas) but a
+                                            complete way of life. It is
+                                            an integrated
+                                            system of self culture which aims at harmonious development of body.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="orange-widget"><a href="#" class="btn btn-primary">Read More</a></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="service-widgets" tabindex="-1" style="width: 100%; display: inline-block;">
+                            <div class="white-widget">
+                                <div class="card p-0">
+                                    <div><img src="images/Adolescent-Clinic-inner.jpg" alt="ALLERGY" class="img-fluid">
+                                    </div>
+                                    <div class="desc">
+                                        <h3>Allergy Clinic</h3>
+                                        <p class="text-justify">The problems of long standing cough, wheezing,
+                                            breathlessness, recurrent
+                                            pneumonia, sore eyes,
+                                            skin rash or eczema and food allergies are on the rising trend.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="orange-widget"><a href="#" class="btn btn-primary">Read More</a></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- <a href="#" class="btn btn-primary">View All</a> -->
+            </div>
+        </section>
+        <section class="our-team">
+            <div class="container">
+                <div>
+                    <!-- <p class="title-top">Qualified Professionals</p> -->
+                    <h2 class="panel-heading text-center">Our Team</h2>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-sm-6 col-md-3 mb-5">
+                        <div class="card"><img src="images/doctor.jpg" alt="Our Team" class="img-fluid">
+                            <div class="card-body">
+                                <h5 class="card-title"> Dr. Harit Chaturvedi</h5>
+                                <h6>Chairman</h6>
+                                <p class="card-text">
+
+
+
+
+                                    Cancer Care / Oncology, Thoracic Oncology, Surgical Oncology
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 mb-5">
+                        <div class="card"><img src="images/doctor.jpg" alt="Our Team" class="img-fluid">
+                            <div class="card-body">
+                                <h5 class="card-title"> Prof (Dr.) Subhash Gupta</h5>
+                                <h6>Chairman</h6>
+                                <p class="card-text">
+
+                                    Liver Transplant and Biliary Sciences
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 mb-5">
+                        <div class="card"><img src="images/doctor.jpg" alt="Our Team" class="img-fluid">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Dr. Sandeep Budhiraja
+                                </h5>
+                                <h6>Group Medical Director</h6>
+                                <p class="card-text">
+
+
+                                    Internal Medicine
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 mb-5">
+                        <div class="card"><img src="images/doctor.jpg" alt="Our Team" class="img-fluid">
+                            <div class="card-body">
+                                <h5 class="card-title">Dr. Ambrish Mithal</h5>
+                                <h6>Chairman & Head</h6>
+                                <p class="card-text">
+
+
+
+                                    Endocrinology & Diabetes
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="text-center mt-5"><a href="#" class="btn btn-primary">Read More</a></div> -->
+            </div>
+        </section>
+
+        <section id="testimonails" class="my-5">
+            <div class="container text-center">
+                <h1 class="panel-heading">Testimonial</h1>
+                <div class="row">
+                    <div class="col-md-12">
+
+
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner my-5">
+                                <div class="carousel-item active testi">
+                                    <div class="item">
+                                        <div class="testi-user"><img src="images/user.png" alt="Testimonial"></div>
+                                        <div class="card"><i class="fas fa-quote-left"></i>
+                                            <p>
+
+                                                Providing best healthcare facility. Doctors are best. All the staff are
+                                                polite. Nurses are
+                                                working so hard. God Bless them. The doctors who have taken my case had
+                                                delivered it very
+                                                efficiently. I have got my well care here. Thanks for giving me a new
+                                                life. Thanks to all the
+                                                doctors, sisters and staff who have cooperated well in those ten days.
+
+
+
+                                            </p>
+                                            <h6> <i class="fa fa-quote-left"></i> SANDEEP YADAV</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-item testi">
+                                    <div class="item">
+                                        <div class="testi-user"><img src="images/user.png" alt="Testimonial"></div>
+                                        <div class="card"><i class="fas fa-quote-left"></i>
+                                            <p>
+                                                It was a painful journey of life Six months before but after coming all
+                                                my problems were cured
+                                                and I got full complete satisfactory treatment and within 10 days I am
+                                                living my life as before.
+                                                The doctors who have taken my case had delivered it very efficiently. I
+                                                have got my well care
+                                                here. Thanks for giving me a new life. Thanks to all the doctors,
+                                                sisters and staff who have
+                                                cooperated well in those ten days.</p>
+                                            <h6> <i class="fa fa-quote-left"></i> Priyanka Khulbe </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-item testi">
+                                    <div class="item">
+                                        <div class="testi-user"><img src="images/user.png" alt="Testimonial"></div>
+                                        <div class="card"><i class="fas fa-quote-left"></i>
+                                            <p>
+
+                                                The hospital management is very understanding and treats well. My father
+                                                was admitted for COVID
+                                                but despite being critical, he recovered. All thanks to Dr. Rana and his
+                                                entire COVID team. The
+                                                doctors who have taken my case had delivered it very efficiently. I have
+                                                got my well care here.
+                                                Thanks for giving me a new life. Thanks to all the doctors, sisters and
+                                                staff who have
+                                                cooperated well in those ten days.
+
+
+
+                                            </p>
+
+                                            <h6> <i class="fa fa-quote-left"></i> Manish Jain</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                                data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                                data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+
+
+
+
+        <footer>
+            <div class="container-fluid footerbg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3"> <a href="#" class="footer-logo">
+
+                                <img class="logo-dark" src="images/logo2.png" alt="hospital" /> </a>
+                            <div class="about_info">
+                                <p><i class="fa fa-map-marker" aria-hidden="true"></i> 2nd Floor 3rd floor, 4th floor,
+                                    Royal Arcade,
+                                </p>
+                                <p><i class="fa fa-envelope" aria-hidden="true"></i> info@hospital.com</p>
+                                <p><i class="fa fa-phone" aria-hidden="true"></i> +91807186985</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h4>Academics</h4>
+                            <ul>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>
+                                        GRIPMER
+                                    </a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Academic Programme
+                                    </a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Training &
+                                        Fellowships
+                                    </a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Annual SGRH CME
+                                    </a></li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Technician Training
+                                        (HSSC)
+                                    </a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> CMRP Journal
+                                    </a>
+                                </li>
+                                <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Medical Library</a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>About Us</h4>
+                            <ul>
+                                <li><a href="">Home</a></li>
+                                <li><a href="">About us</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Singn up Newsletter</h4>
+                            <form action="#" method="post" class="newsletter">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Enter Email Address">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"><i class="fa fa-long-arrow-right"
+                                                aria-hidden="true"></i></button>
+                                    </span>
+                                </div>
+                                <!-- /input-group -->
+                            </form>
+
+
+                        </div>
+                    </div>
+                    <div class="top_awro pull-right" id="back-to-top"><i class="fa fa-chevron-up"
+                            aria-hidden="true"></i> </div>
+                </div>
+            </div>
+
+            <!--Boottom Footer-->
+            <div class="container-fluid bottom-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="copyright pull-left">&copy; hospital 2021 All Right Reserved</p>
+                            <ul class="footer-scoails pull-right">
+                                <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-pinterest" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-youtube" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script src="swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="swiper/swiper-bundle.min.css">
+
+
+    <script>
+        const swiper = new Swiper(".swiper", {
+            // Optional parameters
+            direction: "horizontal",
+            loop: true,
+            effect: "fade",
+            fadeEffect: {
+                crossFade: true
+            },
+            speed: 400,
+
+            // If we need pagination
+            /*pagination: {
+    el: '.swiper-pagination',
+  },*/
+
+            // Navigation arrows
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            }
+
+            // And if we need scrollbar
+            /*scrollbar: {
+    el: '.swiper-scrollbar',
+  },*/
+        });
+
+
+
+        function main() {
+            var sideMenu = document.getElementById('side-nav');
+            var close = document.getElementById('close');
+            var menu = document.getElementById('hamburger-menu');
+            menu.addEventListener('click', function () {
+                sideMenu.className = 'open';
+                close.classList.remove('hide');
+            });
+            close.addEventListener('click', function () {
+                sideMenu.classList.remove('open');
+                close.className = 'hide';
+            });
+        }
+        addEventListener('load', main);
+    </script>
+
+
+</body>
+
+
+</html>

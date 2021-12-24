@@ -1,5 +1,17 @@
 @include('front.common.header')
 
+
+<style>
+    .btn-block{
+        width: auto;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .login-right{
+        height: 100%
+    }
+</style>
+
   <div id="page_title">
             <div class="container text-center">
                 <div class="panel-heading">Change Password</div>
@@ -17,7 +29,7 @@
 
 
 
-                  <div class="col-md-9 col-sm-8 col-xs-12">
+                  <div class="col-md-9 col-sm-8 col-xs-12 mb-5">
 
                      @include('snippets.errors')
                     @include('snippets.flash')
@@ -57,7 +69,9 @@
                                 @include('snippets.errors_first', ['param' => 'confirm_password'])
                                 
 
-                                <button class="btn btn-primary btn-block btn-lg login-btn" id="submit" type="submit">Submit</button>
+                              <div class="col-md-12 my-5">
+                                    <button class="btn btn-primary btn-block btn-lg login-btn" id="submit" type="submit">Submit</button>
+                              </div>
 
 
                             </form>

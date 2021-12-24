@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Helpers\CustomHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Validator;
+use DB;
 
 
 
@@ -129,7 +131,13 @@ public function register(Request $request)
         }
      }
 
-    return view('hospital/register/index');
+     $speciality = Speciality::select('id','name')->where('status', 1)->get();
+
+     $departments = DB::table('departments')->where('status',1)->get();
+     $data['speciality'] = $speciality;
+     $data['departments'] = $departments;
+
+    return view('hospital/register/index',$data);
 }
 
 
@@ -145,6 +153,165 @@ public function logout(Request $request){
 
     return redirect('hospital/login');
 }
+
+public function hospital_form_validate(Request $request)
+{
+
+      // prd($request->toArray());
+    $data = [];
+
+    if($request->form == 'form1'){
+       $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'phone' => 'required',
+        'email' => 'required|email',
+        'location' => 'required',
+        'established_year' => 'required',
+       ]); 
+    }else if($request->form == 'form2')
+    {
+        $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'phone' => 'required',
+        'email' => 'required|email',
+        'location' => 'required',
+        'established_year' => 'required',
+        'hos_specialities' => '',
+        'number_of_doctors' => 'required',
+        'number_of_ambulance' => 'required',
+        'number_of_nurses' => 'required',
+        'number_of_beds' => 'required',
+       ]);
+
+    }else if($request->form == 'form3')
+    {
+         $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'phone' => 'required',
+        'email' => 'required|email',
+        'location' => 'required',
+        'established_year' => 'required',
+        'hos_specialities' => '',
+        'number_of_doctors' => 'required',
+        'number_of_ambulance' => 'required',
+        'number_of_nurses' => 'required',
+        'number_of_beds' => 'required',
+        'departments' => 'required',
+       ]);
+
+    }else if($request->form == 'form4')
+    {
+         $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'phone' => 'required',
+        'email' => 'required|email',
+        'location' => 'required',
+        'established_year' => 'required',
+        'hos_specialities' => '',
+        'number_of_doctors' => 'required',
+        'number_of_ambulance' => 'required',
+        'number_of_nurses' => 'required',
+        'number_of_beds' => 'required',
+        'departments' => 'required',
+        'surgery_ratio' => 'required',
+        'mortality_ratio' => 'required',
+        'success_stories' => '',
+        'description' => '',
+        'patients_every_year' => 'required',
+        'patients_till_now' => 'required',
+       ]);
+
+    }
+
+  if ($validator->passes()) {
+
+    if($request->form_type == 'save'){
+
+        $exists= Hospital::where('phone',$request->phone)->orWhere('email',$request->email)->first();
+        if(empty($exists))
+        {
+            $dbArray = [];
+            $dbArray['name'] = $request->name;
+            $dbArray['phone'] = $request->phone;
+            $dbArray['email'] = $request->email;
+            $dbArray['location'] = $request->location;
+            $dbArray['established_year'] = $request->established_year;
+
+            $dbArray['hos_specialities'] = $request->hos_specialities;
+            $dbArray['number_of_doctors'] = $request->number_of_doctors;
+            $dbArray['number_of_ambulance'] = $request->number_of_ambulance;
+            $dbArray['number_of_nurses'] = $request->number_of_nurses;
+            $dbArray['number_of_beds'] = $request->number_of_beds;
+
+            $dbArray['departments'] = $request->departments;
+
+             $dbArray['surgery_ratio'] = $request->surgery_ratio;
+             $dbArray['mortality_ratio'] = $request->mortality_ratio;
+             $dbArray['success_stories'] = $request->success_stories;
+             $dbArray['description'] = $request->description;
+             $dbArray['patients_every_year'] = $request->patients_every_year;
+             $dbArray['patients_till_now'] = $request->patients_till_now;
+
+          // print_r($dbArray);
+
+         Hospital::insert($dbArray);
+
+        }else{
+
+            // prd($request->toArray());
+
+            $dbArray = [];
+            $dbArray['name'] = $request->name;
+            $dbArray['phone'] = $request->phone;
+            $dbArray['email'] = $request->email;
+            $dbArray['location'] = $request->location;
+            $dbArray['established_year'] = $request->established_year;
+
+            $dbArray['hos_specialities'] = $request->hos_specialities;
+            $dbArray['number_of_doctors'] = $request->number_of_doctors;
+            $dbArray['number_of_ambulance'] = $request->number_of_ambulance;
+            $dbArray['number_of_nurses'] = $request->number_of_nurses;
+            $dbArray['number_of_beds'] = $request->number_of_beds;
+
+            $dbArray['departments'] = $request->departments;  
+
+            $dbArray['surgery_ratio'] = $request->surgery_ratio;
+             $dbArray['mortality_ratio'] = $request->mortality_ratio;
+             $dbArray['success_stories'] = $request->success_stories;
+             $dbArray['description'] = $request->description;
+             $dbArray['patients_every_year'] = $request->patients_every_year;
+             $dbArray['patients_till_now'] = $request->patients_till_now;
+            
+            
+            Hospital::where('phone',$request->phone)->update($dbArray);
+              // print_r($dbArray);
+
+        }
+        
+    }
+
+
+
+
+    return response()->json(['success'=>'','data' => $data, 'refresh' => 1]);
+  }
+
+  return response()->json(['error'=>$validator->errors()->toArray()]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*End of controller */
 }

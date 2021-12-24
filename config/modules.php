@@ -17,6 +17,7 @@ return [
         'chat_with_hospital',
         'bookings',
         'speciality',
+        'countries',
        
        // 'categories',
     ],
@@ -45,6 +46,7 @@ return [
         'notifications' => 'Notifications',
         'service_user' => 'Service Users',
         'complaints' => 'Complaints',
+        'countries' => 'Countries',
     
 
          ],
@@ -52,6 +54,7 @@ return [
 
          'hospital' =>[
             'leads',
+            'health_packages',
 
          ],
 

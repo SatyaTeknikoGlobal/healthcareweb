@@ -16,12 +16,12 @@
                                 <form class="contactus-form" id="signupform" method="post"
                                 action="{{route('home.login')}}">
                                 {{csrf_field()}}
-                                <div class="form-group form-focus">
+                                <div class="form-group form-focus" data-aos="fade-In">
                                     <label class="focus-label">Email</label>
                                     <input type="text" name="email" autocomplete="off" placeholder="Enter Email" class="form-control">
                                 </div>
                                 @include('snippets.errors_first', ['param' => 'email'])
-                                <div class="form-group form-focus">
+                                <div class="form-group form-focus" data-aos="fade-In">
                                     <label class="focus-label">Password</label>
                                     <input type="password" placeholder="Enter Password" name="password" autocomplete="off" class="form-control">
                                 </div>

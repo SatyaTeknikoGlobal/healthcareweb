@@ -1,5 +1,64 @@
 @include('front.common.header')
 
+
+<style>
+
+	.card{
+		padding: 0rem !important;
+		border-radius: 7px;
+		width: 100%;
+	/*	background:#4963A5 !important;*/
+	background:#fff;
+	box-shadow:  2px 1px 40px -14px rgb(38 37 37 / 38%);
+	}
+
+	.card_content{
+		height: 100%;
+		border-radius: 7px;
+		padding: 0px !important
+	}
+	.card_text{
+		padding: 4px 17px;
+		font-weight: 500;
+		color: #000;
+	}
+
+	.card_content{
+		text-align: left;
+		background:transparent;
+	}
+	.card_content .card_btn{
+	width: 93%;
+    background: #fff;
+    font-weight: 700;
+    color: #f97d09;
+    font-size: 13px;
+    border-radius: 7px;
+    position: relative;
+    bottom: 5px;
+    margin: 2px 8px;
+	}
+
+.my_description{
+ display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+
+	}
+	.card_title{
+		font-size: 15px;
+    margin-bottom: 10px;
+    letter-spacing: 0px;
+    color: #fff;
+    font-weight: 500;
+    background:#043571;
+    padding: 12px 17px;
+    border-bottom: 1px solid #f0f0f0;
+    height:auto;
+	}
+</style>
+
 <div id="page_title">
 	<div class="container text-center">
 		<div class="panel-heading">Booking History</div>
@@ -16,7 +75,7 @@
 			@include('front.common.sidebar')
 
 
-			<div class="col-md-8 col-sm-8 col-xs-12 text-center">
+			<div class="col-md-9 col-sm-12 col-xs-12 text-center">
 				
 				
 				<div class="main">
@@ -24,9 +83,14 @@
 						
 					
 					</ul>
+
+
+
 				</div>
 
-				<button class="ajax-load btn btn-primary mr-3 " type="button">Load More</button>
+				<button class="ajax-load btn btn-primary mr-3 my-5 d-block" type="button">Load More</button>
+
+				
 			</div>
 
 
@@ -38,8 +102,6 @@
 
 
 
-
-@include('front.common.footer')
 
 <script>
 
@@ -90,8 +152,12 @@ var user_id = '{{Auth::guard('appusers')->user()->id}}';
 	        })
 	        .fail(function(jqXHR, ajaxOptions, thrownError)
 	        {
-	              alert('server not responding...');
+	              // alert('server not responding...');
 	        });
 
 	}
 </script>
+
+
+
+@include('front.common.footer')

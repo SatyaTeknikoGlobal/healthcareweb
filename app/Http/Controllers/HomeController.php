@@ -719,7 +719,7 @@ public function get_bookings(Request $request)
               <div class="card">
                 <div class="card_content">
                   <h2 class="card_title">'.$key->unique_id.'</h2>
-                  <p class="card_text">Description :'.$key->description.'</p>
+                  <p class="card_text my_description">Description :'.$key->description.'</p>
                   <p class="card_text">Phone :  '.$key->phone.'</p>
                   <p class="card_text">Disease :'.$disease_name->name.'</p>
                   <button class="btn card_btn">View</button>

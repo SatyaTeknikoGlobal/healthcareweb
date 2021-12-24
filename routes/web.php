@@ -56,6 +56,12 @@ Route::match(['get','post'], 'get_locality', 'HomeController@get_locality')->nam
 
 
 
+Route::match(['get','post'], 'hospital_form_validate', 'Hospital\LoginController@hospital_form_validate')->name('hospital_form_validate');
+
+
+
+
+
 
 // Hospital
 Route::group(['namespace' => 'Hospital', 'prefix' => $HOSADMIN_ROUTE_NAME, 'as' => $HOSADMIN_ROUTE_NAME.'.', 'middleware' => ['authhospital']], function() {

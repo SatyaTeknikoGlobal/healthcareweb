@@ -132,7 +132,7 @@
                            $('#otp').hide();
                        });
 
-                        $("#continue").click(function(e){
+                         $("#continue").click(function(e){
 
                           e.preventDefault();
 
@@ -231,7 +231,5 @@ printErrorMsg(data.error);
 
 
                             });
-
-
 
                   </script>

@@ -101,8 +101,8 @@ return [
 
         'appusers' => [
             'driver' => 'eloquent',
-            'model' => App\Users::class,
-            'table' => 'web_users',
+            'model' => App\User::class,
+            'table' => 'users',
         ],
 
         'web' => [

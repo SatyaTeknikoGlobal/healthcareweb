@@ -1,4 +1,6 @@
 @include('front.common.header')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style type="text/css">
   .chat{
       border-radius:7px;
@@ -46,12 +48,19 @@
 
 .text.sent .text-content{
   border-radius:20px 0px 20px 20px;
+   -webkit-transition: opacity 2s ease-in;
+    -moz-transition: opacity 2s ease-in;
+    -o-transition: opacity 2s ease-in;
+    -ms-transition: opacity 2s ease-in;
+    transition: opacity 2s ease-in;
+
 }
 
 .text.sent .text-content{
   background:#04b4a9;
   color:white;
   font-size: 14px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
 }
 
 .profile-pic{
@@ -70,12 +79,13 @@
 }
 
 .text-content{
-  background:hsl(220, 20%, 94%);
+  background:hsl(220deg 67% 86%);
   padding:1.5rem;
   border-radius:0px 20px 20px 20px;
   font-size:14px;
   line-height:130%;
   letter-spacing:0.5px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
 }
 
 .timestamp{
@@ -91,6 +101,7 @@
 }
 
 .text-content h5{
+  font-weight: 600;
 letter-spacing: 0;
     font-size: 15px;
     margin-bottom: 11px;
@@ -125,6 +136,7 @@ letter-spacing: 0;
   display:grid;
   place-items:center;
   position: absolute;
+  
 }
 
 .smiley i{
@@ -143,7 +155,7 @@ letter-spacing: 0;
   outline:none;
 }
 
-button{
+.chat-btn{
   border:none;
   background:transparent;
   width:60px;
@@ -157,10 +169,59 @@ button{
   transition:300ms ease;
 }
 
-button:hover{
+.chat-btn:hover{
   background:black;
   cursor:pointer;
 }
+/*
+.login-right{
+  height: 100%;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+*/
+
+.login-right{
+  padding: 0px 26px;
+  position: sticky;
+  top: 4%;
+  margin-bottom: 30px;
+}
+  .login-header{
+    text-align: center;
+    padding: 7px 0px;
+  }
+
+  .login-header h3{
+    font-weight: 600;
+  }
+
+@media screen and (max-width: 767px)
+
+{
+
+
+
+
+  .login-right{
+    position: relative;
+    top: 0%;
+  }
+  .profile-sec,
+  .profile-sec .container,
+  .login-right{
+    padding: 0px;
+
+  }
+
+/*  #page_title,
+  #header,
+  footer{
+    display: none;
+  }*/
+}
+
+
 </style>
 
 <?php
@@ -170,7 +231,7 @@ $routeName = CustomHelper::getAdminRouteName();
 
 $storage = Storage::disk('public');
 $path = 'influencer/thumb/';
-$roleId = Auth::guard('admin')->user()->role_id;
+// $roleId = Auth::guard('admin')->user()->role_id;
 
 ?>
 <div id="page_title">
@@ -190,57 +251,57 @@ $roleId = Auth::guard('admin')->user()->role_id;
 
 
 
-           <div class="col-md-9 col-sm-8 col-xs-12">
+           <div class="col-md-9 col-sm-12 col-xs-12 col-lg-9">
 
                @include('snippets.errors')
                @include('snippets.flash')
 
                <div class="login-right">
                 <div class="login-header">
-                    <h3 class="mb-5">Chat With Admin</h3>
+                    <h3 class="my-3">Chat With Admin</h3>
                 </div>
 
                 <div class="chat">
 
                   <div class="chat-texts">
 
-                    <div class="text">
+                    <div class="text" data-aos="zoom-in">
                       <div class="profile-pic"> <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt=""> </div>
                       <div class="text-content">
                           <h5>Joannie</h5>
                           Lorem ipsum dolor sit amet.<span class="timestamp">12:00hrs</span></div>
                       </div>
 
-                      <div class="text sent">
+                      <div class="text sent" data-aos="zoom-in">
                           <div class="profile-pic"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt=""></div>
                           <div class="text-content"><h5>Laurie</h5>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates, saepe?<span class="timestamp">12:00hrs</span></div>
                       </div>
 
-                      <div class="text">
+                      <div class="text" data-aos="zoom-in">
                           <div class="profile-pic"> <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt=""> </div>
                           <div class="text-content"><h5>Joannie</h5>Lorem ipsum dolor sit amet.<span class="timestamp">12:00hrs</span></div>
                       </div>
 
-                      <div class="text">
+                      <div class="text" data-aos="zoom-in">
                           <div class="profile-pic"> <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt=""> </div>
                           <div class="text-content"><h5>Joannie</h5> Lorem ipsum dolor sit amet.<span class="timestamp">12:00hrs</span></div>
                       </div>
 
-                      <div class="text sent">
+                      <div class="text sent" data-aos="zoom-in">
                           <div class="profile-pic"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt=""></div>
                           <div class="text-content"><h5>Laurie</h5>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates, saepe?<span class="timestamp">12:00hrs</span></div>
                       </div>
 
-                      <div class="text">
+                      <div class="text" data-aos="zoom-in">
                           <div class="profile-pic"> <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt=""> </div>
                           <div class="text-content"><h5>Joannie</h5>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.<span class="timestamp">12:00hrs</span></div>
                       </div>
-                      <div class="text">
+                      <div class="text" data-aos="zoom-in">
                           <div class="profile-pic"> <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt=""> </div>
                           <div class="text-content"><h5>Joannie</h5>Lorem ipsum dolor sit amet.<span class="timestamp">12:00hrs</span></div>
                       </div>
 
-                      <div class="text sent">
+                      <div class="text sent" data-aos="zoom-in">
                           <div class="profile-pic"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt=""></div>
                           <div class="text-content"><h5>Laurie</h5>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates, saepe?<span class="timestamp">12:00hrs</span></div>
                       </div>
@@ -254,7 +315,7 @@ $roleId = Auth::guard('admin')->user()->role_id;
                      
                       <div class="attachment"><i class="lni lni-upload"></i></div>
                   </div>
-                  <button><i class="fab fa-telegram-plane"></i></button>
+                  <button class="chat-btn"><i class="fab fa-telegram-plane"></i></button>
               </div>
 
 
@@ -418,5 +479,9 @@ $roleId = Auth::guard('admin')->user()->role_id;
         });
        });
 
+// AOS animation
+AOS.init({
+  duration: 1200,
+})
 
     </script>

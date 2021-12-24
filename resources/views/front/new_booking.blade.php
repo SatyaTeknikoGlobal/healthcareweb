@@ -1,5 +1,20 @@
 @include('front.common.header')
 
+
+<style>
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #495057 !important;
+    line-height: 37px !important;
+    font-size: 16px !important;
+}
+
+.btn-block{
+  width: auto !important;
+  margin-right: auto;
+  margin-left: auto;
+}
+</style>
+
   <div id="page_title">
             <div class="container text-center">
                 <div class="panel-heading">New Booking</div>
@@ -147,7 +162,7 @@
                                  <input type="hidden" name="latitude" id="latitude">
                                 <input type="hidden" name="longitude" id="longitude">
 
-                                <button class="btn btn-primary btn-block btn-lg login-btn" id="submit" type="submit">Submit</button>
+                                <button class="btn btn-primary btn-block btn-lg login-btn mt-5" id="submit" type="submit">Submit</button>
 
 
                             </form>

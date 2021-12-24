@@ -1,4 +1,10 @@
 <style type="text/css">
+    .edit{
+            position: absolute;
+    right: 38px;
+    font-size: 17px;
+
+    }
 
 </style>
 <?php 
@@ -13,16 +19,18 @@ $baseurl = url('/');
 
 
 
-   <div class="col-md-3 col-sm-4 col-xs-12 profile-sidebar">
-                        <div class="single-sidebar">
+   <div class="col-md-3 col-sm-4 col-xs-12 col-lg-3 profile-sidebar">
+                        <div class="single-sidebar d-block">
                             <div class="widget-profile pro-widget-content">
                                 <div class="profile-info-widget"><a class="booking-doc-img"  alt="User">
+                                    <i class="fa fa-pencil theme-color mr-3 edit"></i>
+
                                     <img src="{{asset('public/assets/images/user2.jpg')}}" alt="">
                                     </a>
-                                    <div class="profile-det-info text-center">
-                                        <h3>{{auth()->guard('appusers')->user()->name ?? ''}}</h3>
-                                        <h3>{{auth()->guard('appusers')->user()->email ?? ''}}</h3>
-                                        <h3>{{auth()->guard('appusers')->user()->phone ?? ''}}</h3>
+                                    <div class="profile-det-info text-left">
+                                        <h3><i class="fa fa-user theme-color mr-3" aria-hidden="true"></i> {{auth()->guard('appusers')->user()->name ?? ''}}</h3>
+                                        <h3> <i class="fa fa-envelope mr-3  theme-color" aria-hidden="true"></i> {{auth()->guard('appusers')->user()->email ?? ''}}</h3>
+                                        <h3><i class="fa fa-phone mr-3 theme-color"></i> {{auth()->guard('appusers')->user()->phone ?? ''}}</h3>
                                     </div>
                                 </div>
                             </div>

@@ -3,8 +3,17 @@
       <div class="container-fluid footerbg">
         <div class="container">
           <div class="row">
-            <div class="col-md-3"> <a href="#" class="footer-logo"> <img class="logo-dark" src="{{asset('public/assets/images/logonew.jpg')}}"
-                  alt="hospital" /> </a>
+
+            <div class="col-md-3"> 
+              <a href="#" class="footer-logo"> 
+              <!-- <img class="logo-dark" src="{{asset('public/assets/images/logonew.jpg')}}"
+                  alt="hospital" />  -->
+
+                  Get Cured In 
+                  <br>
+                  India Private Limited
+
+            </a>
               <div class="about_info">
                 <p><i class="fa fa-map-marker" aria-hidden="true"></i> 512,5th Floor,Kailash Building,26 K G Marg,Connaught Place,New Delhi-110001
                 </p>
@@ -75,11 +84,11 @@
             <div class="col-md-12">
               <p class="copyright pull-left">&copy; hospital 2021 All Right Reserved</p>
               <ul class="footer-scoails pull-right">
-                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fab fa-pinterest" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fab fa-youtube" aria-hidden="true"></i></a></li>
               </ul>
             </div>
           </div>
@@ -328,6 +337,40 @@
          
 
 </script>
+
+
+
+<script type="text/javascript">
+    function main() {
+            var sideMenu = document.getElementById('side-nav');
+            var close = document.getElementById('close');
+            var menu = document.getElementById('hamburger-menu');
+            var wrapper = document.getElementById('wrapper');
+
+            menu.addEventListener('click', function () {
+                sideMenu.className = 'open';
+                close.classList.remove('hide');
+            });
+            close.addEventListener('click', function () {
+                sideMenu.classList.remove('open');
+                close.className = 'hide';
+
+            });
+
+            wrapper.addEventListener('click', () => {
+  if (sideMenu.classList.contains('open')) sideMenu.classList.remove('open')
+})
+
+
+
+        }
+
+        addEventListener('load', main);
+
+      
+
+</script>
+
 
 </body>
 
