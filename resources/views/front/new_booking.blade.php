@@ -34,6 +34,8 @@
 
                   <div class="col-md-9 col-sm-8 col-xs-12">
 
+                  
+
                      @include('snippets.errors')
                     @include('snippets.flash')
 
@@ -41,7 +43,9 @@
                             <div class="login-header">
                                 <h3 class="mb-5">Book an <span>appointment</span></h3>
                             </div>
-                            <form action="{{route('home.new_booking')}}" method="post" enctype="multipart/form-data">
+                           <!--  <form action="{{route('home.new_booking')}}" method="post" enctype="multipart/form-data" id="submit_form"> -->
+
+                            <form action="" method="post" enctype="multipart/form-data" id="bookingform">                             
 
                                 {{ csrf_field() }}
 
@@ -86,23 +90,20 @@
 
                                   <div class="form-group form-focus col-md-12">
                                     <label class="focus-label">Disease</label>
-                                    <select name="diseases" id="diseases" class="form-control floating select2-single">
+                                    <select name="diseases" id="diseases" class="form-control floating select2">
                                          <option value="" selected disabled>Select Disease</option>
-
                                 <?php if(!empty($diseases)){
-                                    foreach($diseases as $disease){
-                              
+                                    foreach($diseases as $di){                              
                                     ?>
-                                        <option value="{{$disease->id}}">{{$disease->name}}</option>
-                                <?php } } ?>
-                                        
+                                        <option value="{{$di->id}}">{{$di->name}}</option>
+                                <?php } } ?>                                        
                                     </select>
                                 </div>
 
 
                                 <div class="form-group form-focus col-md-6">
                                     <label class="focus-label">Country</label>
-                                    <select name="country_id" id="country_id" class="form-control floating select2-single">
+                                    <select name="country_id" id="country_id" class="form-control floating select2">
                                          <option value="" selected disabled>Select Country</option>
 
                                 <?php 
@@ -118,7 +119,7 @@
 
                                 <div class="form-group form-focus col-md-6">
                                     <label class="focus-label">State</label>
-                                    <select name="state_id" id="state_id" class="form-control floating select2-single">
+                                    <select name="state_id" id="state_id" class="form-control floating select2">
                                         <option value="" selected disabled>Select State</option>
                                         <option value=""></option>
                                         
@@ -127,7 +128,7 @@
 
                                 <div class="form-group form-focus col-md-6">
                                     <label class="focus-label">City</label>
-                                    <select name="city_id" id="city_id" class="form-control floating select2-single">
+                                    <select name="city_id" id="city_id" class="form-control floating select2">
                                          <option value="" selected disabled>Select City</option>
                                         <option value=""></option>
                                        
@@ -162,12 +163,33 @@
                                  <input type="hidden" name="latitude" id="latitude">
                                 <input type="hidden" name="longitude" id="longitude">
 
-                                <button class="btn btn-primary btn-block btn-lg login-btn mt-5" id="submit" type="submit">Submit</button>
+                     <button class="btn btn-primary btn-block btn-lg login-btn mt-5" id="submit" type="submit" >Submit</button>
 
 
                             </form>
+
+                           
                         </div>
                     </div>
+
+                      <div id="myModal" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Confirmation</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Do you want to save changes to this document before closing?</p>
+                                                <p class="text-secondary"><small>If you don't save, your changes will be lost.</small></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                 </div>
             </div>
@@ -238,5 +260,24 @@ $('#country_id').on('change', function()
      }
  });
 });
+
+
+ $('#bookingform').on('submit', function(e) {
+
+    e.preventDefault();
+     var data = $('#bookingform').serialize();
+    $.ajax({
+        type : 'POST',       
+        url : "{{route('home.new_booking')}}",
+        dataType : 'html',
+        data:data,
+        success : function(data){
+          
+        }
+    });
+
+ });
+    
+
 
 </script>

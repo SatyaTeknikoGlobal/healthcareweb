@@ -37,7 +37,7 @@
                                         <div class="d-flex no-block align-items-center">
                                             <div>
                                                 <h3><i class="fas fa-desktop"></i></h3>
-                                                <p class="text-muted">MYNEW CLIENTS</p>
+                                                <p class="text-muted">MY NEW CLIENTS</p>
                                             </div>
                                             <div class="ms-auto">
                                                 <h2 class="counter text-primary">23</h2>

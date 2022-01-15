@@ -46,6 +46,9 @@ Route::match(['get', 'post'], 'hospital/login', 'Hospital\LoginController@index'
 /////Register
 
 
+Route::match(['get','post'], 'hospital/reg_success', 'Hospital\LoginController@reg_success')->name('hospital.success');
+
+
 Route::match(['get', 'post'], 'hospital/register', 'Hospital\LoginController@register')->name('hospital.register');
 
 Route::match(['get', 'post'], 'hospital/logout', 'Hospital\LoginController@logout')->name('hospital.logout');
@@ -53,6 +56,8 @@ Route::match(['get', 'post'], 'hospital/logout', 'Hospital\LoginController@logou
 Route::match(['get', 'post'], 'get_city', 'HomeController@get_city')->name('get_city');
 
 Route::match(['get','post'], 'get_locality', 'HomeController@get_locality')->name('get_locality');
+// Route::match(['get','post'], 'upload_image_old', 'HomeController@upload_image')->name('upload_image');
+Route::match(['get','post'], 'upload_image', 'Hospital\LoginController@upload_image')->name('upload_image');
 
 
 
@@ -66,7 +71,7 @@ Route::match(['get','post'], 'hospital_form_validate', 'Hospital\LoginController
 // Hospital
 Route::group(['namespace' => 'Hospital', 'prefix' => $HOSADMIN_ROUTE_NAME, 'as' => $HOSADMIN_ROUTE_NAME.'.', 'middleware' => ['authhospital']], function() {
 
-    // Route::get('/logout', 'LoginController@logout');
+   Route::get('/', 'HomeController@home')->name('hospital');;
 
 
 
@@ -98,6 +103,8 @@ Route::group(['namespace' => 'Hospital', 'prefix' => $HOSADMIN_ROUTE_NAME, 'as' 
          Route::match(['get', 'post'], 'add', 'LeadController@add')->name('.add');
 
          Route::match(['get','post'], 'get_bookings', 'LeadController@get_bookings')->name('.get_bookings');
+
+
 
         // Route::match(['get', 'post'], 'get_roles', 'LeadController@get_roles')->name('.get_roles');
 
@@ -381,6 +388,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => $ADMIN_ROUTE_NAME, 'as' => $AD
 
         Route::match(['get', 'post'], 'get_hospitals', 'HospitalController@get_hospitals')->name('.get_hospitals');
         Route::match(['get', 'post'], 'change_hospital_status', 'HospitalController@change_hospital_status')->name('.change_hospital_status');
+        Route::match(['get', 'post'], 'change_priority_approve', 'HospitalController@change_priority_approve')->name('.change_priority_approve');
         Route::match(['get', 'post'], 'change_hospital_approve', 'HospitalController@change_hospital_approve')->name('.change_hospital_approve');
         Route::match(['get', 'post'], 'edit/{id}', 'HospitalController@add')->name('.edit');
         Route::post('ajax_delete_image', 'HospitalController@ajax_delete_image')->name('.ajax_delete_image');
@@ -446,6 +454,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => $ADMIN_ROUTE_NAME, 'as' => $AD
          Route::match(['get','post'], 'assign_hospital', 'BookingController@assign_hospital')->name('.assign_hospital');
         Route::match(['get','post'],'change_users_role', 'BookingController@change_users_role')->name('.change_users_role');
 
+        Route::match(['get','post'], 'packages', 'BookingController@packages')->name('.packages');
+
     });
 
 
@@ -496,13 +506,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => $ADMIN_ROUTE_NAME, 'as' => $AD
 
 
 
-
-
-
-
-
-
-
 });
 
 
@@ -539,11 +542,13 @@ Route::post('validate_otp', 'HomeController@validate_otp')->name('home.validate_
 
 
  Route::group(['middleware' => ['auth'] ], function() {
-
-    Route::match(['get','post'],'/profile', 'HomeController@profile')->name('home.profile');
+   
     Route::match(['get','post'],'/dashboard', 'HomeController@dashboard')->name('home.dashboard');
+    Route::match(['get','post'],'/get_today_bookings', 'HomeController@get_today_bookings')->name('home.get_today_bookings');
     Route::match(['get','post'],'/new-booking', 'HomeController@new_booking')->name('home.new_booking');
-    Route::match(['get','post'],'/change-password', 'HomeController@change_password')->name('home.change_password');
+    Route::match(['get','post'],'/profile', 'HomeController@profile')->name('home.profile');
+
+    Route::match(['get','post'], '/profile_img', 'HomeController@profile_img')->name('home.profile_img');
 
     Route::match(['get','post'],'/chat-with-admin', 'HomeController@chat_with_admin')->name('home.chat_with_admin');
     Route::match(['get','post'],'/get_user_name', 'HomeController@get_user_name')->name('home.get_user_name');
@@ -554,12 +559,22 @@ Route::post('validate_otp', 'HomeController@validate_otp')->name('home.validate_
     Route::match(['get','post'],'/booking-history', 'HomeController@booking_history')->name('home.booking_history');
     Route::match(['get','post'],'/payment-history', 'HomeController@payment_history')->name('home.payment_history');
     Route::match(['get','post'],'/shortlisted-hospital', 'HomeController@shortlisted_hospital')->name('home.shortlisted_hospital');
+
+    Route::match(['get','post'], '/get_shortlist_hos', 'HomeController@get_shortlist_hos')->name('home.get_shortlist_hos');
     
     Route::match(['get','post'],'/get_bookings', 'HomeController@get_bookings')->name('home.get_bookings');
+
+    Route::match(['get','post'], 'view_booking/{id}', 'HomeController@view_booking')->name('home.view_booking');
+    Route::match(['get','post'], 'create_shortlist_hos' ,'HomeController@create_shortlist_hos')->name('home.create_shortlist_hos');
 
     Route::match(['get', 'post'], 'get_state', 'HomeController@get_state')->name('get_state');
 
     Route::match(['get', 'post'], 'get_city', 'HomeController@get_city')->name('get_city');
+
+    Route::match(['get','post'], 'upload_prescriptions1','HomeController@upload_prescriptions')->name('home.upload_prescriptions1');
+    Route::match(['get','post'], 'prescription_list', 'HomeController@prescription_list')->name('home.prescription_list');
+    Route::match(['get','post'], '/booking_success', 'HomeController@booking_success')->name('home.booking_success');
+   // Route::match(['get','post'], '/hospital_details', 'HomeController@hos_detail')->name('home.hos_detail');
 
     Route::match(['get','post'],'/logout', 'HomeController@logout')->name('home.logout');
     
@@ -588,10 +603,10 @@ Route::post('validate_otp', 'HomeController@validate_otp')->name('home.validate_
 
 
 
- Route::fallback(function () {
+//  Route::fallback(function () {
 
-    return redirect(route('home'));
-    // return view("front.404");
+//     return redirect(route('home'));
+//     // return view("front.404");
 
-});
+// });
 

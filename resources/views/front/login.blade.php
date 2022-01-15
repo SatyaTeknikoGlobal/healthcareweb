@@ -10,7 +10,7 @@
                             alt="Doccure Login"></div>
                             <div class="col-md-12 col-lg-6 login-right">
                                 <div class="login-header">
-                                    <h3 class="mb-5">Login</h3>
+                                    <h3 class="mb-5 d-flex">Login</h3>
                                 </div>
 
                                 <form class="contactus-form" id="signupform" method="post"

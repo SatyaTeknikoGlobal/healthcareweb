@@ -18,7 +18,7 @@ class AuthHospital{
     public function handle($request, Closure $next, $guard = "hospital"){
 
         $HOSADMIN_ROUTE_NAME = config('custom.HOSADMIN_ROUTE_NAME');
-        //prd(Auth::guard($guard)->check());
+        // prd(Auth::guard($guard)->check());
         if (!Auth::guard($guard)->check()) {
             return redirect($HOSADMIN_ROUTE_NAME.'/login');
         }

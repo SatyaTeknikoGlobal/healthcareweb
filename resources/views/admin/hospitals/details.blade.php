@@ -326,33 +326,28 @@ if($storage->exists($path1.$hospital->image)){
 
                                         <div class="sl-right">
                                             <div class="row">
-                                                <?php if(!empty($documents) && count($documents) > 0){
+                                                <?php if(!empty($hospital)){
                                                 $storage = Storage::disk('public');
                                                 $path = 'hospital_documents/';
 
-                                                foreach($documents as $document){
-
-                                                $imageUrl = '';
-                                                $image_name = $document->doc_name;
-                                                if($storage->exists($path.$image_name)){
-
-                                                if($document->type == 'jpg' || $document->type == 'png' || $document->type == 'jpeg'){
-                                                    $imageUrl= url('public/storage/'.$path.$image_name);
-                                                }
-
-                                                if($document->type == 'pdf' ){
-                                                    $imageUrl= url('public/storage/'.$path.'pdf.png');
-                                                }
-                                                if($document->type == 'csv' || $document->type == 'xlsx' || $document->type == 'xls' ){
-                                                    $imageUrl= url('public/storage/'.$path.'xls.jpg');
-                                                }
-
+                                                    $nabh_certificate =  $hospital->nabh_certificate;
+                                                    $jci_certificate =  $hospital->jci_certificate;
+                                                    $pan_number =  $hospital->pan_number;
+                                                    $gst_number =  $hospital->gst_number;
                                                 ?>
-                                                <div class="col-lg-3 col-md-12 m-b-20"><a target="_blank" href="{{ url('public/storage/'.$path.$image_name) }}"><img src="{{ $imageUrl }}" class="img-responsive radius" /></a></div>
 
-                                                <div class="col-lg-1 col-md-12 m-b-20"><a href="{{route('admin.hospitals.delete_documents',['id'=>$document->id])}}" onclick="return confirm('Are You Want to Delete')" class="btn btn-primary shadow btn-xs sharp mr-1"><i class="fa fa-trash"></i></a></div>
+                                                <div class="col-lg-3 col-md-12 m-b-20">
+                                                    <p>NABH Certificate :  <a target="_blank" href="{{ url('public/storage/'.$path.$nabh_certificate) }}"><img src="{{ url('public/storage/'.$path.$nabh_certificate) }}" class="img-responsive radius" /></a></p>
 
-                                                <?php }}}else{?>
+                                                    <p>JCI Certificate :  <a target="_blank" href="{{ url('public/storage/'.$path.$jci_certificate) }}"><img src="{{ url('public/storage/'.$path.$jci_certificate) }}" class="img-responsive radius" /></a></p>
+
+                                                    <p>PAN Number :  <a target="_blank" href="{{ url('public/storage/'.$path.$pan_number) }}"><img src="{{ url('public/storage/'.$path.$pan_number) }}" class="img-responsive radius" /></a></p>
+
+                                                     <p>GST Number :  <a target="_blank" href="{{ url('public/storage/'.$path.$gst_number) }}"><img src="{{ url('public/storage/'.$path.$gst_number) }}" class="img-responsive radius" /></a></p>
+                                                </div>
+
+
+                                                <?php    }else{?>
 
 
                                                 <p>No Document Found</p>

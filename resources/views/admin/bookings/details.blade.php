@@ -206,16 +206,34 @@ $routeName = CustomHelper::getAdminRouteName();
 
 									<div class="form-group">
 										<label for="exampleInputEmail1" class="form-label">Choose Hospital</label>
-										<select class="form-control select2" multiple name="hospital_id[]">
+										<select class="form-control" class="form-control" name="hospital_list" id="hospital_list">
+
+											<option value="" selected disabled>Select Hospital</option>
 											<?php 
 											
 											if(!empty($hospitals_list)){
-												foreach($hospitals_list as $hospital){?>
+												foreach($hospitals_list as $hospital){
+													$package = App\HealthPackages::where('included_hos_ids',$hospital->id)->first();
+
+											?>
 													<option value="{{$hospital->id}}">{{$hospital->name}}</option>
 												<?php }}?>
 											</select>
 
 										</div>
+
+									
+									<div class="form-group">
+										<label for="exampleInputEmail1" class="form-label">Choose Package</label>
+										<select class="form-control" class="form-control" name="package_id" id="package_id">
+											<option value="" selected disabled>Select Package</option>
+											
+											</select>
+
+										</div>
+
+										
+
 										
 
 										<div class="form-group">
@@ -538,12 +556,28 @@ $routeName = CustomHelper::getAdminRouteName();
 <script type="text/javascript">
 	
    $(function () {
-
     $('#myTable1').DataTable();
 
+}); 
 
+   $('#hospital_list').on('change', function() {
 
+   	 var id = $('#hospital_list option:selected').attr('value');
+   	 var _token = '{{ csrf_token() }}';
+   	  $.ajax({
+            url: "{{ route($routeName.'.bookings.packages') }}",
+            type: "POST",
+            data: {id:id},
+            dataType:"HTML",
+            headers:{'X-CSRF-TOKEN': _token},
+            cache: false,
+            success: function(resp){
+            	$('#package_id').html(resp);
+            }
+        });
 
-});      
+   	 // alert("id = "+id);
+   });
+
 
 </script>

@@ -86,7 +86,7 @@ $image_name = Auth::guard('hospital')->user()->image;
  //        $imageUrl =  url('storage/app/public/'.$path.'thumb/'.$image_name);
  // }
 $roleId = Auth::guard('hospital')->user()->role_id;
-$hospital_id = Auth::guard('hospital')->user()->hospital_id;
+$hospital_id = Auth::guard('hospital')->user()->id;
 
 $hospital = \App\Hospital::where('id',$hospital_id)->first();
 

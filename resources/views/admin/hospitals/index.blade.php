@@ -47,6 +47,7 @@ $roleId = Auth::guard('admin')->user()->role_id;
                                     <th scope="col">#ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Location</th>
+                                    <th scope="col">Priority</th>
                                     <th scope="col">Approve/Not Approve</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Date Created</th>
@@ -83,6 +84,7 @@ $roleId = Auth::guard('admin')->user()->role_id;
             { data: 'id', name: 'id' },
             { data: 'name', name: 'name' ,searchable: false, orderable: false},
             { data: 'address', name: 'address' },
+             { data: 'priority', name: 'priority' },
             { data: 'is_approve', name: 'is_approve' },
             { data: 'status', name: 'status' },
             { data: 'created_at', name: 'created_at' },
@@ -117,6 +119,7 @@ $roleId = Auth::guard('admin')->user()->role_id;
 
     }
 
+    
 
     function change_hospital_approve(hos_id){
         var approve = $('#change_hospital_approve'+hos_id).val();
@@ -143,6 +146,31 @@ $roleId = Auth::guard('admin')->user()->role_id;
 
 
     }
+
+   function change_priority_approve(hos_id)
+   {
+     var priority_id = $('#priority_id'+hos_id).val();
+      
+        var _token = '{{ csrf_token() }}';
+
+        $.ajax({
+            url: "{{ route($routeName.'.hospitals.change_priority_approve') }}",
+            type: "POST",
+            data: {hos_id:hos_id, priority_id:priority_id},
+            dataType:"JSON",
+            headers:{'X-CSRF-TOKEN': _token},
+            cache: false,
+            success: function(resp){
+                if(resp.success){
+                    alert(resp.message);
+                }else{
+                    alert(resp.message);
+
+                }
+            }
+        });
+
+   }
 
 
 

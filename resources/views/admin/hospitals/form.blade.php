@@ -20,6 +20,7 @@ $email = (isset($hospitals->email))?$hospitals->email:'';
 $latitude = (isset($hospitals->latitude))?$hospitals->latitude:'';
 $longitude = (isset($hospitals->longitude))?$hospitals->longitude:'';
 $speciality = (isset($hospitals->hos_specialities))?$hospitals->hos_specialities:'';
+$priority = (isset($hospitals->priority))?$hospitals->priority:'';
 //pr($hospitals);
 
 
@@ -112,6 +113,12 @@ $path = 'influencer/';
                             </div>
 
 
+                                  <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Priority</label>
+                                    <input class="form-control" type="number" name="priority" id="priority" value="{{ old('priority',$priority) }}" placeholder="Priority">
+                                @include('snippets.errors_first', ['param' => 'specialities'])
+                            </div>
+
 
 
 
@@ -125,6 +132,8 @@ $path = 'influencer/';
                                 @include('snippets.errors_first', ['param' => 'is_approve'])
                             </div>
 
+
+                            
 
 
 

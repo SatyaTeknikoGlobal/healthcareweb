@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!--  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,300&family=Rubik,wght@0,300;1,300&display=swap"
-    rel="stylesheet"> -->
+  rel="stylesheet"> -->
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -35,6 +35,12 @@
   
   <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+
+
+<!-- data AOS animation -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   
 
 </head>
@@ -102,7 +108,7 @@ select option:first-child{
 <body>
 
 
-    <!--Header Section Start-->
+  <!--Header Section Start-->
 
     <?php /*
     <header id="header" data-spy="affix" data-offset-top="60" data-offset-bottom="60">
@@ -218,9 +224,9 @@ select option:first-child{
             </ul>
             <ul class="d-flex justify-content-between align-items-center">
               <li class="hidden-xs hidden-sm">Mon - Fri : 09:00 AM to 05:00 PM</li>
-               <li class="hidden-md hidden-lg">Choose Language</li>
+              <li class="hidden-md hidden-lg">Choose Language</li>
               <li>
-               
+
                 <div id="google_element">
                 </div>
               </li>
@@ -229,22 +235,32 @@ select option:first-child{
         </div>
       </div>
       <div class="bottom-header">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-3  col-xs-6 col-sm-6">
-            <div class="navbar-header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3  col-xs-6 col-sm-6">
+              <div class="navbar-header">
 
-              <button type="button" class="navbar-toggle collapsed mr-5" data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1" aria-expanded="false" id="hamburger-menu">
-              <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
-              class="icon-bar"></span> <span class="icon-bar"></span> </button>
-              <a class="navbar-brand" href="{{route('home')}}">Get Cured In <br> India Private Limited</a>
-            </div>
+                <button type="button" class="navbar-toggle collapsed mr-5" data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1" aria-expanded="false" id="hamburger-menu">
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+                class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <a class="navbar-brand" href="{{route('home')}}">Get Cured In <br> India Private Limited</a>
+              </div>
                         <!--  <ul class="right-contact">
             <li><i class="fa fa-phone" aria-hidden="true"></i> +91 8107186985</li>
             <li><a href="#" class="btn btn-primary btn-skin">Get Free Quote</a></li>
           </ul> -->
         </div>
+
+        <?php 
+        $url = url()->current();
+
+
+        $baseurl = url('/');
+
+
+
+        ?>
         <div class="col-md-9  col-sm-6 col-xs-6">
           <nav class="navbar">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -256,44 +272,61 @@ select option:first-child{
                 <ul class="nav navbar-nav">
                   <div class="single-sidebar">
                     <div id="close" class="hide">×</div>
+                    <?php if(!empty(auth()->guard('appusers')->user())){?>
+                      <div class="widget-profile pro-widget-content px-5  hidden-lg hidden-md hidden-sm" style="background-image: aliceblue;">
+                        <div class="profile-info-widget"><a class="booking-doc-img" href="#"
+                          alt="User">
+                          <img src="{{asset('public/assets/images/user2.jpg')}}" alt="">
+                        </a>
+                        <div class="profile-det-info text-left">
+                          <h3><i class="fa fa-user theme-color mr-3" aria-hidden="true"></i> {{auth()->guard('appusers')->user()->name ?? ''}}</h3>
+                          <h3> <i class="fa fa-envelope mr-3  theme-color" aria-hidden="true"></i> {{auth()->guard('appusers')->user()->email ?? ''}}</h3>
+                          <h3><i class="fa fa-phone mr-3 theme-color"></i> {{auth()->guard('appusers')->user()->phone ?? ''}}</h3>
+                        </div>
+                      </div>
 
+                    </div>
+                  <?php }else{?>
                     <div class="widget-profile pro-widget-content px-5  hidden-lg hidden-md hidden-sm" style="background-image: aliceblue;">
-                      <div class="profile-info-widget"><a class="booking-doc-img" href=""
+                      <div class="profile-info-widget"><a class="booking-doc-img" href="#"
                         alt="User">
                         <img src="{{asset('public/assets/images/user2.jpg')}}" alt="">
                       </a>
-                     <div class="profile-det-info text-left">
-                                        <h3><i class="fa fa-user theme-color mr-3" aria-hidden="true"></i> mansha</h3>
-                                        <h3> <i class="fa fa-envelope mr-3  theme-color" aria-hidden="true"></i> manshaman.sharma93@gmail.com</h3>
-                                        <h3><i class="fa fa-phone mr-3 theme-color"></i> 7557448060</h3>
-                                    </div>
+<!-- 
+                      <div class="profile-det-info text-left">
+                        <h3><i class="fa fa-user theme-color mr-3" aria-hidden="true"></i> mansha</h3>
+                        <h3> <i class="fa fa-envelope mr-3  theme-color" aria-hidden="true"></i> manshaman.sharma93@gmail.com</h3>
+                        <h3><i class="fa fa-phone mr-3 theme-color"></i> 7557448060</h3>
+                      </div> -->
+
+
                     </div>
 
                   </div>
+                <?php }?>
+
+
+                <li><a href="">Department</a></li>
+                <li><a href="">Find a Doctor</a> </li>
+                <li><a href="">Blogs</a></li>
+                <li><a href="">My Reports</a></li>
 
 
 
-                  <li><a href="">Department</a></li>
-                  <li><a href="">Find a Doctor</a> </li>
-                  <li><a href="">Blogs</a></li>
-                  <li><a href="">My Reports</a></li>
+                <li><a href="">Specialty Clinic
+                </a></li>
+
+                <li><a href="">About Us</a></li>
+
+                <li>
+                  <a href="{{route('hospital.register')}}" class="theme-color"><i class="fa fa-file-text" aria-hidden="true"></i>
+                    Register as Hospital
+                  </a>
+
+                </li>
 
 
-
-                  <li><a href="">Specialty Clinic
-                  </a></li>
-
-                  <li><a href="">About Us</a></li>
-
-                  <li>
-                    <a href="appointment.html" class="theme-color"><i class="fa fa-file-text" aria-hidden="true"></i>
-                      Book an Appointments
-                    </a>
-
-                  </li>
-
-                  
-                  <ul class="categories clearfix  hidden-lg hidden-md hidden-sm">
+                 <!--  <ul class="categories clearfix  hidden-lg hidden-md hidden-sm">
                     <li><a href="profile.html"><i class="fa fa-columns mr-3"></i>
                     Dashboard</a></li>
                     <li><a href=""> <i class="fa fa-calendar mr-3"></i> Prescription </a>
@@ -312,62 +345,93 @@ select option:first-child{
                   Admin</a></li>
                   <li><a href=""><i class="fa fa-file-invoice mr-3"></i>Payment
                   History</a></li>
+                </ul> -->
+                <?php if(!empty(auth()->guard('appusers')->user())){?>
+                 <ul class="categories clearfix  hidden-lg hidden-md hidden-sm">
+                  <li class="<?php if($url == $baseurl.'/profile') echo "single-sidebar-active"?>"><a href="{{route('home.profile')}}"><i class="fa fa-columns mr-3"></i> Dashboard</a></li>
+
+                  <li><a href=""> <i class="fa fa-calendar mr-3"></i> Prescription </a></li>
+
+                  <li><a href=""><i class="fa fa-user mr-3"></i> My Doctors</a></li>
+
+                  <li class="<?php if($url == $baseurl.'/new-booking') echo "single-sidebar-active"?>"><a href="{{route('home.new_booking')}}"><i class="fa fa-columns mr-3"></i> New Booking</a></li>
+
+                  <li class="<?php if($url == $baseurl.'/booking-history') echo "single-sidebar-active"?>"><a href="{{route('home.booking_history')}}"><i class="fa fa-columns mr-3"></i>Booking History</a></li>
+
+                  <li><a href=""><i class="fas fa-notes-medical mr-3"></i>Medical Records</a></li>
+
+                  <li class="<?php if($url == $baseurl.'/shortlisted-hospital') echo "single-sidebar-active"?>"><a href="{{route('home.shortlisted_hospital')}}"><i class="fas fa-notes-medical mr-3"></i>My Shortlisted Hospitals</a></li>
+
+                  <li class="<?php if($url == $baseurl.'/chat-with-admin') echo "single-sidebar-active"?>"><a href="{{route('home.chat_with_admin')}}"><i class="fas fa-notes-medical mr-3"></i>Chat With Admin</a></li>
+
+                  <li class="<?php if($url == $baseurl.'/payment-history') echo "single-sidebar-active"?>"><a href="{{route('home.payment_history')}}"><i class="fa fa-file-invoice mr-3"></i>Payment History</a></li>
+
+                  <li class="<?php if($url == $baseurl.'/profile') echo "single-sidebar-active"?>"><a href="{{route('home.profile')}}"><i class="fa fa-file-invoice mr-3"></i>Profile</a></li>
+
+                  <li><a href="{{route('home.logout')}}"><i class="fa fa-sign-out mr-3"></i>Logout</a></li>
+
+
                 </ul>
-              </div>
+              <?php }?>
+            </div>
 
 
+
+
+          </ul>
+        </div>
+
+      </div>
+      <!-- /.navbar-collapse -->
+
+      <ul class="right-contact">
+        <?php if(empty(auth()->guard('appusers')->user())){?>
+          <li class=" btn btn-primary btn-skin" style="margin-top:-8px;"><a href="{{route('home.login')}}"
+            class="login-btn"> <i class="fa fa-sign-out"></i> Login</a>
+          </li>
+        <?php }else{
+
+          $user =  Auth::guard('appusers')->user();
+
+          ?>
+          <li role="presentation" class=" hidden-xs ">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+            aria-haspopup="true" aria-expanded="true"> <img src="{{asset('storage/app/public/user/'.$user->image)}}"
+            alt="" class="profile">  </a>
+            <ul class="dropdown-menu">
+              <li class="mr-0">
+                <a href="{{route('home.profile')}}"><i class="fa fa-columns mr-3"></i><span>Dashboard</span></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-columns mr-3"></i><span>My Booking</span></a>
+              </li>
+              <li>
+                <a href="#"><i
+                  class="fa fa-calendar mr-3"></i><span>Appointments</span></a>
+                </li>
+
+                <li><a href="{{route('home.logout')}}"><span>
+                  <i class="fa fa-sign-out mr-3"></i>Logout
+                </span></a>
+              </li>
 
 
             </ul>
-          </div>
+          </li>
 
-        </div>
-        <!-- /.navbar-collapse -->
-
-        <ul class="right-contact">
-         <?php if(empty(auth()->guard('appusers')->user())){?>
-                                        <li class=" btn btn-primary btn-skin" style="margin-top:-8px;"><a href="{{route('home.login')}}"
-                                          class="login-btn"> <i class="fa fa-sign-out"></i> Login</a>
-                                        </li>
-                                      <?php }else{?>
-                                        <li role="presentation" class=" hidden-xs ">
-                                          <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                                          aria-haspopup="true" aria-expanded="true"> <img src="{{asset('public/assets/images/doctor.jpg')}}"
-                                          alt="" class="profile">  </a>
-                                          <ul class="dropdown-menu">
-                                            <li class="mr-0">
-                                              <a href="{{route('home.profile')}}"><i class="fa fa-columns mr-3"></i><span>Dashboard</span></a>
-                                            </li>
-                                            <li>
-                                              <a href="#"><i class="fa fa-columns mr-3"></i><span>My Booking</span></a>
-                                            </li>
-                                            <li>
-                                              <a href="#"><i
-                                                class="fa fa-calendar mr-3"></i><span>Appointments</span></a>
-                                              </li>
-                                              
-                                              <li><a href="{{route('home.logout')}}"><span>
-                                                <i class="fa fa-sign-out mr-3"></i>Logout
-                                              </span></a>
-                                            </li>
+        <?php }?>
 
 
-                                          </ul>
-                                        </li>
 
-                                      <?php }?>
+      </ul>
+    </nav>
+  </div>
 
+</div>
+</div>
+</div>
+<!-- /.container -->
+</header>
 
-                                      
-                                    </ul>
-                                  </nav>
-                                </div>
-
-                              </div>
-                            </div>
-                          </div>
-                            <!-- /.container -->
-                          </header>
-
-                          <div id="wrapper">
+<div id="wrapper">
 

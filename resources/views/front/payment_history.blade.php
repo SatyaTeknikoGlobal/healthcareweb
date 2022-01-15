@@ -78,10 +78,10 @@
 </style>
 <div id="page_title">
 	<div class="container text-center">
-		<div class="panel-heading">Booking History</div>
+		<div class="panel-heading">Payment History</div>
 		<ol class="breadcrumb">
 			<li><a href="#">Home</a></li>
-			<li class="active">Booking History</li>
+			<li class="active">Payment History</li>
 		</ol>
 	</div>
 </div>

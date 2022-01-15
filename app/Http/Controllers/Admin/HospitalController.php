@@ -82,6 +82,23 @@ Class HospitalController extends Controller
   ->editColumn('address', function(Hospital $data) {
    return  $data->location;
 })
+
+  ->editColumn('priority', function(Hospital $data) {
+   $sta = '';
+   $sta1 ='';
+   //echo $data->priority;
+   if($data->priority){
+    $sta1 = 'selected';
+    }else{
+        $sta = 'selected';
+    }
+
+    $html = "<input type='number' class='form-control' value=".$data->priority." name='priority_id' id='priority_id".$data->id."' onkeyup='change_priority_approve($data->id)'>";
+
+    return  $html;
+})
+
+
   ->editColumn('is_approve', function(Hospital $data) {
 
       $sta = '';
@@ -109,18 +126,11 @@ Class HospitalController extends Controller
     $sta = 'selected';
 }
 
-   //$html.='<div class="switchery-demo m-b-30"><input type="checkbox"  data-size="small" class="js-switch" data-color="#009efb" onchange="update_role_status({{$role->id}},this)" /></div>';
-
-
-
+ 
 $html = "<select id='change_hospital_status$data->id' onchange='change_hospital_status($data->id)'>
 <option value='1' ".$sta1.">Active</option>
 <option value='0' ".$sta.">InActive</option>
 </select>";
-
-
-
-
 
 return  $html;
 })
@@ -146,7 +156,7 @@ if(CustomHelper::isAllowedSection('hospitals' , Auth::guard('admin')->user()->ro
 return $html;
 })
 
-  ->rawColumns(['name', 'status','is_approve', 'action','role_id'])
+  ->rawColumns(['name','priority', 'status','is_approve', 'action','role_id'])
   ->toJson();
 }
 
@@ -172,6 +182,8 @@ public function add(Request $request){
 
 if($request->method() == 'POST' || $request->method() == 'post'){
 
+    // prd($request->toArray());
+
     if(empty($back_url)){
         $back_url = $this->ADMIN_ROUTE_NAME.'/hospitals';
     }
@@ -180,6 +192,7 @@ if($request->method() == 'POST' || $request->method() == 'post'){
     $rules['name'] = 'required';
     $rules['location'] = 'required';
     $rules['hos_specialities'] = 'required';
+    $rules['priority'] = 'required';
 
     $this->validate($request, $rules);
 
@@ -210,9 +223,7 @@ $data['hospitals'] = $hospitals;
 $data['states'] = State::get();
 $cities = [];
 
-
 $data['specialities'] = Speciality::where('status',1)->get();
-
 
 $data['roles'] = Roles::where('status',1)->get();
 $data['cities']= $cities;
@@ -459,24 +470,15 @@ public function details(Request $request){
     $id = (isset($request->id))?$request->id:0;
     $data = [];
 
-
-
-
-
-
-
-
-    $hospital = Hospital::where('id',$id)->first();
+     $hospital = Hospital::where('id',$id)->first();
+    //die;
     $galleries = $hospital->getGalleryImage;
-    $documents = $hospital->getDocuments;
+    // $documents = $hospital->getDocuments;
     $roles = $hospital->getRole;
     $users = $hospital->getUser;
 
-
-
+     // print_r($documents);
     $doctors = $hospital->getDoctor;
-
-
 
     $data['states'] = State::where('status',1)->get();
     $data['cities'] = City::where('state_id',$hospital->state_id)->get();
@@ -484,7 +486,7 @@ public function details(Request $request){
 
     $data['hospital'] = $hospital;
     $data['roles'] = $roles;
-    $data['documents'] = $documents;
+    // $data['documents'] = $documents;
     $data['doctors'] = $doctors;
 
     $data['users'] = $users;
@@ -778,6 +780,29 @@ private function saveImageMultiple($request,$hospital_id){
         return false;
     }
 }
+
+
+public function change_priority_status(Request $request)
+{
+     $hos_id = isset($request->hos_id) ? $request->hos_id :'';
+  $priority = isset($request->priority) ? $request->priority :'';
+
+  $hospital = Hospital::where('id',$hos_id)->first();
+  if(!empty($hospital)){
+
+      Hospital::where('id',$hos_id)->update(['priority'=>$priority]);
+      $response['success'] = true;
+      $response['message'] = 'Priority updated';
+      return response()->json($response);
+  }else{
+     $response['success'] = false;
+     $response['message'] = 'Not  Found';
+     return response()->json($response);  
+ }
+
+
+}
+
 public function change_hospital_status(Request $request){
   $hos_id = isset($request->hos_id) ? $request->hos_id :'';
   $status = isset($request->status) ? $request->status :'';
@@ -882,7 +907,9 @@ public function add_role(Request $request){
 
 
 
-public function change_hospital_approve(Request $request){
+public function change_hospital_approve(Request $request)
+{
+
    $hos_id = isset($request->hos_id) ? $request->hos_id :'';
    $approve = isset($request->approve) ? $request->approve :'';
 
@@ -895,6 +922,37 @@ public function change_hospital_approve(Request $request){
         $message = 'Approved';
     }else{
         $message = 'Not Approved';
+
+    }
+
+    $response['success'] = true;
+    $response['message'] = $message;
+
+
+    return response()->json($response);
+}else{
+ $response['success'] = false;
+ $response['message'] = 'Not  Found';
+ return response()->json($response);  
+}
+
+}
+
+public function change_priority_approve(Request $request)
+{
+// prd($request->toArray());
+   $hos_id = isset($request->hos_id) ? $request->hos_id :'';
+   $priority_id = isset($request->priority_id) ? $request->priority_id :'';  
+
+   $hospital = Hospital::where('id',$hos_id)->first();
+   if(!empty($hospital)){
+
+       Hospital::where('id',$hos_id)->update(['priority'=>$priority_id]);
+       $message ='';
+    if($priority_id > 0){
+        $message = 'Priority Updated';
+    }else{
+         $message = 'Not Updated';
 
     }
 

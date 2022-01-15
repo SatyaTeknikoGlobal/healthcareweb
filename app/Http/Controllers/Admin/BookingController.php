@@ -15,6 +15,7 @@ use App\Prescription;
 use App\Bookings;
 use App\State;
 use App\City;
+use App\HealthPackages;
 use App\HospitalUser;
 use App\Speciality;
 use App\Hospital;
@@ -423,7 +424,11 @@ public function details(Request $request){
         }
     }
 
-    $hospitals_list = Hospital::orderBy('id','desc')->whereRaw('FIND_IN_SET('.$booking->diseases.',hos_specialities)');
+    $hospitals_list = Hospital::orderBy('id','desc')->where('priority' ,'<=', '10')->orderBy('priority','desc');
+
+    
+
+    
         if(!empty($hosIds)){
             $hospitals_list->whereNotIn('id',$hosIds);
         }
@@ -504,6 +509,29 @@ private function saveImageMultiple($request,$id){
     }
 }
 
+public function packages(Request $request)
+{  
+    $html = '<select class="form-control select2" class="form-control" name="package_id" id="package_id">
+    <option value="" selected disabled>Select Package</option>';  
+     $id = isset($request->id) ? $request->id : '';
+
+     if(!empty($id))
+     {
+      $packages =  HealthPackages::select('id','package_name')->where('included_hos_ids',$id)->get();
+        if(!empty($packages)){
+            foreach($packages as $pack){
+                $html.='<option value='.$pack->id.'>'.$pack->package_name.'</option>';
+             }
+        }
+  
+
+     }
+     $html.='</select>';
+
+     echo $html;
+    
+}
+
 
 public function assign_hospital(Request $request)
 {  
@@ -512,37 +540,36 @@ public function assign_hospital(Request $request)
  if($method == "POST" || $method == "post")
  {
 
-       //prd($request->toArray());
+       // prd($request->toArray());
      $rules = [];
      $rules['booking_id'] = 'required';
-     $rules['hospital_id'] = 'required';
+     $rules['hospital_list'] = 'required';
+     $rules['package_id'] = 'required';
      $rules['status'] = 'required';
 
 
-     $this->validate($request ,$rules);
-     $hospital_id = isset($request->hospital_id) ? $request->hospital_id :'';
-     if(!empty($hospital_id)){
-        foreach ($hospital_id as $key => $value) {
+     $this->validate($request ,$rules);     
          $dbArray = [];
          $dbArray['booking_id'] = $request->booking_id;
-         $dbArray['hospital_id'] = $value;
-         AssignBookings::create($dbArray);
-     }
+         $dbArray['hospital_id'] = $request->hospital_list;
+         $dbArray['package_id'] = $request->package_id;
+
+
+         // print_r($dbArray);        
+     AssignBookings::insert($dbArray);
+    
 
  }      
 
- return back()->with('alerts-success', 'Hospital Assigned Successfulyy');   
+  return back()->with('alerts-success', 'Hospital Assigned Successfulyy');   
 
 }
 
 
 
-}
 
-public function transactions(Request $request)
-{
 
-}
+
 
 
 }

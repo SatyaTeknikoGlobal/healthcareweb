@@ -1,62 +1,126 @@
 @include('front.common.header')
-
-
-<style>
-
-	.card{
-		padding: 0rem !important;
-		border-radius: 7px;
-		width: 100%;
-	/*	background:#4963A5 !important;*/
-	background:#fff;
-	box-shadow:  2px 1px 40px -14px rgb(38 37 37 / 38%);
-	}
-
-	.card_content{
-		height: 100%;
-		border-radius: 7px;
-		padding: 0px !important
-	}
-	.card_text{
-		padding: 4px 17px;
-		font-weight: 500;
-		color: #000;
-	}
-
-	.card_content{
-		text-align: left;
-		background:transparent;
-	}
-	.card_content .card_btn{
-	width: 93%;
-    background: #fff;
-    font-weight: 700;
-    color: #f97d09;
-    font-size: 13px;
-    border-radius: 7px;
+<style type="text/css">
+	.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1268px;
+}
+	.card {
     position: relative;
-    bottom: 5px;
-    margin: 2px 8px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+    padding: 0px;
+   /* background-color: #4963A5 !important;*/
+   background-color: rgba(189, 235, 239, 0.5);
+
+    word-wrap: break-word;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 1.25rem;
+    box-shadow: white 0 3px 15px 0;
+   transition: all 0.25s;
+}
+
+.card_content{
+	width: 100%;
+	border-radius: 1.25rem;
+	padding: 0px;
+	background: transparent;
+	/*box-shadow: inset 2px 0px 12px 2px rgb(0 0 0 / 8%) !important;*/
+	height: 100%;
+	padding-bottom: 60px;
+
+}
+.cards_item{
+	 transition: all 0.25s;
+	 padding-top: 0px;
+}
+.cards_item:hover .card{
+	transform: translateY(-5px);
+    box-shadow: rgb(134 167 170 / 50%) 0 3px 15px 0;
+
+}
+
+.card_btn{
+	border:1px solid;
+	transition: all 2000ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+	transform: translateY(0);
+	position: absolute;
+	bottom: 20px;
+	left: 40%;
+}
+.card_btn:hover{
+	transform: translateY(-10px);
+}
+
+
+.card_content i{
+
+	    color: #f97d09 !important;
 	}
 
-.my_description{
- display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
-  overflow: hidden;
+	button .card_btn{
+		    border: 2px solid #f97d09;
+		    margin:  15px 0px !important;
+		    width: auto !important;
 
+	}
+	button{
+		  margin:  15px 0px !important;
 	}
 	.card_title{
-		font-size: 15px;
-    margin-bottom: 10px;
-    letter-spacing: 0px;
-    color: #fff;
-    font-weight: 500;
-    background:#043571;
-    padding: 12px 17px;
-    border-bottom: 1px solid #f0f0f0;
-    height:auto;
+	margin-bottom: 17px;
+    padding: 5px 3px;
+    border-bottom: 1px solid gray;
+
+
 	}
+	.desc{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 33px;
+
+    font-size: 20px;
+    color: #fff;
+    font-weight: 400;
+    background-color: #043571;
+	}
+	.card_text{
+		color: #000;
+		line-height: 22px;
+		font-weight: 400;
+		padding: 0 21px;
+		text-align: left !important;
+		font-family: inherit;
+		
+
+	}
+	.card_text:first-letter {
+		color: #f97d09;
+		font-size: 20px;
+	/*	border-bottom: 1px solid;*/
+		/*border-bottom-width: 300px;*/
+
+
+	}
+
+	/*.card_text:before{
+		 content: ' \21D4';
+		 position: relative;
+		 left: 20px
+	}*/
+
+	.btn .card_btn .view_button{
+		color: orange;
+		font-size: 15px;
+	}
+
+	
+
 </style>
 
 <div id="page_title">
@@ -73,32 +137,28 @@
 		<div class="row">
 
 			@include('front.common.sidebar')
-
-
 			<div class="col-md-9 col-sm-12 col-xs-12 text-center">
-				
-				
 				<div class="main">
 					<ul class="cards" id="post-data">
-						
-					
 					</ul>
-
-
-
 				</div>
+				<?php if($count > 9){?>
+				<!-- <button class="ajax-load btn btn-primary mr-3 my-5 d-block" type="button">Load More</button> -->
+			<?php }?>
 
-				<button class="ajax-load btn btn-primary mr-3 my-5 d-block" type="button">Load More</button>
 
-				
-			</div>
+
+
+
 
 
 
 
 		</div>
+
 	</div>
 </section>
+
 
 
 
